@@ -1,0 +1,50 @@
+apply plugin: 'java'
+
+version = '1.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    compile 'com.github.lion328:hydra:v0.2.1'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'org.apache.logging.log4j:log4j-core:2.8.2'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.lion328.namtium.Main'
+    }
+
+    from {
+        configurations.runtime.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+    {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+}
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}

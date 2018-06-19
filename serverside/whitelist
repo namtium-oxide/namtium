@@ -1,0 +1,10 @@
+config/
+crash-reports/
+logs/
+resourcepacks/
+saves/
+options.txt
+optionsof.txt
+optionsshaders.txt
+launcher.jar
+clientsettings.json

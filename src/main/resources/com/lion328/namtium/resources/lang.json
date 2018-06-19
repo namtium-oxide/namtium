@@ -1,0 +1,19 @@
+{
+  "title": "Namtium Launcher",
+  "idle": "ไม่มีการทำงาน",
+  "downloading": "กำลังดาวน์โหลด ",
+  "errorValidateMemory": "กรุณากรอกจำนวนหน่วยความจำให้ถูกต้อง (เป็นตัวเลขและมีขนาดมากกว่า 512 MiB)",
+  "registerTitle": "สมัครสมาชิก",
+  "username": "ชื่อผู้ใช้",
+  "password": "รหัสผ่าน",
+  "confirmPassword": "ยืนยันรหัสผ่าน",
+  "captcha": "รหัสยืนยันตัวตน",
+  "errorincompleteRegisterInfo": "กรุณากรอกข้อมูลให้ครบ",
+  "errorPasswordConfirmMismatch": "รหัสผ่านทั้งสองไม่ตรงกัน",
+  "errorApiInvalidCaptcha": "รหัสยืนยันตัวตนไม่ถูกต้อง",
+  "errorApiInvalidUsername": "ชื่อผู้ใช้ผิดรูปแบบ (ต้องเป็นตัวอักษรภาษาอังกฤษ, ตัวเลขและสัญประกาศ ตั้งแต่ 1 ถึง 16 ตัวอักษร)",
+  "errorApiUsernameExists": "ชื่อผู้ใช้นี้มีอยู่แล้ว",
+  "errorApiDatabaseQuery": "ฐานข้อมูลบนเซิร์ฟเวอร์ผิดพลาด",
+  "registerSuccess": "การสมัครสมาชิกเสร็จสมบูรณ์",
+  "errorRegisterNetwork": "เกิดปัญหาด้านเครือข่าย กรุณาลองใหม่"
+}
