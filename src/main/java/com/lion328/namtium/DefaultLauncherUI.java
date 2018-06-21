@@ -6,6 +6,7 @@ import com.lion328.hydra.ImagePanel;
 import com.lion328.hydra.Language;
 import com.lion328.hydra.Util;
 import com.lion328.xenonlauncher.launcher.Launcher;
+import com.lion328.xenonlauncher.util.URLUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -185,14 +186,7 @@ public class DefaultLauncherUI implements HydraLauncherUI
                 {
                     if (!launching && Desktop.isDesktopSupported())
                     {
-                        try
-                        {
-                            Desktop.getDesktop().browse(REGISTER_URL.toURI());
-                        }
-                        catch (IOException | URISyntaxException e)
-                        {
-                            Main.getLogger().catching(e);
-                        }
+                        Util.openURL(REGISTER_URL);
                     }
                 }
             });
@@ -374,7 +368,7 @@ public class DefaultLauncherUI implements HydraLauncherUI
 
     static
     {
-        NEWS_IMAGE_URL = com.lion328.namtium.Util.staticURL("http://example.com/news.png");
+        NEWS_IMAGE_URL = URLUtil.constantURL("http://example.com/news.png");
         REGISTER_URL = Settings.getInstance().getRegisterURL(); // legacy
     }
 }

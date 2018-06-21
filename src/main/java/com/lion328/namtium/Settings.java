@@ -1,6 +1,7 @@
 package com.lion328.namtium;
 
 import com.lion328.hydra.HydraSettings;
+import com.lion328.xenonlauncher.util.URLUtil;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,8 +11,8 @@ public class Settings implements HydraSettings
 
     private static Settings instance;
 
-    private static final URL launcherBaseURL = Util.staticURL("http://example.com/launcher/");
-    private static final URL registerURL = Util.staticURL("http://example.com/register");
+    private static final URL launcherBaseURL = URLUtil.constantURL("http://example.com/launcher/");
+    private static final URL registerURL = URLUtil.constantURL("http://example.com/register");
     private static final URL authURL = fromBase("api/authenticate.php");
     private static final URL whitelistURL = fromBase("whitelist");
     private static final URL compressedFilesURL = fromBase("filelist.gz");
@@ -77,7 +78,7 @@ public class Settings implements HydraSettings
 
     private static URL fromBase(String s)
     {
-        return Util.staticURL(launcherBaseURL.toString() + s);
+        return URLUtil.constantURL(launcherBaseURL.toString() + s);
     }
 
     public static Settings getInstance()
