@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -25,7 +26,7 @@ import java.util.Map;
 public class Main
 {
 
-    public static final String VERSION = "1.0";
+    public static final String VERSION;
     public static final String LANGUAGE_NAMESPACE = "namtium";
     public static final String LANGUAGE_PREFIX = LANGUAGE_NAMESPACE + ".";
 
@@ -42,6 +43,7 @@ public class Main
             return;
         }
 
+        getLogger().info("Namtium launcher version " + VERSION);
         getLogger().info("Register language...");
         registerLanguage();
 
@@ -181,6 +183,23 @@ public class Main
 
     static
     {
+        String version = "UNKNOWN";
+
+        try
+        {
+            version = new BufferedReader(
+                new InputStreamReader(
+                    Main.class.getResourceAsStream("/com/lion328/namtium/resources/version")
+                )
+            ).readLine().trim();
+        }
+        catch (IOException e)
+        {
+            getLogger().catching(e);
+        }
+
+        VERSION = version;
+
         fontsName = new String[] {
                 "CSChatThaiUI"
         };
