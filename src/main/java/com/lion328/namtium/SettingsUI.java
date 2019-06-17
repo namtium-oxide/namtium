@@ -29,13 +29,6 @@ public class SettingsUI implements PlayerSettingsUI
     private JFrame mainFrame;
     private JTextField memoryField;
 
-    public static void main(String[] args)
-    {
-        SettingsUI ui = new SettingsUI(null);
-        ui.setPlayerSettings(new PlayerSettings());
-        ui.setVisible(true);
-    }
-
     public SettingsUI(JFrame mainFrame)
     {
         this.mainFrame = mainFrame;
