@@ -4,6 +4,7 @@ import com.lion328.hydra.ImagePanel;
 import com.lion328.hydra.Language;
 import com.lion328.hydra.PlayerSettings;
 import com.lion328.hydra.PlayerSettingsUI;
+import com.lion328.hydra.TooLowMaximumMemoryException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -112,8 +113,7 @@ public class SettingsUI implements PlayerSettingsUI
 
     private void save()
     {
-        int memory = 0;
-        boolean valid = true;
+        int memory;
 
         try
         {
@@ -121,18 +121,23 @@ public class SettingsUI implements PlayerSettingsUI
         }
         catch (NumberFormatException ignore)
         {
-            valid = false;
-        }
-
-        if (!valid || memory < 512)
-        {
             JOptionPane.showMessageDialog(dialog, Main.lang("errorValidateMemory"), Language.get("errorMessageTitle"),
                     JOptionPane.ERROR_MESSAGE);
 
             return;
         }
 
-        playerSettings.setMaximumMemory(memory);
+        try
+        {
+            playerSettings.setMaximumMemory(memory);
+        }
+        catch (TooLowMaximumMemoryException e)
+        {
+            JOptionPane.showMessageDialog(dialog,
+                    String.format(Main.lang("errorTooLowMemory"), e.getMinimumMemoryInMB()),
+                    Language.get("errorMessageTitle"),
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
         setVisible(false);
     }

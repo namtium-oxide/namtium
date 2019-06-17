@@ -134,6 +134,9 @@ public class HydraLauncher implements Launcher
         {
             playerSettings = new PlayerSettings();
         }
+
+        playerSettings.setMinimumOfMaximumMemoryInMiB(settings.getMinimumOfMaximumMemoryInMiB());
+        playerSettings.setDefaultMaximumMemoryInMiB(settings.getDefaultMaximumMemoryInMiB());
     }
 
     private void savePlayerSettings()

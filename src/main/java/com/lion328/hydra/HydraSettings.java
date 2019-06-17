@@ -24,4 +24,8 @@ public interface HydraSettings
     boolean streamGameOutput();
 
     boolean passPasswordToGame();
+
+    int getMinimumOfMaximumMemoryInMiB();
+
+    int getDefaultMaximumMemoryInMiB();
 }

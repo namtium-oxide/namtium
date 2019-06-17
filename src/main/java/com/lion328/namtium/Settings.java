@@ -87,6 +87,18 @@ public class Settings implements HydraSettings
         return true;
     }
 
+    @Override
+    public int getMinimumOfMaximumMemoryInMiB()
+    {
+        return 512;
+    }
+
+    @Override
+    public int getDefaultMaximumMemoryInMiB()
+    {
+        return 1024;
+    }
+
     private static URL fromBase(String s)
     {
         return URLUtil.constantURL(launcherBaseURL.toString() + s);
