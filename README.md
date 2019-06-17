@@ -1,3 +1,3 @@
 # namtium
 
-An another Minecraft launcher written in Java.
+Another Minecraft launcher written in Java.
