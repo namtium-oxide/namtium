@@ -210,6 +210,8 @@ public class DefaultLauncherUI implements HydraLauncherUI
 
         JLabel versionLabel = new JLabel(Main.VERSION, SwingConstants.RIGHT);
         versionLabel.setBounds(600, 475, 190, 20);
+        versionLabel.setOpaque(false);
+        versionLabel.setForeground(new Color(0, 0, 0, 50));
         panel.add(versionLabel);
 
         if (NEWS_IMAGE_URL != null)
