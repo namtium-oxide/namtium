@@ -67,7 +67,7 @@ public class HydraLauncher implements Launcher
     {
         this.settings = settings;
 
-        gameDirectory = Util.getGameDirectory(settings.getApplicationDirectoryName());
+        gameDirectory = Util.getGameDirectory(settings.getApplicationUUID().toString());
         playerSettingsFile = new File(gameDirectory, PLAYER_SETTINGS_FILENAME);
 
         gameDirectory.mkdirs();

@@ -1,6 +1,7 @@
 package com.lion328.hydra;
 
 import java.net.URL;
+import java.util.UUID;
 
 public interface HydraSettings
 {
@@ -15,7 +16,7 @@ public interface HydraSettings
 
     URL getFileBaseURL();
 
-    String getApplicationDirectoryName();
+    UUID getApplicationUUID();
 
     String getGameVersionName();
 

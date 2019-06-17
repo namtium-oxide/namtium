@@ -4,6 +4,7 @@ import com.lion328.hydra.HydraSettings;
 import com.lion328.xenonlauncher.util.URLUtil;
 
 import java.net.URL;
+import java.util.UUID;
 
 public class Settings implements HydraSettings
 {
@@ -53,9 +54,9 @@ public class Settings implements HydraSettings
     }
 
     @Override
-    public String getApplicationDirectoryName()
+    public UUID getApplicationUUID()
     {
-        return "namtium";
+        return UUID.fromString("769206ae-9c87-4aa7-ad47-7e939679ba37");
     }
 
     @Override
