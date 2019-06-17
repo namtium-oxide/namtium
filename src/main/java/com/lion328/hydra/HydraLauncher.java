@@ -82,7 +82,7 @@ public class HydraLauncher implements Launcher
 
     public void openSettingsDialog()
     {
-        if (playerSettingsUI == null)
+        if (playerSettingsUI == null || playerSettingsUI.isVisible())
         {
             return;
         }
