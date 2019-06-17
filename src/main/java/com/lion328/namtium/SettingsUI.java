@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -72,6 +74,23 @@ public class SettingsUI implements PlayerSettingsUI
         memoryField.setBounds(178, 14, 206, 28);
         memoryField.setBorder(border);
         memoryField.setHorizontalAlignment(SwingConstants.RIGHT);
+        memoryField.addKeyListener(new KeyAdapter()
+        {
+
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                switch (e.getKeyCode())
+                {
+                    case KeyEvent.VK_ENTER:
+                        save();
+                        break;
+                    case KeyEvent.VK_ESCAPE:
+                        setVisible(false);
+                        break;
+                }
+            }
+        });
         panel.add(memoryField);
 
         JPanel saveButton = new JPanel();
