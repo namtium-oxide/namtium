@@ -137,6 +137,7 @@ public class SettingsUI implements PlayerSettingsUI
                     String.format(Main.lang("errorTooLowMemory"), e.getMinimumMemoryInMB()),
                     Language.get("errorMessageTitle"),
                     JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         setVisible(false);
