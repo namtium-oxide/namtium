@@ -1,8 +1,8 @@
 package com.lion328.namtium;
 
+import com.lion328.hydra.HydraLauncher;
 import com.lion328.hydra.ImagePanel;
 import com.lion328.hydra.Language;
-import com.lion328.hydra.PlayerSettings;
 import com.lion328.hydra.PlayerSettingsUI;
 import com.lion328.hydra.TooLowMaximumMemoryException;
 
@@ -24,7 +24,7 @@ import java.io.IOException;
 public class SettingsUI implements PlayerSettingsUI
 {
 
-    private PlayerSettings playerSettings;
+    private HydraLauncher launcher;
 
     private JDialog dialog;
     private JFrame mainFrame;
@@ -38,16 +38,16 @@ public class SettingsUI implements PlayerSettingsUI
     }
 
     @Override
-    public void setPlayerSettings(PlayerSettings settings)
+    public void setLauncher(HydraLauncher launcher)
     {
-        playerSettings = settings;
+        this.launcher = launcher;
 
         refresh();
     }
 
     private void refresh()
     {
-        memoryField.setText(Integer.toString(playerSettings.getMaximumMemory()));
+        memoryField.setText(Integer.toString(launcher.getPlayerSettings().getMaximumMemory()));
     }
 
     private void init()
@@ -129,7 +129,7 @@ public class SettingsUI implements PlayerSettingsUI
 
         try
         {
-            playerSettings.setMaximumMemory(memory);
+            launcher.getPlayerSettings().setMaximumMemory(memory);
         }
         catch (TooLowMaximumMemoryException e)
         {
@@ -140,6 +140,7 @@ public class SettingsUI implements PlayerSettingsUI
         }
 
         setVisible(false);
+        launcher.savePlayerSettings();
     }
 
     @Override

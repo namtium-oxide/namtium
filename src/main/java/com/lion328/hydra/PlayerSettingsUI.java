@@ -7,5 +7,5 @@ public interface PlayerSettingsUI
 
     boolean isVisible();
 
-    void setPlayerSettings(PlayerSettings settings);
+    void setLauncher(HydraLauncher launcher);
 }

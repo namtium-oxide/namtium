@@ -94,7 +94,7 @@ public class HydraLauncher implements Launcher
     {
         playerSettingsUI = ui;
 
-        ui.setPlayerSettings(playerSettings);
+        ui.setLauncher(this);
     }
 
     public void exit(int status)
@@ -139,7 +139,7 @@ public class HydraLauncher implements Launcher
         playerSettings.setDefaultMaximumMemoryInMiB(settings.getDefaultMaximumMemoryInMiB());
     }
 
-    private void savePlayerSettings()
+    public void savePlayerSettings()
     {
         try
         {
