@@ -85,7 +85,7 @@ public class Settings implements HydraSettings
     @Override
     public boolean passPasswordToGame()
     {
-        return true;
+        return false;
     }
 
     @Override
