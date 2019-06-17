@@ -395,7 +395,7 @@ public class HydraLauncher implements Launcher
         return gameVersion;
     }
 
-    private GameLauncher getGameLauncher(GameVersion version, String username, String loginToken) throws
+    private GameLauncher getGameLauncher(GameVersion version, String username) throws
             LauncherVersionException
     {
         GameLauncher gameLauncher;
@@ -405,11 +405,6 @@ public class HydraLauncher implements Launcher
         for (String arg : settings.getVMArguments())
         {
             gameLauncher.addJVMArgument(arg);
-        }
-
-        if (loginToken != null)
-        {
-            gameLauncher.addJVMArgument("-Dcom.lion328.hydra.loginToken=" + loginToken);
         }
 
         gameLauncher.setMaxMemorySize(playerSettings.getMaximumMemory());
@@ -655,7 +650,7 @@ public class HydraLauncher implements Launcher
 
         try
         {
-            launcher = getGameLauncher(gameVersion, username, null);
+            launcher = getGameLauncher(gameVersion, username);
 
             if (settings.passPasswordToGame())
             {
