@@ -43,7 +43,8 @@ import java.util.List;
 public class VersionJarDownloaderGenerator implements DownloaderGenerator
 {
 
-    public static final URL DEFAULT_MINECRAFT_VERSIONS = URLUtil.constantURL("https://s3.amazonaws.com/Minecraft.Download/versions/");
+    public static final URL DEFAULT_MINECRAFT_VERSIONS = URLUtil.constantURL(
+            "https://s3.amazonaws.com/Minecraft.Download/versions/");
 
     private final GameVersion info;
     private final File file;
@@ -91,7 +92,8 @@ public class VersionJarDownloaderGenerator implements DownloaderGenerator
             String md5 = URLUtil.getETag(jarURL).trim().replace("\"", "");
 
             downloader = new URLFileDownloader(jarURL, file);
-            downloader = new VerifiyFileDownloader(downloader, new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5, md5));
+            downloader = new VerifiyFileDownloader(downloader,
+                    new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5, md5));
         }
 
         return Collections.singletonList((Downloader) downloader);

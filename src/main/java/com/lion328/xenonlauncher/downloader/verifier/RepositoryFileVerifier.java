@@ -36,7 +36,8 @@ public class RepositoryFileVerifier implements FileVerifier
 
     private final MessageDigestFileVerifier verifier;
 
-    public RepositoryFileVerifier(Repository repo, DependencyName name, String classifier, String algorithm) throws IOException
+    public RepositoryFileVerifier(Repository repo, DependencyName name, String classifier, String algorithm) throws
+            IOException
     {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
         InputStream in = repo.getInputStream(name, classifier, algorithm.toLowerCase().replace("-", ""));

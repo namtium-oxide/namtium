@@ -193,7 +193,8 @@ public class YggdrasilMinecraftAuthenticator implements MinecraftAuthenticator
         entity.setContent(new ByteArrayInputStream(dataBytes));
         entity.setContentLength(dataBytes.length);
 
-        HttpEntityEnclosingRequest request = new BasicHttpEntityEnclosingRequest("POST", url.getFile(), HttpVersion.HTTP_1_1);
+        HttpEntityEnclosingRequest request = new BasicHttpEntityEnclosingRequest("POST", url.getFile(),
+                HttpVersion.HTTP_1_1);
         request.setHeader(new BasicHeader("Host", url.getHost()));
         request.setHeader(new BasicHeader("Content-Type", "application/json"));
         request.setHeader(new BasicHeader("Content-Length", Integer.toString(dataBytes.length)));
@@ -255,7 +256,8 @@ public class YggdrasilMinecraftAuthenticator implements MinecraftAuthenticator
         }
     }
 
-    private <T> T sendRequest(String endpoint, Object request, Class<T> clazz, boolean nullCheck) throws IOException, YggdrasilAPIException
+    private <T> T sendRequest(String endpoint, Object request, Class<T> clazz, boolean nullCheck) throws IOException,
+            YggdrasilAPIException
     {
         String requestJson = gson.toJson(request);
         ResponseState state = sendRequest(endpoint, requestJson);

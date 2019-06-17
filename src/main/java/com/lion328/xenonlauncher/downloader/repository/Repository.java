@@ -31,7 +31,8 @@ import java.io.InputStream;
 public interface Repository
 {
 
-    FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws IOException;
+    FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws
+            IOException;
 
     InputStream getInputStream(DependencyName name, String classifier, String extension) throws IOException;
 }

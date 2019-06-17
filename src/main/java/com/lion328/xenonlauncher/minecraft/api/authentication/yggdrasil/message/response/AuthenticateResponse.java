@@ -47,12 +47,14 @@ public class AuthenticateResponse
 
     }
 
-    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles, UserProfile profile)
+    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles,
+            UserProfile profile)
     {
         this(accessToken, clientToken, availableProfiles, profile, null);
     }
 
-    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles, UserProfile profile, UserProperties user)
+    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles,
+            UserProfile profile, UserProperties user)
     {
         this.accessToken = accessToken;
         this.clientToken = clientToken;

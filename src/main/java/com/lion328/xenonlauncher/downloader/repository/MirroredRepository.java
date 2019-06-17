@@ -71,7 +71,8 @@ public class MirroredRepository implements Repository
     }
 
     @Override
-    public FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws IOException
+    public FileDownloader getDownloader(DependencyName name, String classifier, String extension,
+            File targetFile) throws IOException
     {
         try
         {

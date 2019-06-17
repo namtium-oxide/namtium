@@ -170,7 +170,9 @@ public class HydraLauncher implements Launcher
         HttpURLConnection connection = (HttpURLConnection) settings.getAuthenticationURL().openConnection();
         connection.setRequestMethod("POST");
 
-        String param = "username=" + URLEncoder.encode(username, StandardCharsets.UTF_8.name()) + "&password=" + URLEncoder.encode(new String(password), StandardCharsets.UTF_8.name());
+        String param = "username=" + URLEncoder.encode(username,
+                StandardCharsets.UTF_8.name()) + "&password=" + URLEncoder.encode(new String(password),
+                StandardCharsets.UTF_8.name());
         byte[] paramBytes = param.getBytes(StandardCharsets.UTF_8);
 
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -316,7 +318,8 @@ public class HydraLauncher implements Launcher
 
             try
             {
-                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(),
+                        url.getQuery(), url.getRef());
                 url = new URL(uri.toURL().toString().replace("#", "%23"));
             }
             catch (URISyntaxException e)
@@ -352,7 +355,8 @@ public class HydraLauncher implements Launcher
                 continue;
             }
 
-            downloaders.put(file, new VerifiyFileDownloader(new DeleteFileDownloader(file, true), whitelistFileVerifier));
+            downloaders.put(file,
+                    new VerifiyFileDownloader(new DeleteFileDownloader(file, true), whitelistFileVerifier));
         }
 
         return new MultipleDownloader(new ArrayList<>(downloaders.values()));
@@ -382,13 +386,15 @@ public class HydraLauncher implements Launcher
 
         if (gameVersion.getParentID() != null)
         {
-            gameVersion = new MergedGameVersion(gameVersion, getGameVersion(gameVersion.getParentID(), --recursiveDepth));
+            gameVersion = new MergedGameVersion(gameVersion,
+                    getGameVersion(gameVersion.getParentID(), --recursiveDepth));
         }
 
         return gameVersion;
     }
 
-    private GameLauncher getGameLauncher(GameVersion version, String username, String loginToken) throws LauncherVersionException
+    private GameLauncher getGameLauncher(GameVersion version, String username, String loginToken) throws
+            LauncherVersionException
     {
         GameLauncher gameLauncher;
 

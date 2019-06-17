@@ -138,7 +138,8 @@ public class Main
         }
     }
 
-    private static boolean setLookAndFeel(String nameSnippet) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
+    private static boolean setLookAndFeel(String nameSnippet) throws ClassNotFoundException,
+            UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
     {
         UIManager.LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
 
@@ -160,13 +161,13 @@ public class Main
     private static void registerLanguage()
     {
         Map table = new Gson()
-            .fromJson(
-                new InputStreamReader(
-                    Language.class.getResourceAsStream("/com/lion328/namtium/resources/lang.json"),
-                    StandardCharsets.UTF_8
-                ),
-                Map.class
-            );
+                .fromJson(
+                        new InputStreamReader(
+                                Language.class.getResourceAsStream("/com/lion328/namtium/resources/lang.json"),
+                                StandardCharsets.UTF_8
+                        ),
+                        Map.class
+                );
 
         if (table != null)
         {
@@ -188,9 +189,9 @@ public class Main
         try
         {
             version = new BufferedReader(
-                new InputStreamReader(
-                    Main.class.getResourceAsStream("/com/lion328/namtium/resources/version")
-                )
+                    new InputStreamReader(
+                            Main.class.getResourceAsStream("/com/lion328/namtium/resources/version")
+                    )
             ).readLine().trim();
         }
         catch (IOException e)
@@ -200,7 +201,7 @@ public class Main
 
         VERSION = version;
 
-        fontsName = new String[] {
+        fontsName = new String[]{
                 "CSChatThaiUI"
         };
 

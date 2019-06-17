@@ -69,7 +69,9 @@ public class GameVersion
 
     }
 
-    public GameVersion(String id, Date time, Date releaseTime, ReleaseType releaseType, String minecraftArguments, List<GameLibrary> libraries, String mainClass, int version, String assets, Map<String, DownloadInformation> downloads, AssetInformation assetInformation, String parentId, String jar)
+    public GameVersion(String id, Date time, Date releaseTime, ReleaseType releaseType, String minecraftArguments,
+            List<GameLibrary> libraries, String mainClass, int version, String assets,
+            Map<String, DownloadInformation> downloads, AssetInformation assetInformation, String parentId, String jar)
     {
         this.id = id;
         this.time = time;

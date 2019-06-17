@@ -45,7 +45,8 @@ public class InvalidImplementationException extends YggdrasilAPIException
         super(cause);
     }
 
-    protected InvalidImplementationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    protected InvalidImplementationException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }

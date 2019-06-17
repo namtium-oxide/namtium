@@ -89,7 +89,8 @@ public class VirtualAssetsInstaller
         {
             targetFile = new File(assetsRoot, entry.getKey());
 
-            if (new MessageDigestFileVerifier(MessageDigestFileVerifier.SHA_1, entry.getValue().getHash()).isValid(targetFile))
+            if (new MessageDigestFileVerifier(MessageDigestFileVerifier.SHA_1, entry.getValue().getHash()).isValid(
+                    targetFile))
             {
                 continue;
             }

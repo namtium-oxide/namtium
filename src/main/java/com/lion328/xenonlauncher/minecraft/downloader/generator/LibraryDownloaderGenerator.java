@@ -53,7 +53,8 @@ public class LibraryDownloaderGenerator implements DownloaderGenerator
     private final OS.Architecture arch;
     private final Repository defaultRepository;
 
-    public LibraryDownloaderGenerator(GameLibrary library, File librariesDir, OS os, OS.Architecture arch, Repository defaultRepository)
+    public LibraryDownloaderGenerator(GameLibrary library, File librariesDir, OS os, OS.Architecture arch,
+            Repository defaultRepository)
     {
         this.library = library;
         this.librariesDir = librariesDir;

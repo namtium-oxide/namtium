@@ -29,9 +29,9 @@ import java.io.File;
 public enum OS
 {
 
-    @SerializedName("win")WINDOWS("win"),
-    @SerializedName("osx")OSX("osx"),
-    @SerializedName("linux")LINUX("linux");
+    @SerializedName("win") WINDOWS("win"),
+    @SerializedName("osx") OSX("osx"),
+    @SerializedName("linux") LINUX("linux");
 
     private static OS currentOS = null;
     private static Architecture currentArch = null;

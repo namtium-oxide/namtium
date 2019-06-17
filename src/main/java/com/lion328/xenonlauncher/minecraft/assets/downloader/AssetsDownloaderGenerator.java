@@ -46,7 +46,8 @@ public class AssetsDownloaderGenerator implements DownloaderGenerator
 {
 
     public static final URL DEFAULT_ASSETS_URL = URLUtil.constantURL("http://resources.download.minecraft.net/");
-    public static final URL DEFAULT_ASSETS_INDEXES_URL = URLUtil.constantURL("https://s3.amazonaws.com/Minecraft.Download/indexes/");
+    public static final URL DEFAULT_ASSETS_INDEXES_URL = URLUtil.constantURL(
+            "https://s3.amazonaws.com/Minecraft.Download/indexes/");
 
     private final Assets info;
     private final File assetsDir;

@@ -52,7 +52,8 @@ public class HttpDataHandler implements DataHandler
     {
 
         @Override
-        public void handle(HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext) throws HttpException, IOException
+        public void handle(HttpRequest httpRequest, HttpResponse httpResponse, HttpContext httpContext) throws
+                HttpException, IOException
         {
             if (httpContext.getAttribute("request.set") != Boolean.TRUE)
             {
@@ -118,7 +119,8 @@ public class HttpDataHandler implements DataHandler
 
                 httpClient.receiveRequestEntity(request);
 
-                HttpResponse response = new BasicHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+                HttpResponse response = new BasicHttpResponse(
+                        new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
 
                 boolean sent = false;
 

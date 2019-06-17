@@ -45,7 +45,8 @@ public class MinecraftAuthenticatorException extends Exception
         super(cause);
     }
 
-    protected MinecraftAuthenticatorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    protected MinecraftAuthenticatorException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }

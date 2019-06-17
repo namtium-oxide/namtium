@@ -62,7 +62,8 @@ public class SettingsUI implements PlayerSettingsUI
 
         try
         {
-            panel.setImage(ImageIO.read(getClass().getResourceAsStream("/com/lion328/namtium/resources/settings_bg.png")));
+            panel.setImage(
+                    ImageIO.read(getClass().getResourceAsStream("/com/lion328/namtium/resources/settings_bg.png")));
         }
         catch (IOException e)
         {
@@ -132,7 +133,8 @@ public class SettingsUI implements PlayerSettingsUI
 
         if (!valid || memory < 512)
         {
-            JOptionPane.showMessageDialog(dialog, Main.lang("errorValidateMemory"), Language.get("errorMessageTitle"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(dialog, Main.lang("errorValidateMemory"), Language.get("errorMessageTitle"),
+                    JOptionPane.ERROR_MESSAGE);
 
             return;
         }

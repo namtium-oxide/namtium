@@ -36,7 +36,9 @@ public class Language
     {
         if (table == null)
         {
-            table = new Gson().fromJson(new InputStreamReader(Language.class.getResourceAsStream("/com/lion328/hydra/resources/lang.json"), StandardCharsets.UTF_8), Map.class);
+            table = new Gson().fromJson(
+                    new InputStreamReader(Language.class.getResourceAsStream("/com/lion328/hydra/resources/lang.json"),
+                            StandardCharsets.UTF_8), Map.class);
         }
     }
 }

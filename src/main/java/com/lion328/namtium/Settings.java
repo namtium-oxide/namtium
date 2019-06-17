@@ -3,7 +3,6 @@ package com.lion328.namtium;
 import com.lion328.hydra.HydraSettings;
 import com.lion328.xenonlauncher.util.URLUtil;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Settings implements HydraSettings
@@ -68,7 +67,7 @@ public class Settings implements HydraSettings
     @Override
     public String[] getVMArguments()
     {
-        return new String[] {
+        return new String[]{
                 "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
                 "-XX:+UseConcMarkSweepGC",
                 "-XX:+CMSIncrementalMode",
@@ -77,12 +76,14 @@ public class Settings implements HydraSettings
     }
 
     @Override
-    public boolean streamGameOutput() {
+    public boolean streamGameOutput()
+    {
         return true;
     }
 
     @Override
-    public boolean passPasswordToGame() {
+    public boolean passPasswordToGame()
+    {
         return true;
     }
 

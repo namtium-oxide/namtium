@@ -81,15 +81,20 @@ public class MinecraftDownloader implements Downloader
 
     public MinecraftDownloader(String id, File basepath, Repository repository, Downloader additionalDownloader)
     {
-        this(id, basepath, VersionJarDownloaderGenerator.DEFAULT_MINECRAFT_VERSIONS, AssetsDownloaderGenerator.DEFAULT_ASSETS_URL, AssetsDownloaderGenerator.DEFAULT_ASSETS_INDEXES_URL, repository, additionalDownloader);
+        this(id, basepath, VersionJarDownloaderGenerator.DEFAULT_MINECRAFT_VERSIONS,
+                AssetsDownloaderGenerator.DEFAULT_ASSETS_URL, AssetsDownloaderGenerator.DEFAULT_ASSETS_INDEXES_URL,
+                repository, additionalDownloader);
     }
 
-    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL, Repository repository, Downloader additionalDownloader)
+    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL,
+            Repository repository, Downloader additionalDownloader)
     {
-        this(id, basepath, gameURL, assetsURL, assetsIndexesURL, repository, OS.getCurrentOS(), OS.getCurrentVersion(), OS.getCurrentArchitecture(), additionalDownloader);
+        this(id, basepath, gameURL, assetsURL, assetsIndexesURL, repository, OS.getCurrentOS(), OS.getCurrentVersion(),
+                OS.getCurrentArchitecture(), additionalDownloader);
     }
 
-    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL, Repository repository, OS os, String osVersion, OS.Architecture osArch, Downloader additionalDownloader)
+    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL,
+            Repository repository, OS os, String osVersion, OS.Architecture osArch, Downloader additionalDownloader)
     {
         this.id = id;
         this.basepath = basepath;
@@ -159,7 +164,8 @@ public class MinecraftDownloader implements Downloader
         String path = id + "/" + id + ".json";
         File versionJson = new File(versionsDir, path);
         URL versionJsonUrl = new URL(gameURL, path);
-        FileVerifier verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5, URLUtil.getETag(versionJsonUrl).trim().replace("\"", ""));
+        FileVerifier verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5,
+                URLUtil.getETag(versionJsonUrl).trim().replace("\"", ""));
 
         GameVersion versionInfo = (GameVersion) downloadJson(versionJson, versionJsonUrl, verifier, GameVersion.class);
 
@@ -194,7 +200,8 @@ public class MinecraftDownloader implements Downloader
         }
         else
         {
-            verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5, URLUtil.getETag(url).replace("\"", ""));
+            verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5,
+                    URLUtil.getETag(url).replace("\"", ""));
         }
 
         return (Assets) downloadJson(assetsFile, url, verifier, Assets.class);
@@ -219,7 +226,8 @@ public class MinecraftDownloader implements Downloader
         File librariesDir = new File(basepath, "libraries");
         File assetsObjectsDir = new File(basepath, "assets/objects");
 
-        DownloaderGenerator generator = new VersionJarDownloaderGenerator(versionInfo, new File(versionDir, versionInfo.getJarName() + ".jar"));
+        DownloaderGenerator generator = new VersionJarDownloaderGenerator(versionInfo,
+                new File(versionDir, versionInfo.getJarName() + ".jar"));
         downloaders.addAll(generator.generateDownloaders());
 
         for (GameLibrary library : versionInfo.getLibraries())

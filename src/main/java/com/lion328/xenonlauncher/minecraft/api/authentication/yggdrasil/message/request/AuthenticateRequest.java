@@ -49,7 +49,8 @@ public class AuthenticateRequest
         this(agent, username, password, clientToken, true);
     }
 
-    public AuthenticateRequest(GameAgent agent, String username, String password, String clientToken, boolean requestUser)
+    public AuthenticateRequest(GameAgent agent, String username, String password, String clientToken,
+            boolean requestUser)
     {
         this.agent = agent;
         this.username = username;

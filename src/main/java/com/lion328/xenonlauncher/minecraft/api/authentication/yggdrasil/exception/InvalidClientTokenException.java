@@ -45,7 +45,8 @@ public class InvalidClientTokenException extends InvalidImplementationException
         super(cause);
     }
 
-    protected InvalidClientTokenException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    protected InvalidClientTokenException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }

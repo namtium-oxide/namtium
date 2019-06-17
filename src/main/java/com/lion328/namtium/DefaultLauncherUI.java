@@ -34,13 +34,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class DefaultLauncherUI implements HydraLauncherUI
 {
-    
+
     public static final URL NEWS_IMAGE_URL;
     public static final URL REGISTER_URL;
 
@@ -97,7 +95,8 @@ public class DefaultLauncherUI implements HydraLauncherUI
 
         try
         {
-            frame.setIconImage(ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/resources/favicon.png")));
+            frame.setIconImage(
+                    ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/resources/favicon.png")));
         }
         catch (IOException e)
         {
@@ -328,7 +327,8 @@ public class DefaultLauncherUI implements HydraLauncherUI
     }
 
     @Override
-    public void onPercentageChange(final File file, final int overallPercentage, final long fileSize, final long fileDownloaded)
+    public void onPercentageChange(final File file, final int overallPercentage, final long fileSize,
+            final long fileDownloaded)
     {
         if (updatingStatus)
         {

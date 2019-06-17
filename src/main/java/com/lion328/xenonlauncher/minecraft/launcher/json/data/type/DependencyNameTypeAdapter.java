@@ -37,13 +37,15 @@ public class DependencyNameTypeAdapter implements JsonSerializer<DependencyName>
 {
 
     @Override
-    public JsonElement serialize(DependencyName dependencyName, Type type, JsonSerializationContext jsonSerializationContext)
+    public JsonElement serialize(DependencyName dependencyName, Type type,
+            JsonSerializationContext jsonSerializationContext)
     {
         return new JsonPrimitive(dependencyName.toString());
     }
 
     @Override
-    public DependencyName deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException
+    public DependencyName deserialize(JsonElement jsonElement, Type type,
+            JsonDeserializationContext jsonDeserializationContext) throws JsonParseException
     {
         try
         {

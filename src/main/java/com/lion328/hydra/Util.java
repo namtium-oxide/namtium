@@ -17,7 +17,7 @@ import java.util.List;
 public class Util
 {
 
-    private static char[] unitTable = new char[] {'\0', 'K', 'M', 'G', 'T'};
+    private static char[] unitTable = new char[]{'\0', 'K', 'M', 'G', 'T'};
     private static File workingJar;
 
     public static String httpGET(URL url) throws IOException
@@ -118,7 +118,8 @@ public class Util
 
     public static File getGameDirectory(String serverName)
     {
-        return new File(OS.getApplicationDataDirectory(), HydraLauncher.LAUNCHER_DIRECTORY_NAME + File.separator + serverName);
+        return new File(OS.getApplicationDataDirectory(),
+                HydraLauncher.LAUNCHER_DIRECTORY_NAME + File.separator + serverName);
     }
 
     public static void openURL(URL url)

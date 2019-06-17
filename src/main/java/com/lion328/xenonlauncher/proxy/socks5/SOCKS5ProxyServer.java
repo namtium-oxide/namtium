@@ -93,7 +93,8 @@ public class SOCKS5ProxyServer implements ProxyServer
 
         if (connectReq.getAddress().getType() == AddressType.IPV6)
         {
-            new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.ADDRESS_TYPE_NOT_SUPPORTED, connectReq.getAddress(), connectReq.getPort()).write(out);
+            new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.ADDRESS_TYPE_NOT_SUPPORTED,
+                    connectReq.getAddress(), connectReq.getPort()).write(out);
             return;
         }
 
@@ -107,7 +108,8 @@ public class SOCKS5ProxyServer implements ProxyServer
                 break;
             case UDP_ASSOCIATE:
             default:
-                new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.COMMAND_NOT_SUPPORTED, connectReq.getAddress(), connectReq.getPort()).write(out);
+                new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.COMMAND_NOT_SUPPORTED,
+                        connectReq.getAddress(), connectReq.getPort()).write(out);
                 break;
         }
     }
@@ -117,7 +119,9 @@ public class SOCKS5ProxyServer implements ProxyServer
         InetAddress addr = connectReq.getAddress().toInetAddress();
         Socket connSocket = new BufferedSocket(new Socket(addr, connectReq.getPort()));
 
-        new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.SUCCEEDED, Address.fromInetAddress(AddressType.IPV4, socket.getInetAddress()), socket.getPort()).write(socket.getOutputStream());
+        new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.SUCCEEDED,
+                Address.fromInetAddress(AddressType.IPV4, socket.getInetAddress()), socket.getPort()).write(
+                socket.getOutputStream());
 
         for (Map.Entry<Integer, DataHandler> entry : handlers.entrySet())
         {
@@ -137,7 +141,9 @@ public class SOCKS5ProxyServer implements ProxyServer
         ServerSocket server = new ServerSocket(0, 10, InetAddress.getLocalHost());
         server.setSoTimeout(10000);
 
-        new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.SUCCEEDED, Address.fromInetAddress(AddressType.IPV4, server.getInetAddress()), server.getLocalPort()).write(socket.getOutputStream());
+        new ConnectResponsePacket(VERSION, ConnectResponsePacket.State.SUCCEEDED,
+                Address.fromInetAddress(AddressType.IPV4, server.getInetAddress()), server.getLocalPort()).write(
+                socket.getOutputStream());
 
         while (true)
         {
@@ -162,7 +168,9 @@ public class SOCKS5ProxyServer implements ProxyServer
         }
 
         ConnectResponsePacket.State state = connSocket == null ? ConnectResponsePacket.State.TTL_EXPIRED : ConnectResponsePacket.State.SUCCEEDED;
-        new ConnectResponsePacket(VERSION, state, Address.fromInetAddress(AddressType.IPV4, connSocket.getInetAddress()), connSocket.getPort()).write(socket.getOutputStream());
+        new ConnectResponsePacket(VERSION, state,
+                Address.fromInetAddress(AddressType.IPV4, connSocket.getInetAddress()), connSocket.getPort()).write(
+                socket.getOutputStream());
 
         StreamUtil.pipeStreamThread(socket.getInputStream(), connSocket.getOutputStream());
         StreamUtil.pipeStream(connSocket.getInputStream(), socket.getOutputStream());

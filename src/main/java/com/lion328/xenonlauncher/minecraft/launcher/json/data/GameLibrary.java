@@ -47,7 +47,8 @@ public class GameLibrary
 
     }
 
-    public GameLibrary(DependencyName name, List<LibraryRule> rules, LibraryNatives natives, ExtractRule extractRule, LibraryDownloadInfomation downloadInfo)
+    public GameLibrary(DependencyName name, List<LibraryRule> rules, LibraryNatives natives, ExtractRule extractRule,
+            LibraryDownloadInfomation downloadInfo)
     {
         this.name = name;
         this.rules = rules;

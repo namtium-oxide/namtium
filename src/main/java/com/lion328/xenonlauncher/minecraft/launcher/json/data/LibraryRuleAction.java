@@ -27,8 +27,8 @@ import com.google.gson.annotations.SerializedName;
 public enum LibraryRuleAction
 {
 
-    @SerializedName("allow")ALLOW("allow"),
-    @SerializedName("disallow")DISALLOW("disallow");
+    @SerializedName("allow") ALLOW("allow"),
+    @SerializedName("disallow") DISALLOW("disallow");
 
     private transient String s;
 

@@ -3,7 +3,6 @@ package com.lion328.hydra;
 import com.lion328.xenonlauncher.downloader.verifier.FileVerifier;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 

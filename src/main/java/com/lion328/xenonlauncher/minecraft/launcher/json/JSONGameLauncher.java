@@ -80,11 +80,13 @@ public class JSONGameLauncher extends BasicGameLauncher
         this(version, basepathDir, true);
     }
 
-    public JSONGameLauncher(GameVersion version, File basepathDir, boolean allowNativesArchFallback) throws LauncherVersionException
+    public JSONGameLauncher(GameVersion version, File basepathDir, boolean allowNativesArchFallback) throws
+            LauncherVersionException
     {
         if (version.getMinimumLauncherVersion() > GameVersion.PARSER_VERSION)
         {
-            throw new LauncherVersionException("Unsupported launcher version (" + version.getMinimumLauncherVersion() + ")");
+            throw new LauncherVersionException(
+                    "Unsupported launcher version (" + version.getMinimumLauncherVersion() + ")");
         }
 
         this.allowNativesArchFallback = allowNativesArchFallback;
@@ -324,7 +326,8 @@ public class JSONGameLauncher extends BasicGameLauncher
             throw new FileNotFoundException("Game JAR \"" + versionJar.getAbsolutePath() + "\" is missing");
         }
 
-        sb.append(patchLibrary(new DependencyName("net.minecraft:client:" + versionInfo.getID()), versionJar, new File(patchedLibDir, versionInfo.getID() + ".jar")).getAbsolutePath());
+        sb.append(patchLibrary(new DependencyName("net.minecraft:client:" + versionInfo.getID()), versionJar,
+                new File(patchedLibDir, versionInfo.getID() + ".jar")).getAbsolutePath());
 
         for (GameLibrary library : versionInfo.getLibraries())
         {
