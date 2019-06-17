@@ -221,7 +221,6 @@ public class HydraLauncher implements Launcher
 
         whitelistFileList.add(PLAYER_SETTINGS_FILENAME); // Avoid error
         whitelistFileList.add("launcher.jar");
-        whitelistFileList.add("updater.exe");
         whitelistFileList.add("assets/virtual/");
 
         return whitelistFileList;
