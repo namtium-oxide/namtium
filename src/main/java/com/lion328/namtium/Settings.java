@@ -76,6 +76,16 @@ public class Settings implements HydraSettings
         };
     }
 
+    @Override
+    public boolean streamGameOutput() {
+        return true;
+    }
+
+    @Override
+    public boolean passPasswordToGame() {
+        return true;
+    }
+
     private static URL fromBase(String s)
     {
         return URLUtil.constantURL(launcherBaseURL.toString() + s);

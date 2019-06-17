@@ -79,7 +79,7 @@ public class Main
         HydraLauncherUI launcherUI = new DefaultLauncherUI();
         PlayerSettingsUI playerSettingsUI = new SettingsUI(launcherUI.getJFrame());
 
-        HydraLauncher launcher = new HydraLauncher(Settings.getInstance(), true, true);
+        HydraLauncher launcher = new HydraLauncher(Settings.getInstance());
         launcher.setLauncherUI(launcherUI);
         launcher.setSettingsUI(playerSettingsUI);
         launcher.start();

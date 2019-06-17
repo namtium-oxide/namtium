@@ -20,4 +20,8 @@ public interface HydraSettings
     String getGameVersionName();
 
     String[] getVMArguments();
+
+    boolean streamGameOutput();
+
+    boolean passPasswordToGame();
 }

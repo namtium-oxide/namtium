@@ -59,17 +59,13 @@ public class HydraLauncher implements Launcher
     private LauncherUI ui;
     private HydraSettings settings;
     private PlayerSettings playerSettings;
-    private boolean streamGameOutput;
-    private boolean passPassword;
     private PlayerSettingsUI playerSettingsUI;
 
     private Thread waitingGameExitThread;
 
-    public HydraLauncher(HydraSettings settings, boolean streamGameOutput, boolean passPassword)
+    public HydraLauncher(HydraSettings settings)
     {
         this.settings = settings;
-        this.streamGameOutput = streamGameOutput;
-        this.passPassword = passPassword;
 
         gameDirectory = Util.getGameDirectory(settings.getApplicationDirectoryName());
         playerSettingsFile = new File(gameDirectory, PLAYER_SETTINGS_FILENAME);
@@ -437,7 +433,7 @@ public class HydraLauncher implements Launcher
 
     private void streamGameOutput(final Process process)
     {
-        if (!streamGameOutput)
+        if (!settings.streamGameOutput())
         {
             return;
         }
@@ -653,7 +649,7 @@ public class HydraLauncher implements Launcher
         {
             launcher = getGameLauncher(gameVersion, username, null);
 
-            if (passPassword)
+            if (settings.passPasswordToGame())
             {
                 launcher.addJVMArgument("-Dcom.lion328.autochatlogin.password=" + new String(password));
             }
