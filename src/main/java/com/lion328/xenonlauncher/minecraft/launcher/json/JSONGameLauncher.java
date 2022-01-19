@@ -32,12 +32,10 @@ import com.lion328.xenonlauncher.minecraft.launcher.BasicGameLauncher;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameLibrary;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameVersion;
 import com.lion328.xenonlauncher.minecraft.launcher.json.exception.LauncherVersionException;
-import com.lion328.xenonlauncher.patcher.FilePatcher;
 import com.lion328.xenonlauncher.settings.LauncherConstant;
-import com.lion328.xenonlauncher.util.FileUtil;
+import com.lion328.xenonlauncher.util.io.FileUtil;
 import com.lion328.xenonlauncher.util.OS;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -51,7 +49,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -61,7 +58,6 @@ public class JSONGameLauncher extends BasicGameLauncher
     private List<String> jvmArgs = new ArrayList<>();
     private List<String> gameArgs = new ArrayList<>();
     private Map<String, String> replaceArgs = new HashMap<>();
-    private Map<DependencyName, FilePatcher> patchers = new HashMap<>();
 
     private boolean allowNativesArchFallback;
     private GameVersion versionInfo;
@@ -210,7 +206,7 @@ public class JSONGameLauncher extends BasicGameLauncher
         new VirtualAssetsInstaller(assets, assetsObjectsDir, gameVirtualAssetsDir).install();
     }
 
-    private File patchLibrary(GameLibrary original, File dir) throws Exception
+    private File getLibraryClasspath(GameLibrary original) throws Exception
     {
         DependencyName depName = original.getDependencyName();
         File libFile;
@@ -231,86 +227,7 @@ public class JSONGameLauncher extends BasicGameLauncher
             throw new FileNotFoundException("Library \"" + libFile.getAbsolutePath() + "\" is missing!");
         }
 
-        return patchLibrary(depName, libFile, new File(dir, depName.getShortName().replace(':', '-') + ".jar"));
-    }
-
-    private File patchLibrary(DependencyName depName, File inFile, File outFile) throws Exception
-    {
-        DependencyName regexDepName;
-
-        // check first
-        boolean flag = true;
-        for (Map.Entry<DependencyName, FilePatcher> entry : patchers.entrySet())
-        {
-            regexDepName = entry.getKey();
-            if (isMatchRegex(depName, regexDepName))
-            {
-                flag = false;
-                break;
-            }
-        }
-
-        if (flag)
-        {
-            return inFile;
-        }
-
-        if (!outFile.getParentFile().exists() && !outFile.getParentFile().mkdirs())
-        {
-            throw new IOException("Can't create directory");
-        }
-
-        JarOutputStream zipOut = new JarOutputStream(new FileOutputStream(outFile));
-        ZipInputStream zipIn = new ZipInputStream(new FileInputStream(inFile));
-        ZipEntry zipEntry;
-
-        ByteArrayOutputStream byteTmp = new ByteArrayOutputStream(8192);
-        byte[] buffer = new byte[8192];
-        int read;
-
-        for (; (zipEntry = zipIn.getNextEntry()) != null; zipIn.closeEntry())
-        {
-            if (zipEntry.getName().startsWith("META-INF/"))
-            {
-                continue;
-            }
-
-            zipEntry = new ZipEntry(zipEntry.getName());
-            zipOut.putNextEntry(zipEntry);
-
-            if (!zipEntry.isDirectory())
-            {
-                byteTmp.reset();
-
-                while ((read = zipIn.read(buffer)) != -1)
-                {
-                    byteTmp.write(buffer, 0, read);
-                }
-
-                byte[] byteOut = byteTmp.toByteArray();
-
-                for (Map.Entry<DependencyName, FilePatcher> entry : patchers.entrySet())
-                {
-                    regexDepName = entry.getKey();
-
-                    if (!isMatchRegex(depName, regexDepName))
-                    {
-                        continue;
-                    }
-
-                    byteOut = entry.getValue().patchFile(zipEntry.getName(), byteOut);
-                }
-
-                zipOut.write(byteOut);
-            }
-
-            zipOut.closeEntry();
-        }
-
-        zipIn.close();
-        zipOut.close();
-
-        return outFile;
+        return libFile;
     }
 
     private String buildClasspath(File patchedLibDir) throws Exception
@@ -324,7 +241,7 @@ public class JSONGameLauncher extends BasicGameLauncher
             throw new FileNotFoundException("Game JAR \"" + versionJar.getAbsolutePath() + "\" is missing");
         }
 
-        sb.append(patchLibrary(new DependencyName("net.minecraft:client:" + versionInfo.getID()), versionJar, new File(patchedLibDir, versionInfo.getID() + ".jar")).getAbsolutePath());
+        sb.append(versionJar.getAbsolutePath());
 
         for (GameLibrary library : versionInfo.getLibraries())
         {
@@ -334,7 +251,7 @@ public class JSONGameLauncher extends BasicGameLauncher
             }
 
             sb.append(File.pathSeparatorChar);
-            sb.append(patchLibrary(library, patchedLibDir).getAbsolutePath());
+            sb.append(getLibraryClasspath(library).getAbsolutePath());
         }
 
         return sb.toString();
@@ -480,12 +397,6 @@ public class JSONGameLauncher extends BasicGameLauncher
     public void setGameDirectory(File dir)
     {
         gameDir = dir;
-    }
-
-    @Override
-    public void addPatcher(DependencyName regex, FilePatcher patcher)
-    {
-        patchers.put(regex, patcher);
     }
 
     @Override

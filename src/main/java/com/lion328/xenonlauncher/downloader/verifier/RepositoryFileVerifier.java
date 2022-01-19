@@ -24,7 +24,7 @@ package com.lion328.xenonlauncher.downloader.verifier;
 
 import com.lion328.xenonlauncher.downloader.repository.DependencyName;
 import com.lion328.xenonlauncher.downloader.repository.Repository;
-import com.lion328.xenonlauncher.proxy.util.StreamUtil;
+import com.lion328.xenonlauncher.util.io.StreamUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

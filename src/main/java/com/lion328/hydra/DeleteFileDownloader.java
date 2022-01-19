@@ -2,7 +2,7 @@ package com.lion328.hydra;
 
 import com.lion328.xenonlauncher.downloader.DownloaderCallback;
 import com.lion328.xenonlauncher.downloader.FileDownloader;
-import com.lion328.xenonlauncher.util.FileUtil;
+import com.lion328.xenonlauncher.util.io.FileUtil;
 
 import java.io.File;
 import java.io.IOException;

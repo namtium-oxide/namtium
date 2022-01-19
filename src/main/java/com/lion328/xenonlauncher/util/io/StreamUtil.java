@@ -20,12 +20,47 @@
  * SOFTWARE.
  */
 
-package com.lion328.xenonlauncher.proxy;
+package com.lion328.xenonlauncher.util.io;
 
-import java.net.Socket;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-public interface DataHandler
+public class StreamUtil
 {
 
-    boolean process(Socket client, Socket server) throws Exception;
+    public static void pipeStream(InputStream in, OutputStream out)
+    {
+        int b;
+        try
+        {
+            while ((b = in.read()) != -1)
+            {
+                out.write(b);
+            }
+        }
+        catch (IOException e)
+        {
+            try
+            {
+                out.close();
+            }
+            catch (IOException ignore)
+            {
+
+            }
+        }
+    }
+
+    public static void pipeStreamThread(final InputStream in, final OutputStream out)
+    {
+        new Thread()
+        {
+
+            public void run()
+            {
+                pipeStream(in, out);
+            }
+        }.start();
+    }
 }

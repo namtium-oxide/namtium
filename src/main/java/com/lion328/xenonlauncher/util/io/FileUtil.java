@@ -20,17 +20,51 @@
  * SOFTWARE.
  */
 
-package com.lion328.xenonlauncher.proxy;
+package com.lion328.xenonlauncher.util.io;
 
-import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.File;
+import java.nio.file.Files;
 
-public interface ProxyServer
+public class FileUtil
 {
 
-    void start(ServerSocket server) throws IOException;
+    public static boolean deleteFileRescursive(File file)
+    {
+        return deleteFileRescursive(file, true);
+    }
 
-    void stop();
+    public static boolean deleteFileRescursive(File file, boolean safeDelete)
+    {
+        String path = file.getAbsolutePath();
+        if (safeDelete && (path.equals("/") || path.equals(System.getProperty("user.home"))))
+        {
+            throw new RuntimeException("Did you really trying to remove entire filesystem? or user's home directory?");
+        }
 
-    void addDataHandler(int level, DataHandler handler);
+        if (!file.exists())
+        {
+            return true;
+        }
+
+        if (file.isFile() || Files.isSymbolicLink(file.toPath()))
+        {
+            return file.delete();
+        }
+
+        File[] files = file.listFiles();
+        if (files == null)
+        {
+            return false;
+        }
+
+        for (File f : files)
+        {
+            if (!deleteFileRescursive(f))
+            {
+                return false;
+            }
+        }
+
+        return file.delete();
+    }
 }

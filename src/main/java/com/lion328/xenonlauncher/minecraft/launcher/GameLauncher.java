@@ -22,9 +22,7 @@
 
 package com.lion328.xenonlauncher.minecraft.launcher;
 
-import com.lion328.xenonlauncher.downloader.repository.DependencyName;
 import com.lion328.xenonlauncher.minecraft.api.authentication.UserInformation;
-import com.lion328.xenonlauncher.patcher.FilePatcher;
 
 import java.io.File;
 
@@ -36,8 +34,6 @@ public interface GameLauncher
     File getGameDirectory();
 
     void setGameDirectory(File dir);
-
-    void addPatcher(DependencyName regex, FilePatcher patcher);
 
     void replaceArgument(String key, String value);
 
