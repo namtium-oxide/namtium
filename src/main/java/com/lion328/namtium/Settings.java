@@ -61,12 +61,7 @@ public class Settings implements HydraSettings {
 
     @Override
     public String[] getVMArguments() {
-        return new String[]{
-                "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
-                "-XX:+UseConcMarkSweepGC",
-                "-XX:+CMSIncrementalMode",
-                "-XX:-UseAdaptiveSizePolicy"
-        };
+        return new String[]{};
     }
 
     @Override
