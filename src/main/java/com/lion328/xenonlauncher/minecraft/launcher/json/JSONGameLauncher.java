@@ -30,6 +30,7 @@ import com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.UserProp
 import com.lion328.xenonlauncher.minecraft.assets.VirtualAssetsInstaller;
 import com.lion328.xenonlauncher.minecraft.assets.data.Assets;
 import com.lion328.xenonlauncher.minecraft.launcher.BasicGameLauncher;
+import com.lion328.xenonlauncher.minecraft.launcher.json.data.ExtractConfiguration;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameLibrary;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameVersion;
 import com.lion328.xenonlauncher.minecraft.launcher.json.exception.LauncherVersionException;
@@ -153,16 +154,22 @@ public class JSONGameLauncher extends BasicGameLauncher
                             library.getNatives().getNative(config.getOperatingSystem(), OperatingSystem.Architecture.ARCH_32));
                 }
 
+                ExtractConfiguration extractConf = library.getExtractConfiguration();
+                List<String> excludeList = extractConf == null ? null : extractConf.getExcludeList();
+
                 zip = new ZipInputStream(new FileInputStream(nativesFile));
 
                 librariesLoop:
                 for (; (entry = zip.getNextEntry()) != null; zip.closeEntry())
                 {
-                    for (String exclude : library.getExtractConfiguration().getExcludeList())
+                    if (excludeList != null)
                     {
-                        if (entry.getName().startsWith(exclude))
+                        for (String exclude : excludeList)
                         {
-                            continue librariesLoop;
+                            if (entry.getName().startsWith(exclude))
+                            {
+                                continue librariesLoop;
+                            }
                         }
                     }
 
@@ -390,6 +397,7 @@ public class JSONGameLauncher extends BasicGameLauncher
 
         ProcessBuilder pb = buildProcess(nativesDir, classpath, config);
         final Process process = pb.start();
+        System.out.println(pb.command());
 
         final Thread removeFilesThread = new Thread("Remove natives and patched libraries")
         {
