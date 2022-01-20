@@ -63,6 +63,8 @@ public class Main {
 
         if (fonts.length != 0) {
             setGlobalSwingFont(new FontUIResource(fonts[0].deriveFont(Font.PLAIN, 14)));
+        } else {
+            setGlobalSwingFont(new FontUIResource(new Font(Font.SANS_SERIF, Font.PLAIN, 14)));
         }
 
         getLogger().info("Changing ProgressBar color...");
@@ -179,7 +181,7 @@ public class Main {
         VERSION = version;
 
         fontsName = new String[]{
-                "CSChatThaiUI"
+                // Put your new fonts' name here
         };
 
         fonts = new Font[fontsName.length];
