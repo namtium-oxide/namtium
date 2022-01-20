@@ -13,8 +13,8 @@ public class Settings implements HydraSettings {
 
     private static Settings instance;
 
-    private static final URL launcherBaseURL = URLUtil.constantURL("http://localhost:8000/");
-    private static final URL registerURL = URLUtil.constantURL("http://lion328.com");
+    private static final URL launcherBaseURL = URLUtil.constantURL("http://example.com/launcher/");
+    private static final URL registerURL = URLUtil.constantURL("http://example.com/register");
     private static final URL authURL = fromBase("api/authenticate.php");
     private static final URL whitelistURL = fromBase("whitelist");
     private static final URL compressedFilesURL = fromBase("filelist.gz");
@@ -56,7 +56,7 @@ public class Settings implements HydraSettings {
 
     @Override
     public String getGameVersionName() {
-        return "1.12.2";
+        return "game";
     }
 
     @Override
