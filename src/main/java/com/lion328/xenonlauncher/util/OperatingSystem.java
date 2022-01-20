@@ -26,26 +26,26 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.File;
 
-public enum OS
+public enum OperatingSystem
 {
 
     @SerializedName("win")WINDOWS("win"),
     @SerializedName("osx")OSX("osx"),
     @SerializedName("linux")LINUX("linux");
 
-    private static OS currentOS = null;
+    private static OperatingSystem currentOS = null;
     private static Architecture currentArch = null;
     private static File appdata = null;
     private final String s;
 
-    OS(String s)
+    OperatingSystem(String s)
     {
         this.s = s;
     }
 
-    public static OS fromString(String s)
+    public static OperatingSystem fromString(String s)
     {
-        for (OS os : values())
+        for (OperatingSystem os : values())
         {
             if (os.toString().equals(s))
             {
@@ -55,22 +55,22 @@ public enum OS
         return null;
     }
 
-    public static OS getCurrentOS()
+    public static OperatingSystem getCurrentOS()
     {
         if (currentOS == null)
         {
             String osName = System.getProperty("os.name").toLowerCase();
             if (osName.contains("win"))
             {
-                currentOS = OS.WINDOWS;
+                currentOS = OperatingSystem.WINDOWS;
             }
             else if (osName.contains("mac"))
             {
-                currentOS = OS.OSX;
+                currentOS = OperatingSystem.OSX;
             }
             else
             {
-                currentOS = OS.LINUX;
+                currentOS = OperatingSystem.LINUX;
             }
         }
         return currentOS;

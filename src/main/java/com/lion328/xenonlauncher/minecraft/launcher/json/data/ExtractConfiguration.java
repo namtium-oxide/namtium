@@ -24,21 +24,26 @@ package com.lion328.xenonlauncher.minecraft.launcher.json.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum LibraryRuleAction
+import java.util.List;
+
+public class ExtractConfiguration
 {
 
-    @SerializedName("allow")ALLOW("allow"),
-    @SerializedName("disallow")DISALLOW("disallow");
+    @SerializedName("exclude")
+    private List<String> exclude;
 
-    private transient String s;
-
-    LibraryRuleAction(String s)
+    public ExtractConfiguration()
     {
-        this.s = s;
+
     }
 
-    public String toString()
+    public ExtractConfiguration(List<String> excludeList)
     {
-        return s;
+        exclude = excludeList;
+    }
+
+    public List<String> getExcludeList()
+    {
+        return exclude;
     }
 }

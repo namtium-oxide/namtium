@@ -23,8 +23,10 @@
 package com.lion328.xenonlauncher.minecraft.launcher.json.data;
 
 import com.google.gson.annotations.SerializedName;
+import com.lion328.xenonlauncher.minecraft.StartupConfiguration;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,7 @@ import java.util.Map;
 public class GameVersion
 {
 
-    public static final int PARSER_VERSION = 18;
+    public static final int MINIMUM_LAUNCHER_VERSION_SUPPORTED = 21;
     public static final String DOWNLOAD_CLIENT = "client";
     public static final String DOWNLOAD_SERVER = "server";
     public static final String DOWNLOAD_SERVER_WINDOWS = "windows_server";
@@ -63,6 +65,8 @@ public class GameVersion
     private String parentId;
     @SerializedName("jar")
     private String jar;
+    @SerializedName("arguments")
+    private Arguments arguments;
 
     public GameVersion()
     {
@@ -106,9 +110,24 @@ public class GameVersion
         return releaseType;
     }
 
-    public String getMinecraftArguments()
+    public List<String> getGameArgumentsOnConfig(StartupConfiguration config)
     {
-        return minecraftArguments;
+        if (arguments == null || arguments.getJVMArguments() == null)
+        {
+            if (minecraftArguments == null)
+            {
+                return null;
+            }
+
+            return Arrays.asList(minecraftArguments.split("\\s+"));
+        }
+
+        return arguments.getGameArgumentsOnConfig(config);
+    }
+
+    public List<String> getJVMArgumentsOnConfig(StartupConfiguration config)
+    {
+        return arguments == null ? null : arguments.getJVMArgumentsOnConfig(config);
     }
 
     public List<GameLibrary> getLibraries()

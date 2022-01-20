@@ -24,6 +24,7 @@ package com.lion328.xenonlauncher.minecraft.launcher.json;
 
 import com.google.gson.Gson;
 import com.lion328.xenonlauncher.downloader.repository.DependencyName;
+import com.lion328.xenonlauncher.minecraft.StartupConfiguration;
 import com.lion328.xenonlauncher.minecraft.api.authentication.UserInformation;
 import com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.UserProperties;
 import com.lion328.xenonlauncher.minecraft.assets.VirtualAssetsInstaller;
@@ -34,7 +35,7 @@ import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameVersion;
 import com.lion328.xenonlauncher.minecraft.launcher.json.exception.LauncherVersionException;
 import com.lion328.xenonlauncher.settings.LauncherConstant;
 import com.lion328.xenonlauncher.util.io.FileUtil;
-import com.lion328.xenonlauncher.util.OS;
+import com.lion328.xenonlauncher.util.OperatingSystem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +45,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,9 +55,10 @@ import java.util.zip.ZipInputStream;
 public class JSONGameLauncher extends BasicGameLauncher
 {
 
-    private List<String> jvmArgs = new ArrayList<>();
-    private List<String> gameArgs = new ArrayList<>();
-    private Map<String, String> replaceArgs = new HashMap<>();
+    private final List<String> customJvmArgs = new ArrayList<>();
+    private final List<String> customGameArgs = new ArrayList<>();
+    private final Map<String, String> variables = new HashMap<>();
+    private final Map<String, Boolean> features = new HashMap<>();
 
     private boolean allowNativesArchFallback;
     private GameVersion versionInfo;
@@ -78,7 +79,7 @@ public class JSONGameLauncher extends BasicGameLauncher
 
     public JSONGameLauncher(GameVersion version, File basepathDir, boolean allowNativesArchFallback) throws LauncherVersionException
     {
-        if (version.getMinimumLauncherVersion() > GameVersion.PARSER_VERSION)
+        if (version.getMinimumLauncherVersion() > GameVersion.MINIMUM_LAUNCHER_VERSION_SUPPORTED)
         {
             throw new LauncherVersionException("Unsupported launcher version (" + version.getMinimumLauncherVersion() + ")");
         }
@@ -106,16 +107,18 @@ public class JSONGameLauncher extends BasicGameLauncher
     {
         gameVirtualAssetsDir = new File(virtualAssetsDir, versionInfo.getAssets());
 
-        replaceArgs.put("version_name", versionInfo.getID());
-        replaceArgs.put("version_type", versionInfo.getReleaseType().toString());
-        replaceArgs.put("game_directory", basepathDir.getAbsolutePath());
-        replaceArgs.put("user_properties", "{}");
-        replaceArgs.put("user_type", "legacy");
-        replaceArgs.put("auth_uuid", new UUID(0, 0).toString());
-        replaceArgs.put("auth_access_token", "12345");
-        replaceArgs.put("assets_index_name", versionInfo.getAssets());
-        replaceArgs.put("assets_root", assetsDir.getAbsolutePath());
-        replaceArgs.put("game_assets", gameVirtualAssetsDir.getAbsolutePath());
+        variables.put("version_name", versionInfo.getID());
+        variables.put("version_type", versionInfo.getReleaseType().toString());
+        variables.put("game_directory", basepathDir.getAbsolutePath());
+        variables.put("user_properties", "{}");
+        variables.put("user_type", "legacy");
+        variables.put("auth_uuid", new UUID(0, 0).toString());
+        variables.put("auth_access_token", "12345");
+        variables.put("assets_index_name", versionInfo.getAssets());
+        variables.put("assets_root", assetsDir.getAbsolutePath());
+        variables.put("game_assets", gameVirtualAssetsDir.getAbsolutePath());
+        variables.put("launcher_name", LauncherConstant.NAME);
+        variables.put("launcher_version", LauncherConstant.VERSION);
     }
 
     private File getDependencyFile(DependencyName name)
@@ -128,12 +131,7 @@ public class JSONGameLauncher extends BasicGameLauncher
         return name.getFile(librariesDir, classifier);
     }
 
-    private boolean isMatchRegex(DependencyName depName, DependencyName regexDepName)
-    {
-        return depName.equals(regexDepName);
-    }
-
-    private void extractNatives(File nativesDir) throws IOException
+    private void extractNatives(File nativesDir, StartupConfiguration config) throws IOException
     {
         File nativesFile, parentFile;
         ZipInputStream zip;
@@ -144,15 +142,15 @@ public class JSONGameLauncher extends BasicGameLauncher
 
         for (GameLibrary library : versionInfo.getLibraries())
         {
-            if (library.isNativesLibrary() && library.isAllowed())
+            if (library.isNativesLibrary() && library.isAllowed(config))
             {
                 nativesFile = getDependencyFile(library.getDependencyName(),
                         library.getNatives().getNative());
 
-                if (allowNativesArchFallback && !nativesFile.isFile() && OS.getCurrentArchitecture() != OS.Architecture.ARCH_32)
+                if (allowNativesArchFallback && !nativesFile.isFile() && config.getArchitecture() != OperatingSystem.Architecture.ARCH_32)
                 {
                     nativesFile = getDependencyFile(library.getDependencyName(),
-                            library.getNatives().getNative(OS.getCurrentOS(), OS.Architecture.ARCH_32));
+                            library.getNatives().getNative(config.getOperatingSystem(), OperatingSystem.Architecture.ARCH_32));
                 }
 
                 zip = new ZipInputStream(new FileInputStream(nativesFile));
@@ -160,7 +158,7 @@ public class JSONGameLauncher extends BasicGameLauncher
                 librariesLoop:
                 for (; (entry = zip.getNextEntry()) != null; zip.closeEntry())
                 {
-                    for (String exclude : library.getExtractRule().getExcludeList())
+                    for (String exclude : library.getExtractConfiguration().getExcludeList())
                     {
                         if (entry.getName().startsWith(exclude))
                         {
@@ -230,7 +228,7 @@ public class JSONGameLauncher extends BasicGameLauncher
         return libFile;
     }
 
-    private String buildClasspath(File patchedLibDir) throws Exception
+    private String buildClasspath(StartupConfiguration config) throws Exception
     {
         StringBuilder sb = new StringBuilder();
 
@@ -245,7 +243,7 @@ public class JSONGameLauncher extends BasicGameLauncher
 
         for (GameLibrary library : versionInfo.getLibraries())
         {
-            if (!library.isJavaLibrary() || !library.isAllowed())
+            if (!library.isJavaLibrary() || !library.isAllowed(config))
             {
                 continue;
             }
@@ -257,73 +255,112 @@ public class JSONGameLauncher extends BasicGameLauncher
         return sb.toString();
     }
 
-    private List<String> buildJVMArgs(File nativesDir, File patchedLibDir) throws Exception
+    private String substituteVariables(String s, Map<String, String> map)
     {
-        List<String> list = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
 
-        list.add("-cp");
-        list.add(buildClasspath(patchedLibDir));
-
-        list.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
-
-        list.addAll(jvmArgs);
-
-        list.add(versionInfo.getMainClass());
-
-        return list;
-    }
-
-    private List<String> buildGameArgs()
-    {
-        String[] mcArgs = versionInfo.getMinecraftArguments().split(" ");
-        String value;
-        String mcArg;
-
-        for (int i = 0; i < mcArgs.length; i++)
+        int prev = 0;
+        int start = prev;
+        while ((start = s.indexOf("${", start)) != -1)
         {
-            mcArg = mcArgs[i];
+            sb.append(s, prev, start);
 
-            if (!mcArg.startsWith("${") || !mcArg.endsWith("}"))
+            int tail = s.indexOf("}", start);
+            if (tail == -1)
             {
-                continue;
+                break;
             }
 
-            value = replaceArgs.get(mcArg.substring(2, mcArg.length() - 1));
-
-            if (value == null)
+            String key = s.substring(start + 2, tail);
+            if (map.containsKey(key))
             {
-                continue;
+                sb.append(map.get(key));
+            }
+            else
+            {
+                sb.append(s, start, tail + 1);
             }
 
-            mcArgs[i] = value;
+            start = tail + 1;
+            prev = start;
         }
 
-        List<String> mcArgsList = new ArrayList<>();
-        mcArgsList.addAll(Arrays.asList(mcArgs));
-        mcArgsList.addAll(gameArgs);
+        sb.append(s.substring(prev));
 
-        return mcArgsList;
+        return sb.toString();
     }
 
-    private List<String> buildProcessArgs(File nativesDir, File patchedLibDir) throws Exception
+    private List<String> substituteVariables(Iterable<String> iter, Map<String, String> map)
+    {
+        List<String> result = new ArrayList<>();
+        for (String s : iter)
+        {
+            result.add(substituteVariables(s, map));
+        }
+        return result;
+    }
+
+    private List<String> substituteVariables(Iterable<String> iter, StartupConfiguration config)
+    {
+        return substituteVariables(iter, config.getVariables());
+    }
+
+    private List<String> buildJVMArgs(File nativesDir, String classpath, StartupConfiguration config) throws Exception
+    {
+        List<String> result = new ArrayList<>();
+
+        List<String> fromManifest = versionInfo.getJVMArgumentsOnConfig(config);
+        if (fromManifest == null)
+        {
+            result.add("-cp");
+            result.add(classpath);
+            result.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
+        }
+        else
+        {
+            result.addAll(fromManifest);
+        }
+
+        result.addAll(customJvmArgs);
+        result.add(versionInfo.getMainClass());
+
+        return substituteVariables(result, config);
+    }
+
+    private List<String> buildGameArgs(StartupConfiguration config)
+    {
+        List<String> result = new ArrayList<>();
+        List<String> argsManifest = versionInfo.getGameArgumentsOnConfig(config);
+
+        if (argsManifest != null)
+        {
+            result.addAll(argsManifest);
+        }
+
+        result.addAll(customGameArgs);
+
+        return substituteVariables(result, config);
+    }
+
+    private List<String> buildProcessArgs(File nativesDir, String classpath, StartupConfiguration config) throws Exception
     {
         ArrayList<String> list = new ArrayList<>();
         list.add(findJavaExecutable().getAbsolutePath());
-        list.addAll(buildJVMArgs(nativesDir, patchedLibDir));
-        list.addAll(buildGameArgs());
+        list.addAll(buildJVMArgs(nativesDir, classpath, config));
+        list.addAll(buildGameArgs(config));
         return list;
     }
 
-    private ProcessBuilder buildProcess(File nativesDir, File patchedLibDir) throws Exception
+    private ProcessBuilder buildProcess(File nativesDir, String classpath, StartupConfiguration config) throws Exception
     {
-        ProcessBuilder processBuilder = new ProcessBuilder(buildProcessArgs(nativesDir, patchedLibDir));
+        ProcessBuilder processBuilder = new ProcessBuilder(buildProcessArgs(nativesDir, classpath, config));
         processBuilder.directory(gameDir);
         return processBuilder;
     }
 
     public void setUserProperties(UserProperties properties)
     {
-        replaceArgs.put("user_properties", new Gson().toJson(properties.getProperties()));
+        variables.put("user_properties", new Gson().toJson(properties.getProperties()));
     }
 
     @Override
@@ -333,16 +370,25 @@ public class JSONGameLauncher extends BasicGameLauncher
 
         File versionDir = new File(versionsDir, versionInfo.getID());
         final File nativesDir = new File(versionDir, versionInfo.getID() + "-natives-" + time);
-        final File tmpLibraryDir = new File(versionDir, versionInfo.getID() + "-patchedlib-" + time);
 
-        extractNatives(nativesDir);
+        StartupConfiguration config = StartupConfiguration.getRunningConfig(features);
 
-        if (versionInfo.getMinecraftArguments().contains("${game_assets}"))
+        String classpath = buildClasspath(config);
+
+        Map<String, String> variablesEx = new HashMap<>(variables);
+        variablesEx.put("natives_directory", nativesDir.getAbsolutePath());
+        variablesEx.put("classpath", classpath);
+
+        config = config.withVariables(variablesEx);
+
+        extractNatives(nativesDir, config);
+
+        if (versionInfo.getGameArgumentsOnConfig(config).contains("${game_assets}"))
         {
             installVirtualAssets();
         }
 
-        ProcessBuilder pb = buildProcess(nativesDir, tmpLibraryDir);
+        ProcessBuilder pb = buildProcess(nativesDir, classpath, config);
         final Process process = pb.start();
 
         final Thread removeFilesThread = new Thread("Remove natives and patched libraries")
@@ -361,7 +407,6 @@ public class JSONGameLauncher extends BasicGameLauncher
                 }
 
                 FileUtil.deleteFileRescursive(nativesDir);
-                FileUtil.deleteFileRescursive(tmpLibraryDir);
             }
         };
 
@@ -400,28 +445,43 @@ public class JSONGameLauncher extends BasicGameLauncher
     }
 
     @Override
-    public void replaceArgument(String key, String value)
+    public void setVariable(String key, String value)
     {
-        replaceArgs.put(key, value);
+        variables.put(key, value);
     }
 
     @Override
     public void addJVMArgument(String arg)
     {
-        jvmArgs.add(arg);
+        customJvmArgs.add(arg);
     }
 
     @Override
     public void addGameArgument(String arg)
     {
-        gameArgs.add(arg);
+        customGameArgs.add(arg);
     }
 
     @Override
     public void setUserInformation(UserInformation profile)
     {
-        replaceArgument("auth_player_name", profile.getUsername());
-        replaceArgument("auth_uuid", profile.getID());
-        replaceArgument("auth_access_token", profile.getAccessToken());
+        setVariable("auth_player_name", profile.getUsername());
+        setVariable("auth_uuid", profile.getID());
+        setVariable("auth_access_token", profile.getAccessToken());
+    }
+
+    @Override
+    public void setFeature(String key, boolean value) {
+        features.put(key, value);
+    }
+
+    @Override
+    public Boolean getFeature(String key) {
+        return features.get(key);
+    }
+
+    @Override
+    public void removeFeature(String key) {
+        features.remove(key);
     }
 }

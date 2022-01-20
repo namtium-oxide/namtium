@@ -1,6 +1,6 @@
 package com.lion328.hydra;
 
-import com.lion328.xenonlauncher.util.OS;
+import com.lion328.xenonlauncher.util.OperatingSystem;
 
 import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
@@ -118,7 +118,7 @@ public class Util
 
     public static File getGameDirectory(String serverName)
     {
-        return new File(OS.getApplicationDataDirectory(),
+        return new File(OperatingSystem.getApplicationDataDirectory(),
                 HydraLauncher.LAUNCHER_DIRECTORY_NAME + File.separator + serverName);
     }
 

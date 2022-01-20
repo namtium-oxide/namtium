@@ -35,7 +35,7 @@ public interface GameLauncher
 
     void setGameDirectory(File dir);
 
-    void replaceArgument(String key, String value);
+    void setVariable(String key, String value);
 
     void addJVMArgument(String arg);
 
@@ -46,4 +46,10 @@ public interface GameLauncher
     void setMaxMemorySize(int mb);
 
     void setUserInformation(UserInformation profile);
+
+    void setFeature(String key, boolean value);
+
+    Boolean getFeature(String key);
+
+    void removeFeature(String key);
 }

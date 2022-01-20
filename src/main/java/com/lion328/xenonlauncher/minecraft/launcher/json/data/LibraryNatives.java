@@ -23,7 +23,7 @@
 package com.lion328.xenonlauncher.minecraft.launcher.json.data;
 
 import com.google.gson.annotations.SerializedName;
-import com.lion328.xenonlauncher.util.OS;
+import com.lion328.xenonlauncher.util.OperatingSystem;
 
 public class LibraryNatives
 {
@@ -42,7 +42,7 @@ public class LibraryNatives
         this.windows = windows;
     }
 
-    public String getNative(OS os, OS.Architecture arch)
+    public String getNative(OperatingSystem os, OperatingSystem.Architecture arch)
     {
         String s;
         switch (os)
@@ -63,6 +63,6 @@ public class LibraryNatives
 
     public String getNative()
     {
-        return getNative(OS.getCurrentOS(), OS.getCurrentArchitecture());
+        return getNative(OperatingSystem.getCurrentOS(), OperatingSystem.getCurrentArchitecture());
     }
 }

@@ -22,6 +22,8 @@
 
 package com.lion328.xenonlauncher.minecraft.launcher.json.data;
 
+import com.lion328.xenonlauncher.minecraft.StartupConfiguration;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,13 +75,15 @@ public class MergedGameVersion extends GameVersion
     }
 
     @Override
-    public String getMinecraftArguments()
-    {
-        if (child.getMinecraftArguments() == null)
-        {
-            return parent.getMinecraftArguments();
-        }
-        return child.getMinecraftArguments();
+    public List<String> getGameArgumentsOnConfig(StartupConfiguration config) {
+        List<String> childArgs = child.getGameArgumentsOnConfig(config);
+        return childArgs == null ? parent.getGameArgumentsOnConfig(config) : childArgs;
+    }
+
+    @Override
+    public List<String> getJVMArgumentsOnConfig(StartupConfiguration config) {
+        List<String> childArgs = child.getJVMArgumentsOnConfig(config);
+        return childArgs == null ? parent.getJVMArgumentsOnConfig(config) : childArgs;
     }
 
     @Override

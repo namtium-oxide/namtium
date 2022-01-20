@@ -32,6 +32,7 @@ import com.lion328.xenonlauncher.downloader.VerifiyFileDownloader;
 import com.lion328.xenonlauncher.downloader.repository.Repository;
 import com.lion328.xenonlauncher.downloader.verifier.FileVerifier;
 import com.lion328.xenonlauncher.downloader.verifier.MessageDigestFileVerifier;
+import com.lion328.xenonlauncher.minecraft.StartupConfiguration;
 import com.lion328.xenonlauncher.minecraft.assets.data.Assets;
 import com.lion328.xenonlauncher.minecraft.assets.downloader.AssetsDownloaderGenerator;
 import com.lion328.xenonlauncher.minecraft.downloader.generator.LibraryDownloaderGenerator;
@@ -41,7 +42,6 @@ import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameLibrary;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameVersion;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.MergedGameVersion;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.gson.GsonFactory;
-import com.lion328.xenonlauncher.util.OS;
 import com.lion328.xenonlauncher.util.URLUtil;
 
 import java.io.File;
@@ -61,9 +61,7 @@ public class MinecraftDownloader implements Downloader
     private final URL assetsURL;
     private final URL assetsIndexesURL;
     private final Repository repository;
-    private final OS os;
-    private final String osVersion;
-    private final OS.Architecture osArch;
+    private final StartupConfiguration startupConfiguration;
     private final Downloader additionalDownloader;
 
     private final List<DownloaderCallback> callbackList;
@@ -86,10 +84,10 @@ public class MinecraftDownloader implements Downloader
 
     public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL, Repository repository, Downloader additionalDownloader)
     {
-        this(id, basepath, gameURL, assetsURL, assetsIndexesURL, repository, OS.getCurrentOS(), OS.getCurrentVersion(), OS.getCurrentArchitecture(), additionalDownloader);
+        this(id, basepath, gameURL, assetsURL, assetsIndexesURL, repository, StartupConfiguration.getRunningConfig(), additionalDownloader);
     }
 
-    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL, Repository repository, OS os, String osVersion, OS.Architecture osArch, Downloader additionalDownloader)
+    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL, Repository repository, StartupConfiguration startupConfiguration, Downloader additionalDownloader)
     {
         this.id = id;
         this.basepath = basepath;
@@ -97,9 +95,7 @@ public class MinecraftDownloader implements Downloader
         this.assetsURL = assetsURL;
         this.assetsIndexesURL = assetsIndexesURL;
         this.repository = repository;
-        this.os = os;
-        this.osVersion = osVersion;
-        this.osArch = osArch;
+        this.startupConfiguration = startupConfiguration;
         this.additionalDownloader = additionalDownloader;
 
         callbackList = new ArrayList<>();
@@ -224,12 +220,12 @@ public class MinecraftDownloader implements Downloader
 
         for (GameLibrary library : versionInfo.getLibraries())
         {
-            if (!library.isAllowed(os, osVersion))
+            if (!library.isAllowed(startupConfiguration))
             {
                 continue;
             }
 
-            generator = new LibraryDownloaderGenerator(library, librariesDir, os, osArch, repository);
+            generator = new LibraryDownloaderGenerator(library, librariesDir, startupConfiguration.getOperatingSystem(), startupConfiguration.getArchitecture(), repository);
             downloaders.addAll(generator.generateDownloaders());
         }
 

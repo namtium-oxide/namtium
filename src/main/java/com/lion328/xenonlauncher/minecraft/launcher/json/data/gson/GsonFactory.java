@@ -25,7 +25,7 @@ package com.lion328.xenonlauncher.minecraft.launcher.json.data.gson;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lion328.xenonlauncher.downloader.repository.DependencyName;
-import com.lion328.xenonlauncher.minecraft.launcher.json.data.type.DependencyNameTypeAdapter;
+import com.lion328.xenonlauncher.minecraft.launcher.json.data.ArgumentUnit;
 
 public class GsonFactory
 {
@@ -38,6 +38,7 @@ public class GsonFactory
         {
             defaultGson = new GsonBuilder()
                     .registerTypeAdapter(DependencyName.class, new DependencyNameTypeAdapter())
+                    .registerTypeAdapter(ArgumentUnit.class, new ArgumentUnit.Deserializer())
                     .create();
         }
 

@@ -35,7 +35,7 @@ import com.lion328.xenonlauncher.minecraft.launcher.json.data.DownloadInformatio
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameLibrary;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.LibraryDownloadInfomation;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.PathDownloadInformation;
-import com.lion328.xenonlauncher.util.OS;
+import com.lion328.xenonlauncher.util.OperatingSystem;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,11 +49,11 @@ public class LibraryDownloaderGenerator implements DownloaderGenerator
 
     private final GameLibrary library;
     private final File librariesDir;
-    private final OS os;
-    private final OS.Architecture arch;
+    private final OperatingSystem os;
+    private final OperatingSystem.Architecture arch;
     private final Repository defaultRepository;
 
-    public LibraryDownloaderGenerator(GameLibrary library, File librariesDir, OS os, OS.Architecture arch, Repository defaultRepository)
+    public LibraryDownloaderGenerator(GameLibrary library, File librariesDir, OperatingSystem os, OperatingSystem.Architecture arch, Repository defaultRepository)
     {
         this.library = library;
         this.librariesDir = librariesDir;

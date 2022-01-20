@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package com.lion328.xenonlauncher.minecraft.launcher.json.data.type;
+package com.lion328.xenonlauncher.minecraft.launcher.json.data.gson;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

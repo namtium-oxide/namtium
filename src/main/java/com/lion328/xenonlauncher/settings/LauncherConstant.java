@@ -29,11 +29,11 @@ public class LauncherConstant
 {
 
     public static final Logger LOGGER;
-    public static final String VERSION;
+    public static final String NAME = "xenonlauncher";
+    public static final String VERSION = "0.3"; // TODO: update in build.gradle
 
     static
     {
-        LOGGER = LogManager.getLogger("XenonLauncher");
-        VERSION = "0.1";
+        LOGGER = LogManager.getLogger(NAME);
     }
 }

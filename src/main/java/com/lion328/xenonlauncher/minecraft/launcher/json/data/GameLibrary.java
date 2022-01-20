@@ -24,7 +24,7 @@ package com.lion328.xenonlauncher.minecraft.launcher.json.data;
 
 import com.google.gson.annotations.SerializedName;
 import com.lion328.xenonlauncher.downloader.repository.DependencyName;
-import com.lion328.xenonlauncher.util.OS;
+import com.lion328.xenonlauncher.minecraft.StartupConfiguration;
 
 import java.util.List;
 
@@ -34,11 +34,11 @@ public class GameLibrary
     @SerializedName("name")
     private DependencyName name;
     @SerializedName("rules")
-    private List<LibraryRule> rules;
+    private List<Rule> rules;
     @SerializedName("natives")
     private LibraryNatives natives;
     @SerializedName("extract")
-    private ExtractRule extractRule;
+    private ExtractConfiguration extractConfiguration;
     @SerializedName("downloads")
     private LibraryDownloadInfomation downloadInfo;
 
@@ -47,12 +47,12 @@ public class GameLibrary
 
     }
 
-    public GameLibrary(DependencyName name, List<LibraryRule> rules, LibraryNatives natives, ExtractRule extractRule, LibraryDownloadInfomation downloadInfo)
+    public GameLibrary(DependencyName name, List<Rule> rules, LibraryNatives natives, ExtractConfiguration extractConfiguration, LibraryDownloadInfomation downloadInfo)
     {
         this.name = name;
         this.rules = rules;
         this.natives = natives;
-        this.extractRule = extractRule;
+        this.extractConfiguration = extractConfiguration;
         this.downloadInfo = downloadInfo;
     }
 
@@ -61,7 +61,7 @@ public class GameLibrary
         return name;
     }
 
-    public List<LibraryRule> getRules()
+    public List<Rule> getRules()
     {
         return rules;
     }
@@ -71,9 +71,9 @@ public class GameLibrary
         return natives;
     }
 
-    public ExtractRule getExtractRule()
+    public ExtractConfiguration getExtractConfiguration()
     {
-        return extractRule;
+        return extractConfiguration;
     }
 
     public LibraryDownloadInfomation getDownloadInfo()
@@ -91,30 +91,8 @@ public class GameLibrary
         return !isNativesLibrary();
     }
 
-    public boolean isAllowed(OS os, String version)
+    public boolean isAllowed(StartupConfiguration config)
     {
-        if (rules == null)
-        {
-            return true;
-        }
-
-        boolean allow = false;
-
-        for (LibraryRule rule : rules)
-        {
-            LibraryRule.SystemIdentifier id = rule.getIdentifier();
-
-            if (id == null || id.isMatch(os, version))
-            {
-                allow = rule.getAction() == LibraryRuleAction.ALLOW;
-            }
-        }
-
-        return allow;
-    }
-
-    public boolean isAllowed()
-    {
-        return isAllowed(OS.getCurrentOS(), OS.getCurrentVersion());
+        return Rule.isAllowed(rules, config);
     }
 }
