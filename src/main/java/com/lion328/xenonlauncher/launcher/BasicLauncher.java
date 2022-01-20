@@ -9,7 +9,6 @@ import com.lion328.xenonlauncher.minecraft.api.authentication.MinecraftAuthentic
 import com.lion328.xenonlauncher.minecraft.api.authentication.UserInformation;
 import com.lion328.xenonlauncher.minecraft.api.authentication.exception.MinecraftAuthenticatorException;
 import com.lion328.xenonlauncher.minecraft.launcher.GameLauncher;
-import com.lion328.xenonlauncher.util.io.ProcessOutput;
 
 import java.io.IOException;
 

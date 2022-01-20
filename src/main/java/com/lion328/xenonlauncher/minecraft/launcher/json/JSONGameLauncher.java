@@ -16,8 +16,8 @@ import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameLibrary;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.GameVersion;
 import com.lion328.xenonlauncher.minecraft.launcher.json.exception.LauncherVersionException;
 import com.lion328.xenonlauncher.settings.LauncherConstant;
-import com.lion328.xenonlauncher.util.io.FileUtil;
 import com.lion328.xenonlauncher.util.OperatingSystem;
+import com.lion328.xenonlauncher.util.io.FileUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
