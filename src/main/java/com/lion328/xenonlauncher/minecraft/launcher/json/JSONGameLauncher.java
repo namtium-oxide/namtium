@@ -335,7 +335,6 @@ public class JSONGameLauncher extends BasicGameLauncher {
 
         ProcessBuilder pb = buildProcess(nativesDir, classpath, config);
         final Process process = pb.start();
-        System.out.println(pb.command());
 
         final Thread removeFilesThread = new Thread("Remove natives and patched libraries") {
 
