@@ -59,7 +59,7 @@ public class GameVersion
     private String assets = "legacy";
     @SerializedName("downloads")
     private Map<String, DownloadInformation> downloads;
-    @SerializedName("assetInfo")
+    @SerializedName("assetIndex")
     private AssetInformation assetInformation;
     @SerializedName("inheritsFrom")
     private String parentId;

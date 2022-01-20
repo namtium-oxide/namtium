@@ -51,6 +51,11 @@ public class MultipleFileVerifier implements FileVerifier
 
     public MultipleFileVerifier(List<FileVerifier> verifiers, int logicType)
     {
+        if (logicType != LOGIC_OR && logicType != LOGIC_AND)
+        {
+            throw new IllegalArgumentException("Logic must be 'or' or 'and' only");
+        }
+
         this.verifiers = verifiers;
         this.logicType = logicType;
     }
@@ -72,6 +77,10 @@ public class MultipleFileVerifier implements FileVerifier
             }
         }
 
-        return false;
+        if (logicType == LOGIC_OR) {
+            return false;
+        }
+
+        return true;
     }
 }

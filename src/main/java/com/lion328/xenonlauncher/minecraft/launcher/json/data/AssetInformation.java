@@ -30,17 +30,13 @@ public class AssetInformation extends DownloadInformation
 {
 
     @SerializedName("totalSize")
-    private int totalSizeInBytes;
+    private int totalSizeInBytes = -1;
     @SerializedName("id")
     private String id;
-    @SerializedName("known")
-    private boolean knownSizeAndHash = false;
 
     public AssetInformation(int totalSizeInBytes, String id, URL url, String sha1Hash, int sizeInBytes)
     {
         super(url, sha1Hash, sizeInBytes);
-
-        knownSizeAndHash = true;
     }
 
     public int getTotalSizeInBytes()
@@ -55,6 +51,6 @@ public class AssetInformation extends DownloadInformation
 
     public boolean isKnownSizeAndHash()
     {
-        return knownSizeAndHash;
+        return totalSizeInBytes != -1 && getSHA1Hash() != null;
     }
 }
