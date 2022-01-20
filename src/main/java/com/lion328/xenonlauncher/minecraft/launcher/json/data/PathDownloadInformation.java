@@ -7,25 +7,21 @@ import com.google.gson.annotations.SerializedName;
 
 import java.net.URL;
 
-public class PathDownloadInformation extends DownloadInformation
-{
+public class PathDownloadInformation extends DownloadInformation {
 
     @SerializedName("path")
     private String path;
 
-    public PathDownloadInformation()
-    {
+    public PathDownloadInformation() {
 
     }
 
-    public PathDownloadInformation(URL url, String sha1Hash, int sizeInBytes, String path)
-    {
+    public PathDownloadInformation(URL url, String sha1Hash, int sizeInBytes, String path) {
         super(url, sha1Hash, sizeInBytes);
         this.path = path;
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 }

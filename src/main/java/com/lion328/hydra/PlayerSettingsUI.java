@@ -3,8 +3,7 @@
 
 package com.lion328.hydra;
 
-public interface PlayerSettingsUI
-{
+public interface PlayerSettingsUI {
 
     void setVisible(boolean visible);
 

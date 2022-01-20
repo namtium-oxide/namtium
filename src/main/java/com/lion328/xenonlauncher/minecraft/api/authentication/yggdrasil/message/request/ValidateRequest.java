@@ -5,32 +5,27 @@ package com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.message
 
 import com.google.gson.annotations.SerializedName;
 
-public class ValidateRequest
-{
+public class ValidateRequest {
 
     @SerializedName("accessToken")
     private String accessToken;
     @SerializedName("clientToken")
     private String clientToken;
 
-    public ValidateRequest()
-    {
+    public ValidateRequest() {
 
     }
 
-    public ValidateRequest(String accessToken, String clientToken)
-    {
+    public ValidateRequest(String accessToken, String clientToken) {
         this.accessToken = accessToken;
         this.clientToken = clientToken;
     }
 
-    public String getAccessToken()
-    {
+    public String getAccessToken() {
         return accessToken;
     }
 
-    public String getClientToken()
-    {
+    public String getClientToken() {
         return clientToken;
     }
 }

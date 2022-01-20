@@ -7,8 +7,7 @@ import com.lion328.xenonlauncher.minecraft.api.authentication.UserInformation;
 
 import java.io.File;
 
-public interface GameLauncher
-{
+public interface GameLauncher {
 
     Process launch() throws Exception;
 

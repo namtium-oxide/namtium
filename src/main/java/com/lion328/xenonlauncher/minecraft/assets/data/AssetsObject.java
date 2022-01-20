@@ -5,32 +5,27 @@ package com.lion328.xenonlauncher.minecraft.assets.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AssetsObject
-{
+public class AssetsObject {
 
     @SerializedName("hash")
     private String hash;
     @SerializedName("size")
     private long size;
 
-    public AssetsObject()
-    {
+    public AssetsObject() {
 
     }
 
-    public AssetsObject(String hash, long size)
-    {
+    public AssetsObject(String hash, long size) {
         this.hash = hash;
         this.size = size;
     }
 
-    public String getHash()
-    {
+    public String getHash() {
         return hash;
     }
 
-    public long getSize()
-    {
+    public long getSize() {
         return size;
     }
 }

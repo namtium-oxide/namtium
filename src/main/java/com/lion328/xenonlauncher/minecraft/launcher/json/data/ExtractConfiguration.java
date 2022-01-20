@@ -7,24 +7,20 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ExtractConfiguration
-{
+public class ExtractConfiguration {
 
     @SerializedName("exclude")
     private List<String> exclude;
 
-    public ExtractConfiguration()
-    {
+    public ExtractConfiguration() {
 
     }
 
-    public ExtractConfiguration(List<String> excludeList)
-    {
+    public ExtractConfiguration(List<String> excludeList) {
         exclude = excludeList;
     }
 
-    public List<String> getExcludeList()
-    {
+    public List<String> getExcludeList() {
         return exclude;
     }
 }

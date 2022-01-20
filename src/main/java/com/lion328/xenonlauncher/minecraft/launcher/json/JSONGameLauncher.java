@@ -34,8 +34,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class JSONGameLauncher extends BasicGameLauncher
-{
+public class JSONGameLauncher extends BasicGameLauncher {
 
     private final List<String> customJvmArgs = new ArrayList<>();
     private final List<String> customGameArgs = new ArrayList<>();
@@ -54,15 +53,12 @@ public class JSONGameLauncher extends BasicGameLauncher
     private File virtualAssetsDir;
     private File gameVirtualAssetsDir;
 
-    public JSONGameLauncher(GameVersion version, File basepathDir) throws LauncherVersionException
-    {
+    public JSONGameLauncher(GameVersion version, File basepathDir) throws LauncherVersionException {
         this(version, basepathDir, true);
     }
 
-    public JSONGameLauncher(GameVersion version, File basepathDir, boolean allowNativesArchFallback) throws LauncherVersionException
-    {
-        if (version.getMinimumLauncherVersion() > GameVersion.MINIMUM_LAUNCHER_VERSION_SUPPORTED)
-        {
+    public JSONGameLauncher(GameVersion version, File basepathDir, boolean allowNativesArchFallback) throws LauncherVersionException {
+        if (version.getMinimumLauncherVersion() > GameVersion.MINIMUM_LAUNCHER_VERSION_SUPPORTED) {
             throw new LauncherVersionException("Unsupported launcher version (" + version.getMinimumLauncherVersion() + ")");
         }
 
@@ -80,13 +76,11 @@ public class JSONGameLauncher extends BasicGameLauncher
         initialize();
     }
 
-    private static File findJavaExecutable()
-    {
+    private static File findJavaExecutable() {
         return new File(System.getProperty("java.home"), "bin/java");
     }
 
-    private void initialize()
-    {
+    private void initialize() {
         gameVirtualAssetsDir = new File(virtualAssetsDir, versionInfo.getAssets());
 
         variables.put("version_name", versionInfo.getID());
@@ -103,33 +97,27 @@ public class JSONGameLauncher extends BasicGameLauncher
         variables.put("launcher_version", LauncherConstant.VERSION);
     }
 
-    private File getDependencyFile(DependencyName name)
-    {
+    private File getDependencyFile(DependencyName name) {
         return getDependencyFile(name, null);
     }
 
-    private File getDependencyFile(DependencyName name, String classifier)
-    {
+    private File getDependencyFile(DependencyName name, String classifier) {
         return name.getFile(librariesDir, classifier);
     }
 
-    private void extractNatives(File nativesDir, StartupConfiguration config) throws IOException
-    {
+    private void extractNatives(File nativesDir, StartupConfiguration config) throws IOException {
         ZipInputStream zip;
         OutputStream out;
         ZipEntry entry;
         byte[] buffer = new byte[4096];
         int read;
 
-        for (GameLibrary library : versionInfo.getLibraries())
-        {
-            if (library.isNativesLibrary() && library.isAllowed(config))
-            {
+        for (GameLibrary library : versionInfo.getLibraries()) {
+            if (library.isNativesLibrary() && library.isAllowed(config)) {
                 File nativesFile = getDependencyFile(library.getDependencyName(),
                         library.getNatives().getNative());
 
-                if (allowNativesArchFallback && !nativesFile.isFile() && config.getArchitecture() != OperatingSystem.Architecture.ARCH_32)
-                {
+                if (allowNativesArchFallback && !nativesFile.isFile() && config.getArchitecture() != OperatingSystem.Architecture.ARCH_32) {
                     nativesFile = getDependencyFile(library.getDependencyName(),
                             library.getNatives().getNative(config.getOperatingSystem(), OperatingSystem.Architecture.ARCH_32));
                 }
@@ -140,14 +128,10 @@ public class JSONGameLauncher extends BasicGameLauncher
                 zip = new ZipInputStream(new FileInputStream(nativesFile));
 
                 librariesLoop:
-                for (; (entry = zip.getNextEntry()) != null; zip.closeEntry())
-                {
-                    if (excludeList != null)
-                    {
-                        for (String exclude : excludeList)
-                        {
-                            if (entry.getName().startsWith(exclude))
-                            {
+                for (; (entry = zip.getNextEntry()) != null; zip.closeEntry()) {
+                    if (excludeList != null) {
+                        for (String exclude : excludeList) {
+                            if (entry.getName().startsWith(exclude)) {
                                 continue librariesLoop;
                             }
                         }
@@ -155,10 +139,8 @@ public class JSONGameLauncher extends BasicGameLauncher
 
                     File file = new File(nativesDir, entry.getName());
 
-                    if (entry.isDirectory())
-                    {
-                        if (!file.isDirectory() && !file.mkdirs())
-                        {
+                    if (entry.isDirectory()) {
+                        if (!file.isDirectory() && !file.mkdirs()) {
                             throw new IOException("Can't create directory: " + file.getAbsolutePath());
                         }
 
@@ -166,15 +148,13 @@ public class JSONGameLauncher extends BasicGameLauncher
                     }
 
                     File parentFile = file.getParentFile();
-                    if (!parentFile.exists() && !parentFile.mkdirs())
-                    {
+                    if (!parentFile.exists() && !parentFile.mkdirs()) {
                         throw new IOException("Can't create directory: " + parentFile.getAbsolutePath());
                     }
 
                     out = new FileOutputStream(file);
 
-                    while ((read = zip.read(buffer)) != -1)
-                    {
+                    while ((read = zip.read(buffer)) != -1) {
                         out.write(buffer, 0, read);
                     }
 
@@ -186,12 +166,10 @@ public class JSONGameLauncher extends BasicGameLauncher
         }
     }
 
-    private void installVirtualAssets() throws IOException
-    {
+    private void installVirtualAssets() throws IOException {
         File assetsFile = new File(assetsIndexesDir, versionInfo.getAssets() + ".json");
 
-        if (!assetsFile.isFile())
-        {
+        if (!assetsFile.isFile()) {
             return;
         }
 
@@ -200,47 +178,38 @@ public class JSONGameLauncher extends BasicGameLauncher
         new VirtualAssetsInstaller(assets, assetsObjectsDir, gameVirtualAssetsDir).install();
     }
 
-    private File getLibraryClasspath(GameLibrary original) throws Exception
-    {
+    private File getLibraryClasspath(GameLibrary original) throws Exception {
         DependencyName depName = original.getDependencyName();
         File libFile;
 
         if (original.getDownloadInfo() == null ||
                 original.getDownloadInfo().getArtifactInfo() == null ||
-                original.getDownloadInfo().getArtifactInfo().getPath() == null)
-        {
+                original.getDownloadInfo().getArtifactInfo().getPath() == null) {
             libFile = getDependencyFile(depName);
-        }
-        else
-        {
+        } else {
             libFile = new File(librariesDir, original.getDownloadInfo().getArtifactInfo().getPath());
         }
 
-        if (libFile != null && !libFile.isFile())
-        {
+        if (libFile != null && !libFile.isFile()) {
             throw new FileNotFoundException("Library \"" + libFile.getAbsolutePath() + "\" is missing!");
         }
 
         return libFile;
     }
 
-    private String buildClasspath(StartupConfiguration config) throws Exception
-    {
+    private String buildClasspath(StartupConfiguration config) throws Exception {
         StringBuilder sb = new StringBuilder();
 
         File versionJar = versionInfo.getJarFile(basepathDir);
 
-        if (!versionJar.isFile())
-        {
+        if (!versionJar.isFile()) {
             throw new FileNotFoundException("Game JAR \"" + versionJar.getAbsolutePath() + "\" is missing");
         }
 
         sb.append(versionJar.getAbsolutePath());
 
-        for (GameLibrary library : versionInfo.getLibraries())
-        {
-            if (!library.isJavaLibrary() || !library.isAllowed(config))
-            {
+        for (GameLibrary library : versionInfo.getLibraries()) {
+            if (!library.isJavaLibrary() || !library.isAllowed(config)) {
                 continue;
             }
 
@@ -251,29 +220,23 @@ public class JSONGameLauncher extends BasicGameLauncher
         return sb.toString();
     }
 
-    private String substituteVariables(String s, Map<String, String> map)
-    {
+    private String substituteVariables(String s, Map<String, String> map) {
         StringBuilder sb = new StringBuilder();
 
         int prev = 0;
         int start = prev;
-        while ((start = s.indexOf("${", start)) != -1)
-        {
+        while ((start = s.indexOf("${", start)) != -1) {
             sb.append(s, prev, start);
 
             int tail = s.indexOf("}", start);
-            if (tail == -1)
-            {
+            if (tail == -1) {
                 break;
             }
 
             String key = s.substring(start + 2, tail);
-            if (map.containsKey(key))
-            {
+            if (map.containsKey(key)) {
                 sb.append(map.get(key));
-            }
-            else
-            {
+            } else {
                 sb.append(s, start, tail + 1);
             }
 
@@ -286,34 +249,27 @@ public class JSONGameLauncher extends BasicGameLauncher
         return sb.toString();
     }
 
-    private List<String> substituteVariables(Iterable<String> iter, Map<String, String> map)
-    {
+    private List<String> substituteVariables(Iterable<String> iter, Map<String, String> map) {
         List<String> result = new ArrayList<>();
-        for (String s : iter)
-        {
+        for (String s : iter) {
             result.add(substituteVariables(s, map));
         }
         return result;
     }
 
-    private List<String> substituteVariables(Iterable<String> iter, StartupConfiguration config)
-    {
+    private List<String> substituteVariables(Iterable<String> iter, StartupConfiguration config) {
         return substituteVariables(iter, config.getVariables());
     }
 
-    private List<String> buildJVMArgs(File nativesDir, String classpath, StartupConfiguration config) throws Exception
-    {
+    private List<String> buildJVMArgs(File nativesDir, String classpath, StartupConfiguration config) throws Exception {
         List<String> result = new ArrayList<>();
 
         List<String> fromManifest = versionInfo.getJVMArgumentsOnConfig(config);
-        if (fromManifest == null)
-        {
+        if (fromManifest == null) {
             result.add("-cp");
             result.add(classpath);
             result.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
-        }
-        else
-        {
+        } else {
             result.addAll(fromManifest);
         }
 
@@ -323,13 +279,11 @@ public class JSONGameLauncher extends BasicGameLauncher
         return substituteVariables(result, config);
     }
 
-    private List<String> buildGameArgs(StartupConfiguration config)
-    {
+    private List<String> buildGameArgs(StartupConfiguration config) {
         List<String> result = new ArrayList<>();
         List<String> argsManifest = versionInfo.getGameArgumentsOnConfig(config);
 
-        if (argsManifest != null)
-        {
+        if (argsManifest != null) {
             result.addAll(argsManifest);
         }
 
@@ -338,8 +292,7 @@ public class JSONGameLauncher extends BasicGameLauncher
         return substituteVariables(result, config);
     }
 
-    private List<String> buildProcessArgs(File nativesDir, String classpath, StartupConfiguration config) throws Exception
-    {
+    private List<String> buildProcessArgs(File nativesDir, String classpath, StartupConfiguration config) throws Exception {
         ArrayList<String> list = new ArrayList<>();
         list.add(findJavaExecutable().getAbsolutePath());
         list.addAll(buildJVMArgs(nativesDir, classpath, config));
@@ -347,21 +300,18 @@ public class JSONGameLauncher extends BasicGameLauncher
         return list;
     }
 
-    private ProcessBuilder buildProcess(File nativesDir, String classpath, StartupConfiguration config) throws Exception
-    {
+    private ProcessBuilder buildProcess(File nativesDir, String classpath, StartupConfiguration config) throws Exception {
         ProcessBuilder processBuilder = new ProcessBuilder(buildProcessArgs(nativesDir, classpath, config));
         processBuilder.directory(gameDir);
         return processBuilder;
     }
 
-    public void setUserProperties(UserProperties properties)
-    {
+    public void setUserProperties(UserProperties properties) {
         variables.put("user_properties", new Gson().toJson(properties.getProperties()));
     }
 
     @Override
-    public Process launch() throws Exception
-    {
+    public Process launch() throws Exception {
         long time = System.nanoTime();
 
         File versionDir = new File(versionsDir, versionInfo.getID());
@@ -379,8 +329,7 @@ public class JSONGameLauncher extends BasicGameLauncher
 
         extractNatives(nativesDir, config);
 
-        if (versionInfo.getGameArgumentsOnConfig(config).contains("${game_assets}"))
-        {
+        if (versionInfo.getGameArgumentsOnConfig(config).contains("${game_assets}")) {
             installVirtualAssets();
         }
 
@@ -388,18 +337,13 @@ public class JSONGameLauncher extends BasicGameLauncher
         final Process process = pb.start();
         System.out.println(pb.command());
 
-        final Thread removeFilesThread = new Thread("Remove natives and patched libraries")
-        {
+        final Thread removeFilesThread = new Thread("Remove natives and patched libraries") {
 
             @Override
-            public void run()
-            {
-                try
-                {
+            public void run() {
+                try {
                     process.waitFor();
-                }
-                catch (InterruptedException e)
-                {
+                } catch (InterruptedException e) {
                     LauncherConstant.LOGGER.catching(e);
                 }
 
@@ -409,18 +353,13 @@ public class JSONGameLauncher extends BasicGameLauncher
 
         removeFilesThread.start();
 
-        Runtime.getRuntime().addShutdownHook(new Thread("Finish remove unused files thread")
-        {
+        Runtime.getRuntime().addShutdownHook(new Thread("Finish remove unused files thread") {
 
             @Override
-            public void run()
-            {
-                try
-                {
+            public void run() {
+                try {
                     removeFilesThread.join(15000);
-                }
-                catch (InterruptedException e)
-                {
+                } catch (InterruptedException e) {
                     LauncherConstant.LOGGER.catching(e);
                 }
             }
@@ -430,38 +369,32 @@ public class JSONGameLauncher extends BasicGameLauncher
     }
 
     @Override
-    public File getGameDirectory()
-    {
+    public File getGameDirectory() {
         return gameDir;
     }
 
     @Override
-    public void setGameDirectory(File dir)
-    {
+    public void setGameDirectory(File dir) {
         gameDir = dir;
     }
 
     @Override
-    public void setVariable(String key, String value)
-    {
+    public void setVariable(String key, String value) {
         variables.put(key, value);
     }
 
     @Override
-    public void addJVMArgument(String arg)
-    {
+    public void addJVMArgument(String arg) {
         customJvmArgs.add(arg);
     }
 
     @Override
-    public void addGameArgument(String arg)
-    {
+    public void addGameArgument(String arg) {
         customGameArgs.add(arg);
     }
 
     @Override
-    public void setUserInformation(UserInformation profile)
-    {
+    public void setUserInformation(UserInformation profile) {
         setVariable("auth_player_name", profile.getUsername());
         setVariable("auth_uuid", profile.getID());
         setVariable("auth_access_token", profile.getAccessToken());

@@ -11,16 +11,14 @@ import com.lion328.xenonlauncher.util.URLUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Repositories
-{
+public class Repositories {
 
     public static final List<Repository> DEFAULT_REPOSITORIES;
 
     public static final MavenRepository MINECRAFT_REPOSITORY;
     public static final MavenRepository MAVENCENTRAL_REPOSITORY;
 
-    static
-    {
+    static {
         DEFAULT_REPOSITORIES = new ArrayList<>();
         MINECRAFT_REPOSITORY = new MavenRepository(URLUtil.constantURL("https://libraries.minecraft.net/"));
         MAVENCENTRAL_REPOSITORY = new MavenRepository(URLUtil.constantURL("http://repo1.maven.org/maven2/"));
@@ -29,8 +27,7 @@ public class Repositories
         //DEFAULT_REPOSITORY.add(MAVENCENTRAL_REPOSITORY);
     }
 
-    public static final Repository getRepository()
-    {
+    public static final Repository getRepository() {
         return MirroredRepository.fromRepositoryList(DEFAULT_REPOSITORIES);
     }
 }

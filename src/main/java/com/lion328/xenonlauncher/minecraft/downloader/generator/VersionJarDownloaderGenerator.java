@@ -21,8 +21,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
-public class VersionJarDownloaderGenerator implements DownloaderGenerator
-{
+public class VersionJarDownloaderGenerator implements DownloaderGenerator {
 
     public static final URL DEFAULT_MINECRAFT_VERSIONS = URLUtil.constantURL("https://s3.amazonaws.com/Minecraft.Download/versions/");
 
@@ -30,43 +29,35 @@ public class VersionJarDownloaderGenerator implements DownloaderGenerator
     private final File file;
     private final URL downloadURL;
 
-    public VersionJarDownloaderGenerator(GameVersion info, File file) throws MalformedURLException
-    {
+    public VersionJarDownloaderGenerator(GameVersion info, File file) throws MalformedURLException {
         this(info, file, DEFAULT_MINECRAFT_VERSIONS);
     }
 
-    public VersionJarDownloaderGenerator(GameVersion info, File file, URL downloadURL) throws MalformedURLException
-    {
+    public VersionJarDownloaderGenerator(GameVersion info, File file, URL downloadURL) throws MalformedURLException {
         this.info = info;
         this.file = file;
         this.downloadURL = downloadURL;
     }
 
-    public GameVersion getGameVersion()
-    {
+    public GameVersion getGameVersion() {
         return info;
     }
 
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 
     @Override
-    public List<Downloader> generateDownloaders() throws IOException
-    {
+    public List<Downloader> generateDownloaders() throws IOException {
         URL jarURL = null;
         FileDownloader downloader;
 
-        if (info.getDownloadsInformation() != null)
-        {
+        if (info.getDownloadsInformation() != null) {
             DownloadInformation downloadInfo = info.getDownloadsInformation().get(GameVersion.DOWNLOAD_CLIENT);
             jarURL = downloadInfo.getURL();
             downloader = new URLFileDownloader(jarURL, file);
             downloader = new VerifiyFileDownloader(downloader, new MinecraftFileVerifier(downloadInfo));
-        }
-        else
-        {
+        } else {
             jarURL = new URL(downloadURL, info.getJarName() + "/" + info.getJarName() + ".jar");
 
             String md5 = URLUtil.getETag(jarURL).trim().replace("\"", "");

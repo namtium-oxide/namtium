@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AssetsDownloaderGenerator implements DownloaderGenerator
-{
+public class AssetsDownloaderGenerator implements DownloaderGenerator {
 
     public static final URL DEFAULT_ASSETS_URL = URLUtil.constantURL("http://resources.download.minecraft.net/");
     public static final URL DEFAULT_ASSETS_INDEXES_URL = URLUtil.constantURL("https://s3.amazonaws.com/Minecraft.Download/indexes/");
@@ -33,21 +32,18 @@ public class AssetsDownloaderGenerator implements DownloaderGenerator
     private final File assetsDir;
     private final URL downloadURL;
 
-    public AssetsDownloaderGenerator(Assets info, File assetsDir, URL downloadURL)
-    {
+    public AssetsDownloaderGenerator(Assets info, File assetsDir, URL downloadURL) {
         this.info = info;
         this.assetsDir = assetsDir;
         this.downloadURL = downloadURL;
     }
 
     @Override
-    public List<Downloader> generateDownloaders() throws IOException
-    {
+    public List<Downloader> generateDownloaders() throws IOException {
         Map<String, AssetsObject> objects = info.getObjects();
         List<Downloader> downloaders = new ArrayList<>();
 
-        for (Map.Entry<String, AssetsObject> entry : objects.entrySet())
-        {
+        for (Map.Entry<String, AssetsObject> entry : objects.entrySet()) {
             AssetsObject object = entry.getValue();
 
             String path = object.getHash().substring(0, 2) + "/" + object.getHash();

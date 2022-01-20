@@ -8,8 +8,7 @@ import com.lion328.xenonlauncher.minecraft.api.authentication.UserInformation;
 
 import java.io.IOException;
 
-public interface Launcher
-{
+public interface Launcher {
 
     void start();
 

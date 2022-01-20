@@ -5,8 +5,7 @@ package com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserProfile
-{
+public class UserProfile {
 
     @SerializedName("id")
     private String id;
@@ -15,30 +14,25 @@ public class UserProfile
     @SerializedName("legacy")
     private boolean legacy = false;
 
-    public UserProfile()
-    {
+    public UserProfile() {
 
     }
 
-    public UserProfile(String id, String name, boolean legacy)
-    {
+    public UserProfile(String id, String name, boolean legacy) {
         this.id = id;
         this.name = name;
         this.legacy = legacy;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public boolean isLegacy()
-    {
+    public boolean isLegacy() {
         return legacy;
     }
 }

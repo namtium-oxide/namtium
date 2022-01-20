@@ -21,8 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
-public class VirtualAssetsInstaller
-{
+public class VirtualAssetsInstaller {
 
     private static final DateFormat lastUsedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US);
 
@@ -32,8 +31,7 @@ public class VirtualAssetsInstaller
     private final Path objectsDirPath;
     private final File lastUsedFile;
 
-    public VirtualAssetsInstaller(Assets assets, File objectsDir, File assetsRoot)
-    {
+    public VirtualAssetsInstaller(Assets assets, File objectsDir, File assetsRoot) {
         this.assets = assets;
         this.objectsDir = objectsDir;
         this.assetsRoot = assetsRoot;
@@ -42,36 +40,29 @@ public class VirtualAssetsInstaller
         this.lastUsedFile = new File(assetsRoot, ".lastused");
     }
 
-    public Assets getAssets()
-    {
+    public Assets getAssets() {
         return assets;
     }
 
-    public File getObjectsDirectory()
-    {
+    public File getObjectsDirectory() {
         return objectsDir;
     }
 
-    public File getAssetsRootDirectory()
-    {
+    public File getAssetsRootDirectory() {
         return assetsRoot;
     }
 
-    public Path getObjectPath(AssetsObject object)
-    {
+    public Path getObjectPath(AssetsObject object) {
         return objectsDirPath.resolve(object.getHash().substring(0, 2)).resolve(object.getHash());
     }
 
-    public void install() throws IOException
-    {
+    public void install() throws IOException {
         File targetFile;
 
-        for (Map.Entry<String, AssetsObject> entry : assets.getObjects().entrySet())
-        {
+        for (Map.Entry<String, AssetsObject> entry : assets.getObjects().entrySet()) {
             targetFile = new File(assetsRoot, entry.getKey());
 
-            if (new MessageDigestFileVerifier(MessageDigestFileVerifier.SHA_1, entry.getValue().getHash()).isValid(targetFile))
-            {
+            if (new MessageDigestFileVerifier(MessageDigestFileVerifier.SHA_1, entry.getValue().getHash()).isValid(targetFile)) {
                 continue;
             }
 
@@ -83,8 +74,7 @@ public class VirtualAssetsInstaller
         updateLastUsed(System.currentTimeMillis());
     }
 
-    private void updateLastUsed(long millis) throws IOException
-    {
+    private void updateLastUsed(long millis) throws IOException {
         OutputStream out = new FileOutputStream(lastUsedFile);
         out.write(lastUsedFormat.format(new Date(millis)).getBytes(StandardCharsets.UTF_8));
         out.close();

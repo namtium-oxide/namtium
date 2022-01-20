@@ -9,23 +9,19 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
-public class WhitelistFileVerifier implements FileVerifier
-{
+public class WhitelistFileVerifier implements FileVerifier {
 
     private final List<String> whitelist;
     private final Path gameDirectoryPath;
 
-    public WhitelistFileVerifier(List<String> whitelist, Path gameDirectoryPath)
-    {
+    public WhitelistFileVerifier(List<String> whitelist, Path gameDirectoryPath) {
         this.whitelist = whitelist;
         this.gameDirectoryPath = gameDirectoryPath;
     }
 
     @Override
-    public boolean isValid(File file)
-    {
-        if (!file.exists())
-        {
+    public boolean isValid(File file) {
+        if (!file.exists()) {
             return false;
         }
 
@@ -33,20 +29,16 @@ public class WhitelistFileVerifier implements FileVerifier
         String filePathRelativize = gameDirectoryPath.relativize(file.toPath()).toString();
         String filePathRelativizeURI = filePathRelativize.replace('\\', '/');
 
-        if (file.isDirectory() && !filePathRelativizeURI.endsWith("/"))
-        {
+        if (file.isDirectory() && !filePathRelativizeURI.endsWith("/")) {
             filePathRelativizeURI = filePathRelativizeURI + "/";
         }
 
-        for (String filename : whitelist)
-        {
-            if (filePathRelativizeURI.equals(filename))
-            {
+        for (String filename : whitelist) {
+            if (filePathRelativizeURI.equals(filename)) {
                 return true;
             }
 
-            if (filename.endsWith("/") && filePathRelativizeURI.startsWith(filename))
-            {
+            if (filename.endsWith("/") && filePathRelativizeURI.startsWith(filename)) {
                 return true;
             }
         }

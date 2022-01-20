@@ -5,31 +5,25 @@ package com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.excepti
 
 import com.lion328.xenonlauncher.minecraft.api.authentication.exception.MinecraftAuthenticatorException;
 
-public class YggdrasilAPIException extends MinecraftAuthenticatorException
-{
+public class YggdrasilAPIException extends MinecraftAuthenticatorException {
 
-    public YggdrasilAPIException()
-    {
+    public YggdrasilAPIException() {
         super();
     }
 
-    public YggdrasilAPIException(String message)
-    {
+    public YggdrasilAPIException(String message) {
         super(message);
     }
 
-    public YggdrasilAPIException(String message, Throwable cause)
-    {
+    public YggdrasilAPIException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public YggdrasilAPIException(Throwable cause)
-    {
+    public YggdrasilAPIException(Throwable cause) {
         super(cause);
     }
 
-    protected YggdrasilAPIException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
-    {
+    protected YggdrasilAPIException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

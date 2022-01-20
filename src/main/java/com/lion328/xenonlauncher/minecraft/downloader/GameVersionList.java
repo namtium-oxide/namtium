@@ -19,28 +19,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameVersionList
-{
+public class GameVersionList {
 
     public static final URL MANIFEST_URL;
 
     private final Map<String, URL> versions;
 
-    public GameVersionList(Map<String, URL> versions)
-    {
+    public GameVersionList(Map<String, URL> versions) {
         this.versions = versions;
     }
 
-    public URL getVersionManifestURL(String version)
-    {
+    public URL getVersionManifestURL(String version) {
         return versions.get(version);
     }
 
-    public static GameVersionList getVersionsFromMojang() throws IOException
-    {
+    public static GameVersionList getVersionsFromMojang() throws IOException {
         HttpURLConnection conn = (HttpURLConnection) MANIFEST_URL.openConnection();
-        if (conn.getResponseCode() != 200)
-        {
+        if (conn.getResponseCode() != 200) {
             throw new IOException("Server returns " + conn.getResponseCode());
         }
 
@@ -48,11 +43,11 @@ public class GameVersionList
         Reader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         JsonObject obj = gson.fromJson(reader, JsonObject.class);
         List<VersionInfo> versions = gson.fromJson(obj.get("versions"),
-                new TypeToken<List<VersionInfo>>() {}.getType());
+                new TypeToken<List<VersionInfo>>() {
+                }.getType());
 
         Map<String, URL> result = new HashMap<>();
-        for (VersionInfo v : versions)
-        {
+        for (VersionInfo v : versions) {
             result.put(v.id, v.url);
         }
 

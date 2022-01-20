@@ -25,8 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class LibraryDownloaderGenerator implements DownloaderGenerator
-{
+public class LibraryDownloaderGenerator implements DownloaderGenerator {
 
     private final GameLibrary library;
     private final File librariesDir;
@@ -34,8 +33,7 @@ public class LibraryDownloaderGenerator implements DownloaderGenerator
     private final OperatingSystem.Architecture arch;
     private final Repository defaultRepository;
 
-    public LibraryDownloaderGenerator(GameLibrary library, File librariesDir, OperatingSystem os, OperatingSystem.Architecture arch, Repository defaultRepository)
-    {
+    public LibraryDownloaderGenerator(GameLibrary library, File librariesDir, OperatingSystem os, OperatingSystem.Architecture arch, Repository defaultRepository) {
         this.library = library;
         this.librariesDir = librariesDir;
         this.os = os;
@@ -43,29 +41,22 @@ public class LibraryDownloaderGenerator implements DownloaderGenerator
         this.defaultRepository = defaultRepository;
     }
 
-    private FileDownloader getDownloader(File file, String classifier) throws IOException
-    {
+    private FileDownloader getDownloader(File file, String classifier) throws IOException {
         FileDownloader downloader;
         FileVerifier verifier;
 
-        if (library.getDownloadInfo() != null)
-        {
+        if (library.getDownloadInfo() != null) {
             DownloadInformation downloadInfo;
 
-            if (classifier == null)
-            {
+            if (classifier == null) {
                 downloadInfo = library.getDownloadInfo().getArtifactInfo();
-            }
-            else
-            {
+            } else {
                 downloadInfo = library.getDownloadInfo().getClassfiersInfo().get(classifier);
             }
 
             downloader = new URLFileDownloader(downloadInfo.getURL(), file);
             verifier = new MinecraftFileVerifier(downloadInfo);
-        }
-        else
-        {
+        } else {
             DependencyName name = library.getDependencyName();
             verifier = new MinecraftFileVerifier(defaultRepository, name, classifier);
             downloader = defaultRepository.getDownloader(name, classifier, null, file);
@@ -75,49 +66,37 @@ public class LibraryDownloaderGenerator implements DownloaderGenerator
     }
 
     @Override
-    public List<Downloader> generateDownloaders() throws IOException
-    {
+    public List<Downloader> generateDownloaders() throws IOException {
         List<Downloader> downloaders = new ArrayList<>();
         File file;
         LibraryDownloadInfomation downloadInfo = library.getDownloadInfo();
         PathDownloadInformation artifact;
         Map<String, PathDownloadInformation> classifiers;
 
-        if (downloadInfo != null)
-        {
+        if (downloadInfo != null) {
             artifact = downloadInfo.getArtifactInfo();
             classifiers = downloadInfo.getClassfiersInfo();
-        }
-        else
-        {
+        } else {
             artifact = new PathDownloadInformation();
             classifiers = Collections.emptyMap();
         }
 
-        if (library.isJavaLibrary())
-        {
-            if (artifact.getPath() == null)
-            {
+        if (library.isJavaLibrary()) {
+            if (artifact.getPath() == null) {
                 file = library.getDependencyName().getFile(librariesDir);
-            }
-            else
-            {
+            } else {
                 file = new File(librariesDir, library.getDownloadInfo().getArtifactInfo().getPath());
             }
 
             downloaders.add(getDownloader(file, null));
         }
 
-        if (library.isNativesLibrary())
-        {
+        if (library.isNativesLibrary()) {
             String classifier = library.getNatives().getNative(os, arch);
 
-            if (classifiers.get(classifier) == null || classifiers.get(classifier).getPath() == null)
-            {
+            if (classifiers.get(classifier) == null || classifiers.get(classifier).getPath() == null) {
                 file = library.getDependencyName().getFile(librariesDir, classifier);
-            }
-            else
-            {
+            } else {
                 file = new File(librariesDir, library.getDownloadInfo().getClassfiersInfo().get(classifier).getPath());
             }
 

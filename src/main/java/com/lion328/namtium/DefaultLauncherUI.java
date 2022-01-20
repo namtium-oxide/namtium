@@ -39,8 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-public class DefaultLauncherUI implements HydraLauncherUI
-{
+public class DefaultLauncherUI implements HydraLauncherUI {
 
     public static final URL NEWS_IMAGE_URL;
     public static final URL REGISTER_URL;
@@ -56,21 +55,17 @@ public class DefaultLauncherUI implements HydraLauncherUI
     private boolean launching = false;
     private boolean updatingStatus = false;
 
-    public DefaultLauncherUI()
-    {
+    public DefaultLauncherUI() {
         frame = new JFrame();
 
         initializeFrame();
     }
 
-    private void initializeFrame()
-    {
-        frame.addWindowListener(new WindowAdapter()
-        {
+    private void initializeFrame() {
+        frame.addWindowListener(new WindowAdapter() {
 
             @Override
-            public void windowClosing(WindowEvent e)
-            {
+            public void windowClosing(WindowEvent e) {
                 Main.getLogger().info("Closing launcher...");
 
                 launcher.exit();
@@ -79,12 +74,9 @@ public class DefaultLauncherUI implements HydraLauncherUI
 
         final ImagePanel panel = new ImagePanel();
 
-        try
-        {
+        try {
             panel.setImage(ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/resources/bg.png")));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Main.getLogger().catching(e);
         }
 
@@ -96,13 +88,10 @@ public class DefaultLauncherUI implements HydraLauncherUI
         frame.setResizable(false);
         frame.setTitle(Main.lang("title"));
 
-        try
-        {
+        try {
             frame.setIconImage(
                     ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/resources/favicon.png")));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Main.getLogger().catching(e);
         }
 
@@ -120,14 +109,11 @@ public class DefaultLauncherUI implements HydraLauncherUI
         usernameField.setBorder(border);
         passwordField.setBorder(border);
 
-        KeyListener keyListener = new KeyAdapter()
-        {
+        KeyListener keyListener = new KeyAdapter() {
 
             @Override
-            public void keyPressed(KeyEvent e)
-            {
-                if (!launching && e.getKeyCode() == KeyEvent.VK_ENTER)
-                {
+            public void keyPressed(KeyEvent e) {
+                if (!launching && e.getKeyCode() == KeyEvent.VK_ENTER) {
                     launch();
                 }
             }
@@ -139,8 +125,7 @@ public class DefaultLauncherUI implements HydraLauncherUI
         statusLabel.setForeground(Color.WHITE);
         statusProgressBar.setStringPainted(true);
 
-        if (launcher instanceof HydraLauncher)
-        {
+        if (launcher instanceof HydraLauncher) {
             usernameField.setText(((HydraLauncher) launcher).getPlayerSettings().getPlayerName());
         }
 
@@ -165,43 +150,33 @@ public class DefaultLauncherUI implements HydraLauncherUI
         settingsButton.setOpaque(false);
         settingsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        launchButton.addMouseListener(new MouseAdapter()
-        {
+        launchButton.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent mouseEvent)
-            {
-                if (!launching)
-                {
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if (!launching) {
                     launch();
                 }
             }
         });
 
-        if (REGISTER_URL != null)
-        {
-            registerButton.addMouseListener(new MouseAdapter()
-            {
+        if (REGISTER_URL != null) {
+            registerButton.addMouseListener(new MouseAdapter() {
 
                 @Override
-                public void mouseClicked(MouseEvent mouseEvent)
-                {
-                    if (!launching && Desktop.isDesktopSupported())
-                    {
+                public void mouseClicked(MouseEvent mouseEvent) {
+                    if (!launching && Desktop.isDesktopSupported()) {
                         Util.openURL(REGISTER_URL);
                     }
                 }
             });
         }
 
-        settingsButton.addMouseListener(new MouseAdapter()
-        {
+        settingsButton.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                if (!launching && launcher instanceof HydraLauncher)
-                {
+            public void mouseClicked(MouseEvent e) {
+                if (!launching && launcher instanceof HydraLauncher) {
                     ((HydraLauncher) launcher).openSettingsDialog();
                 }
             }
@@ -217,22 +192,16 @@ public class DefaultLauncherUI implements HydraLauncherUI
         versionLabel.setForeground(new Color(0, 0, 0, 50));
         panel.add(versionLabel);
 
-        if (NEWS_IMAGE_URL != null)
-        {
-            SwingUtilities.invokeLater(new Runnable()
-            {
+        if (NEWS_IMAGE_URL != null) {
+            SwingUtilities.invokeLater(new Runnable() {
 
                 @Override
-                public void run()
-                {
-                    try
-                    {
+                public void run() {
+                    try {
                         JPanel newsPanel = new ImagePanel(ImageIO.read(NEWS_IMAGE_URL));
                         newsPanel.setBounds(28, 19, 525, 375);
                         panel.add(newsPanel);
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         Main.getLogger().catching(e);
                     }
                 }
@@ -245,20 +214,16 @@ public class DefaultLauncherUI implements HydraLauncherUI
         frame.setLocationRelativeTo(null);
     }
 
-    private void launch()
-    {
-        new Thread()
-        {
+    private void launch() {
+        new Thread() {
 
             @Override
-            public void run()
-            {
+            public void run() {
                 disableTextfields();
 
                 launching = true;
 
-                if (launcher.loginAndLaunch(usernameField.getText(), passwordField.getPassword()))
-                {
+                if (launcher.loginAndLaunch(usernameField.getText(), passwordField.getPassword())) {
                     setVisible(false);
                     launcher.exit();
                 }
@@ -268,14 +233,12 @@ public class DefaultLauncherUI implements HydraLauncherUI
         }.start();
     }
 
-    private void disableTextfields()
-    {
+    private void disableTextfields() {
         usernameField.setEnabled(false);
         passwordField.setEnabled(false);
     }
 
-    private void resetUI()
-    {
+    private void resetUI() {
         usernameField.setEnabled(true);
         passwordField.setEnabled(true);
 
@@ -287,65 +250,53 @@ public class DefaultLauncherUI implements HydraLauncherUI
     }
 
     @Override
-    public JFrame getJFrame()
-    {
+    public JFrame getJFrame() {
         return frame;
     }
 
     @Override
-    public void start()
-    {
-        if (launcher instanceof HydraLauncher)
-        {
+    public void start() {
+        if (launcher instanceof HydraLauncher) {
             usernameField.setText(((HydraLauncher) launcher).getPlayerSettings().getPlayerName());
         }
     }
 
     @Override
-    public Launcher getLauncher()
-    {
+    public Launcher getLauncher() {
         return launcher;
     }
 
     @Override
-    public void setLauncher(Launcher launcher)
-    {
+    public void setLauncher(Launcher launcher) {
         this.launcher = launcher;
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return frame.isVisible();
     }
 
     @Override
-    public void setVisible(boolean visible)
-    {
+    public void setVisible(boolean visible) {
         frame.setVisible(visible);
     }
 
     @Override
-    public void displayError(String message)
-    {
+    public void displayError(String message) {
         JOptionPane.showMessageDialog(frame, message, Language.get("errorMessageTitle"), JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void onPercentageChange(final File file, final int overallPercentage, final long fileSize,
-            final long fileDownloaded)
-    {
-        if (updatingStatus)
-        {
+                                   final long fileDownloaded) {
+        if (updatingStatus) {
             return;
         }
 
-        SwingUtilities.invokeLater(new Runnable()
-        {
+        SwingUtilities.invokeLater(new Runnable() {
 
             @Override
-            public void run()
-            {
+            public void run() {
                 updatingStatus = true;
 
                 String text = Main.lang("downloading") + file.getName();
@@ -353,8 +304,7 @@ public class DefaultLauncherUI implements HydraLauncherUI
                 sb.append(overallPercentage);
                 sb.append("%");
 
-                if (fileDownloaded > 0 && fileSize > 0)
-                {
+                if (fileDownloaded > 0 && fileSize > 0) {
                     sb.append(", ");
                     sb.append(Util.convertUnit(fileDownloaded));
                     sb.append("B/");
@@ -371,8 +321,7 @@ public class DefaultLauncherUI implements HydraLauncherUI
         });
     }
 
-    static
-    {
+    static {
         NEWS_IMAGE_URL = URLUtil.constantURL("http://example.com/news.png");
         REGISTER_URL = Settings.getInstance().getRegisterURL(); // legacy
     }

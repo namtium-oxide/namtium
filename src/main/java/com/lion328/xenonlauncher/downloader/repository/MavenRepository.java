@@ -11,27 +11,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-public class MavenRepository implements Repository
-{
+public class MavenRepository implements Repository {
 
     private final URL repositoryURL;
 
-    public MavenRepository(URL repositoryURL)
-    {
+    public MavenRepository(URL repositoryURL) {
         this.repositoryURL = repositoryURL;
     }
 
     @Override
-    public FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws IOException
-    {
+    public FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws IOException {
         String path = name.getPath(classifier);
 
-        if (extension == null)
-        {
+        if (extension == null) {
             extension = "";
-        }
-        else
-        {
+        } else {
             extension = "." + extension;
         }
 
@@ -39,8 +33,7 @@ public class MavenRepository implements Repository
     }
 
     @Override
-    public InputStream getInputStream(DependencyName name, String classifier, String extension) throws IOException
-    {
+    public InputStream getInputStream(DependencyName name, String classifier, String extension) throws IOException {
         return ((URLFileDownloader) getDownloader(name, classifier, extension, null)).getInputUrl().openStream();
     }
 }

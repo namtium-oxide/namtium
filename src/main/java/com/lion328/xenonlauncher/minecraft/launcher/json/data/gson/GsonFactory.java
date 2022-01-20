@@ -8,15 +8,12 @@ import com.google.gson.GsonBuilder;
 import com.lion328.xenonlauncher.downloader.repository.DependencyName;
 import com.lion328.xenonlauncher.minecraft.launcher.json.data.ArgumentUnit;
 
-public class GsonFactory
-{
+public class GsonFactory {
 
     private static Gson defaultGson;
 
-    public static Gson create()
-    {
-        if (defaultGson == null)
-        {
+    public static Gson create() {
+        if (defaultGson == null) {
             defaultGson = new GsonBuilder()
                     .registerTypeAdapter(DependencyName.class, new DependencyNameTypeAdapter())
                     .registerTypeAdapter(ArgumentUnit.class, new ArgumentUnit.Deserializer())

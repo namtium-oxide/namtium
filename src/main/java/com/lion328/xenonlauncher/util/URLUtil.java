@@ -10,29 +10,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class URLUtil
-{
+public class URLUtil {
 
-    public static URL constantURL(String url)
-    {
-        try
-        {
+    public static URL constantURL(String url) {
+        try {
             return new URL(url);
-        }
-        catch (MalformedURLException e)
-        {
+        } catch (MalformedURLException e) {
             LauncherConstant.LOGGER.catching(e);
         }
         return null;
     }
 
-    public static String getETag(URL url) throws IOException
-    {
+    public static String getETag(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         String etag = connection.getHeaderField("ETag");
 
-        if (etag == null)
-        {
+        if (etag == null) {
             throw new IOException("ETag header not found");
         }
 

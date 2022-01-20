@@ -15,15 +15,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-public class CrashReportUI
-{
+public class CrashReportUI {
 
     private JFrame frame;
     private JTextArea reportText;
     private boolean running;
 
-    public CrashReportUI()
-    {
+    public CrashReportUI() {
         running = false;
 
         reportText = new JTextArea();
@@ -40,32 +38,25 @@ public class CrashReportUI
         frame.add(scrollPane);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
 
             @Override
-            public void windowClosing(WindowEvent windowEvent)
-            {
+            public void windowClosing(WindowEvent windowEvent) {
                 running = false;
             }
         });
     }
 
-    public synchronized boolean isRunning()
-    {
+    public synchronized boolean isRunning() {
         return running;
     }
 
-    public void onGameCrash(final File crashReportFile)
-    {
+    public void onGameCrash(final File crashReportFile) {
         String report;
 
-        try
-        {
+        try {
             report = new String(Files.readAllBytes(crashReportFile.toPath()), StandardCharsets.UTF_8);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             HydraLauncher.getLogger().catching(e);
             report = "Can't read crash report file: " + crashReportFile.getAbsolutePath() + "\n" + e.getMessage();
         }
@@ -80,10 +71,8 @@ public class CrashReportUI
 
         running = true;
 
-        while (true)
-        {
-            if (!isRunning())
-            {
+        while (true) {
+            if (!isRunning()) {
                 break;
             }
         }

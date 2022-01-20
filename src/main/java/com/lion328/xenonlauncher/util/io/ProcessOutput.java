@@ -5,46 +5,37 @@ package com.lion328.xenonlauncher.util.io;
 
 import java.io.InputStream;
 
-public class ProcessOutput
-{
+public class ProcessOutput {
 
     private final Process process;
     private final InputStream out;
     private final InputStream err;
 
-    public ProcessOutput(Process process)
-    {
+    public ProcessOutput(Process process) {
         this(process, process.getInputStream(), process.getErrorStream());
     }
 
-    public ProcessOutput(Process process, InputStream out, InputStream err)
-    {
+    public ProcessOutput(Process process, InputStream out, InputStream err) {
         this.process = process;
         this.out = out;
         this.err = err;
     }
 
-    public boolean isRunning()
-    {
-        try
-        {
+    public boolean isRunning() {
+        try {
             process.exitValue();
-        }
-        catch (IllegalThreadStateException ignore)
-        {
+        } catch (IllegalThreadStateException ignore) {
             return false;
         }
 
         return true;
     }
 
-    public InputStream getInputStream()
-    {
+    public InputStream getInputStream() {
         return out;
     }
 
-    public InputStream getErrorStream()
-    {
+    public InputStream getErrorStream() {
         return err;
     }
 }

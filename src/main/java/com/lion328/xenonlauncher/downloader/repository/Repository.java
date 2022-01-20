@@ -9,8 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public interface Repository
-{
+public interface Repository {
 
     FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws IOException;
 

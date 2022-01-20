@@ -26,8 +26,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class SettingsUI implements PlayerSettingsUI
-{
+public class SettingsUI implements PlayerSettingsUI {
 
     private HydraLauncher launcher;
 
@@ -35,37 +34,30 @@ public class SettingsUI implements PlayerSettingsUI
     private JFrame mainFrame;
     private JTextField memoryField;
 
-    public SettingsUI(JFrame mainFrame)
-    {
+    public SettingsUI(JFrame mainFrame) {
         this.mainFrame = mainFrame;
 
         init();
     }
 
     @Override
-    public void setLauncher(HydraLauncher launcher)
-    {
+    public void setLauncher(HydraLauncher launcher) {
         this.launcher = launcher;
 
         refresh();
     }
 
-    private void refresh()
-    {
+    private void refresh() {
         memoryField.setText(Integer.toString(launcher.getPlayerSettings().getMaximumMemory()));
     }
 
-    private void init()
-    {
+    private void init() {
         ImagePanel panel = new ImagePanel();
 
-        try
-        {
+        try {
             panel.setImage(
                     ImageIO.read(getClass().getResourceAsStream("/com/lion328/namtium/resources/settings_bg.png")));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Main.getLogger().catching(e);
         }
 
@@ -77,14 +69,11 @@ public class SettingsUI implements PlayerSettingsUI
         memoryField.setBounds(178, 14, 206, 28);
         memoryField.setBorder(border);
         memoryField.setHorizontalAlignment(SwingConstants.RIGHT);
-        memoryField.addKeyListener(new KeyAdapter()
-        {
+        memoryField.addKeyListener(new KeyAdapter() {
 
             @Override
-            public void keyPressed(KeyEvent e)
-            {
-                switch (e.getKeyCode())
-                {
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER:
                         save();
                         break;
@@ -100,12 +89,10 @@ public class SettingsUI implements PlayerSettingsUI
         saveButton.setBounds(259, 66, 60, 60);
         saveButton.setOpaque(false);
         saveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        saveButton.addMouseListener(new MouseAdapter()
-        {
+        saveButton.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent mouseEvent)
-            {
+            public void mouseClicked(MouseEvent mouseEvent) {
                 save();
             }
         });
@@ -115,12 +102,10 @@ public class SettingsUI implements PlayerSettingsUI
         exitButton.setBounds(324, 66, 60, 60);
         exitButton.setOpaque(false);
         exitButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        exitButton.addMouseListener(new MouseAdapter()
-        {
+        exitButton.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent mouseEvent)
-            {
+            public void mouseClicked(MouseEvent mouseEvent) {
                 setVisible(false);
             }
         });
@@ -133,28 +118,21 @@ public class SettingsUI implements PlayerSettingsUI
         dialog.pack();
     }
 
-    private void save()
-    {
+    private void save() {
         int memory;
 
-        try
-        {
+        try {
             memory = Integer.valueOf(memoryField.getText());
-        }
-        catch (NumberFormatException ignore)
-        {
+        } catch (NumberFormatException ignore) {
             JOptionPane.showMessageDialog(dialog, Main.lang("errorValidateMemory"), Language.get("errorMessageTitle"),
                     JOptionPane.ERROR_MESSAGE);
 
             return;
         }
 
-        try
-        {
+        try {
             launcher.getPlayerSettings().setMaximumMemory(memory);
-        }
-        catch (TooLowMaximumMemoryException e)
-        {
+        } catch (TooLowMaximumMemoryException e) {
             JOptionPane.showMessageDialog(dialog,
                     String.format(Main.lang("errorTooLowMemory"), e.getMinimumMemoryInMB()),
                     Language.get("errorMessageTitle"),
@@ -167,10 +145,8 @@ public class SettingsUI implements PlayerSettingsUI
     }
 
     @Override
-    public void setVisible(boolean visible)
-    {
-        if (visible)
-        {
+    public void setVisible(boolean visible) {
+        if (visible) {
             refresh();
             dialog.setLocationRelativeTo(mainFrame);
         }
@@ -179,8 +155,7 @@ public class SettingsUI implements PlayerSettingsUI
     }
 
     @Override
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return dialog.isVisible();
     }
 }

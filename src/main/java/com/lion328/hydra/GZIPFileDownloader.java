@@ -11,22 +11,18 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
-public class GZIPFileDownloader extends URLFileDownloader
-{
+public class GZIPFileDownloader extends URLFileDownloader {
 
-    public GZIPFileDownloader(URL url, File file)
-    {
+    public GZIPFileDownloader(URL url, File file) {
         super(url, file);
     }
 
-    public GZIPFileDownloader(URL url, File file, int bufferSize)
-    {
+    public GZIPFileDownloader(URL url, File file, int bufferSize) {
         super(url, file, bufferSize);
     }
 
     @Override
-    protected InputStream buildInputStream(InputStream parent) throws IOException
-    {
+    protected InputStream buildInputStream(InputStream parent) throws IOException {
         return new GZIPInputStream(parent);
     }
 }

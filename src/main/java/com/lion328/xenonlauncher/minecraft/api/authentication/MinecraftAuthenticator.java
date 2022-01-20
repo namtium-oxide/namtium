@@ -7,8 +7,7 @@ import com.lion328.xenonlauncher.minecraft.api.authentication.exception.Minecraf
 
 import java.io.IOException;
 
-public interface MinecraftAuthenticator
-{
+public interface MinecraftAuthenticator {
 
     void login(String username, char[] password) throws IOException, MinecraftAuthenticatorException;
 

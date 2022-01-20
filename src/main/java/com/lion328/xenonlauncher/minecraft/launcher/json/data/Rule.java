@@ -10,8 +10,7 @@ import com.lion328.xenonlauncher.util.OperatingSystem;
 import java.util.Collections;
 import java.util.Map;
 
-public class Rule
-{
+public class Rule {
     @SerializedName("action")
     private RuleAction action;
     @SerializedName("os")
@@ -19,30 +18,24 @@ public class Rule
     @SerializedName("features")
     private Map<String, Boolean> features;
 
-    public Rule()
-    {
+    public Rule() {
 
     }
 
-    public RuleAction getAction()
-    {
+    public RuleAction getAction() {
         return action;
     }
 
-    public boolean isAllowAction()
-    {
+    public boolean isAllowAction() {
         return action == RuleAction.ALLOW;
     }
 
-    public Map<String, Boolean> getFeatures()
-    {
+    public Map<String, Boolean> getFeatures() {
         return features == null ? null : Collections.unmodifiableMap(features);
     }
 
-    public boolean isMatched(StartupConfiguration config)
-    {
-        if (config == null)
-        {
+    public boolean isMatched(StartupConfiguration config) {
+        if (config == null) {
             return false;
         }
 
@@ -50,30 +43,23 @@ public class Rule
                 isMatchedOnFeatures(config.getFeatures());
     }
 
-    private boolean isMatchedOnOS(OperatingSystem os, String version)
-    {
+    private boolean isMatchedOnOS(OperatingSystem os, String version) {
         return osIdentifier == null || osIdentifier.isMatch(os, version);
     }
 
-    private boolean isMatchedOnFeatures(Map<String, Boolean> targetFeatures)
-    {
-        if (features == null)
-        {
+    private boolean isMatchedOnFeatures(Map<String, Boolean> targetFeatures) {
+        if (features == null) {
             return true;
         }
 
-        if (targetFeatures == null || targetFeatures.isEmpty())
-        {
+        if (targetFeatures == null || targetFeatures.isEmpty()) {
             return features.isEmpty();
         }
 
         // TODO: verify the behavior on the official launcher
-        for (Map.Entry<String, Boolean> entry : features.entrySet())
-        {
-            if (targetFeatures.containsKey(entry.getKey()))
-            {
-                if (entry.getValue() != targetFeatures.get(entry.getKey()))
-                {
+        for (Map.Entry<String, Boolean> entry : features.entrySet()) {
+            if (targetFeatures.containsKey(entry.getKey())) {
+                if (entry.getValue() != targetFeatures.get(entry.getKey())) {
                     return false;
                 }
             }
@@ -82,19 +68,15 @@ public class Rule
         return true;
     }
 
-    public static boolean isAllowed(Iterable<Rule> rules, StartupConfiguration config)
-    {
-        if (rules == null)
-        {
+    public static boolean isAllowed(Iterable<Rule> rules, StartupConfiguration config) {
+        if (rules == null) {
             return true;
         }
 
         boolean allow = false;
 
-        for (Rule rule : rules)
-        {
-            if (rule.isMatched(config))
-            {
+        for (Rule rule : rules) {
+            if (rule.isMatched(config)) {
                 allow = rule.isAllowAction();
             }
         }

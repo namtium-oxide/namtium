@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteFileDownloader implements FileDownloader
-{
+public class DeleteFileDownloader implements FileDownloader {
 
     private final File file;
     private final boolean recursive;
@@ -21,8 +20,7 @@ public class DeleteFileDownloader implements FileDownloader
     private boolean running;
     private int percentage;
 
-    public DeleteFileDownloader(File file, boolean recursive)
-    {
+    public DeleteFileDownloader(File file, boolean recursive) {
         this.file = file;
         this.recursive = recursive;
 
@@ -31,10 +29,8 @@ public class DeleteFileDownloader implements FileDownloader
         percentage = 0;
     }
 
-    private boolean deleteFile()
-    {
-        if (recursive)
-        {
+    private boolean deleteFile() {
+        if (recursive) {
             return FileUtil.deleteFileRescursive(file);
         }
 
@@ -42,18 +38,15 @@ public class DeleteFileDownloader implements FileDownloader
     }
 
     @Override
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 
     @Override
-    public void download() throws IOException
-    {
+    public void download() throws IOException {
         running = true;
 
-        if (file.exists() && !deleteFile())
-        {
+        if (file.exists() && !deleteFile()) {
             running = false;
 
             throw new IOException("Can't delete file (" + file.getAbsolutePath() + ")");
@@ -61,8 +54,7 @@ public class DeleteFileDownloader implements FileDownloader
 
         percentage = 100;
 
-        for (DownloaderCallback callback : callbackList)
-        {
+        for (DownloaderCallback callback : callbackList) {
             callback.onPercentageChange(file, percentage, -1, -1);
         }
 
@@ -72,50 +64,42 @@ public class DeleteFileDownloader implements FileDownloader
     }
 
     @Override
-    public void stop()
-    {
+    public void stop() {
 
     }
 
     @Override
-    public boolean isRunning()
-    {
+    public boolean isRunning() {
         return running;
     }
 
     @Override
-    public File getCurrentFile()
-    {
+    public File getCurrentFile() {
         return file;
     }
 
     @Override
-    public int getOverallPercentage()
-    {
+    public int getOverallPercentage() {
         return percentage;
     }
 
     @Override
-    public long getCurrentFileSize()
-    {
+    public long getCurrentFileSize() {
         return -1;
     }
 
     @Override
-    public long getCurrentDownloadedSize()
-    {
+    public long getCurrentDownloadedSize() {
         return -1;
     }
 
     @Override
-    public void registerCallback(DownloaderCallback callback)
-    {
+    public void registerCallback(DownloaderCallback callback) {
         callbackList.add(callback);
     }
 
     @Override
-    public void removeCallback(DownloaderCallback callback)
-    {
+    public void removeCallback(DownloaderCallback callback) {
         callbackList.remove(callback);
     }
 }

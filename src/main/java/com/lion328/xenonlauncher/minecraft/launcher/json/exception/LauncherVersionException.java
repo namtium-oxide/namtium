@@ -3,16 +3,13 @@
 
 package com.lion328.xenonlauncher.minecraft.launcher.json.exception;
 
-public class LauncherVersionException extends Exception
-{
+public class LauncherVersionException extends Exception {
 
-    public LauncherVersionException()
-    {
+    public LauncherVersionException() {
         super();
     }
 
-    public LauncherVersionException(String message)
-    {
+    public LauncherVersionException(String message) {
         super(message);
     }
 }

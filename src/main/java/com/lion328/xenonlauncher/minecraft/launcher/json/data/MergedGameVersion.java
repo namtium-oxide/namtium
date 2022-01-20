@@ -10,48 +10,40 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class MergedGameVersion extends GameVersion
-{
+public class MergedGameVersion extends GameVersion {
 
     private GameVersion child, parent;
 
-    public MergedGameVersion(GameVersion child, GameVersion parent)
-    {
+    public MergedGameVersion(GameVersion child, GameVersion parent) {
         this.child = child;
         this.parent = parent;
     }
 
-    public GameVersion getChild()
-    {
+    public GameVersion getChild() {
         return child;
     }
 
-    public GameVersion getParent()
-    {
+    public GameVersion getParent() {
         return parent;
     }
 
     @Override
-    public String getID()
-    {
+    public String getID() {
         return child.getID();
     }
 
     @Override
-    public Date getTime()
-    {
+    public Date getTime() {
         return child.getTime();
     }
 
     @Override
-    public Date getReleaseTime()
-    {
+    public Date getReleaseTime() {
         return child.getReleaseTime();
     }
 
     @Override
-    public ReleaseType getReleaseType()
-    {
+    public ReleaseType getReleaseType() {
         return child.getReleaseType();
     }
 
@@ -68,70 +60,57 @@ public class MergedGameVersion extends GameVersion
     }
 
     @Override
-    public List<GameLibrary> getLibraries()
-    {
+    public List<GameLibrary> getLibraries() {
         List<GameLibrary> libraries = new ArrayList<>(child.getLibraries());
         libraries.addAll(parent.getLibraries());
         return libraries;
     }
 
     @Override
-    public String getMainClass()
-    {
-        if (child.getMainClass() == null)
-        {
+    public String getMainClass() {
+        if (child.getMainClass() == null) {
             return parent.getMainClass();
         }
         return child.getMainClass();
     }
 
     @Override
-    public int getMinimumLauncherVersion()
-    {
+    public int getMinimumLauncherVersion() {
         return child.getMinimumLauncherVersion();
     }
 
     @Override
-    public String getAssets()
-    {
-        if (child.getAssets() == null)
-        {
+    public String getAssets() {
+        if (child.getAssets() == null) {
             return parent.getAssets();
         }
         return child.getAssets();
     }
 
     @Override
-    public Map<String, DownloadInformation> getDownloadsInformation()
-    {
-        if (child.getDownloadsInformation() == null)
-        {
+    public Map<String, DownloadInformation> getDownloadsInformation() {
+        if (child.getDownloadsInformation() == null) {
             return parent.getDownloadsInformation();
         }
         return child.getDownloadsInformation();
     }
 
     @Override
-    public AssetInformation getAssetInformation()
-    {
-        if (child.getAssetInformation() == null)
-        {
+    public AssetInformation getAssetInformation() {
+        if (child.getAssetInformation() == null) {
             return parent.getAssetInformation();
         }
         return child.getAssetInformation();
     }
 
     @Override
-    public String getParentID()
-    {
+    public String getParentID() {
         return parent.getID();
     }
 
     @Override
-    public String getJarName()
-    {
-        if (child.getJarName() == null)
-        {
+    public String getJarName() {
+        if (child.getJarName() == null) {
             return parent.getJarName();
         }
 

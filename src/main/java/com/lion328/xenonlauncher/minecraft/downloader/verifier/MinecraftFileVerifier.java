@@ -15,25 +15,21 @@ import com.lion328.xenonlauncher.minecraft.launcher.json.data.DownloadInformatio
 import java.io.File;
 import java.io.IOException;
 
-public class MinecraftFileVerifier implements FileVerifier
-{
+public class MinecraftFileVerifier implements FileVerifier {
 
     private final FileVerifier verifier;
 
-    public MinecraftFileVerifier(Repository repo, DependencyName name, String classifier) throws IOException
-    {
+    public MinecraftFileVerifier(Repository repo, DependencyName name, String classifier) throws IOException {
         verifier = new RepositoryFileVerifier(repo, name, classifier, MessageDigestFileVerifier.SHA_1);
     }
 
-    public MinecraftFileVerifier(DownloadInformation info)
-    {
+    public MinecraftFileVerifier(DownloadInformation info) {
         FileVerifier tmp = new MessageDigestFileVerifier(MessageDigestFileVerifier.SHA_1, info.getSHA1Hash());
         verifier = new MultipleFileVerifier(new SizeFileVerifier(info.getSizeInBytes()), tmp);
     }
 
     @Override
-    public boolean isValid(File file) throws IOException
-    {
+    public boolean isValid(File file) throws IOException {
         return verifier.isValid(file);
     }
 }

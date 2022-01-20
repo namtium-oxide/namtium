@@ -11,68 +11,53 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
-public class MirroredRepository implements Repository
-{
+public class MirroredRepository implements Repository {
 
     private final Repository main;
     private final Repository mirror;
 
-    public MirroredRepository(Repository main, Repository mirror)
-    {
+    public MirroredRepository(Repository main, Repository mirror) {
         this.main = main;
         this.mirror = mirror;
     }
 
-    public static Repository fromRepositoryList(List<Repository> repositoryList)
-    {
-        if (repositoryList.size() < 1)
-        {
+    public static Repository fromRepositoryList(List<Repository> repositoryList) {
+        if (repositoryList.size() < 1) {
             return null;
         }
 
         Iterator<Repository> iterator = repositoryList.iterator();
         Repository repository = iterator.next();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             repository = new MirroredRepository(repository, iterator.next());
         }
 
         return repository;
     }
 
-    public Repository getMainRepository()
-    {
+    public Repository getMainRepository() {
         return main;
     }
 
-    public Repository getMirrorRepository()
-    {
+    public Repository getMirrorRepository() {
         return mirror;
     }
 
     @Override
-    public FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws IOException
-    {
-        try
-        {
+    public FileDownloader getDownloader(DependencyName name, String classifier, String extension, File targetFile) throws IOException {
+        try {
             return main.getDownloader(name, classifier, extension, targetFile);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             return mirror.getDownloader(name, classifier, extension, targetFile);
         }
     }
 
     @Override
-    public InputStream getInputStream(DependencyName name, String classifier, String extension) throws IOException
-    {
-        try
-        {
+    public InputStream getInputStream(DependencyName name, String classifier, String extension) throws IOException {
+        try {
             return main.getInputStream(name, classifier, extension);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             return mirror.getInputStream(name, classifier, extension);
         }
     }

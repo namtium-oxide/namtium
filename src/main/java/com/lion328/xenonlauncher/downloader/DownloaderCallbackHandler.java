@@ -5,8 +5,7 @@ package com.lion328.xenonlauncher.downloader;
 
 import java.io.File;
 
-public interface DownloaderCallbackHandler
-{
+public interface DownloaderCallbackHandler {
 
     File getCurrentFile();
 

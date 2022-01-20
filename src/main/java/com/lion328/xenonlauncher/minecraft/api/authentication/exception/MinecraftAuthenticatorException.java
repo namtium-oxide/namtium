@@ -3,31 +3,25 @@
 
 package com.lion328.xenonlauncher.minecraft.api.authentication.exception;
 
-public class MinecraftAuthenticatorException extends Exception
-{
+public class MinecraftAuthenticatorException extends Exception {
 
-    public MinecraftAuthenticatorException()
-    {
+    public MinecraftAuthenticatorException() {
         super();
     }
 
-    public MinecraftAuthenticatorException(String message)
-    {
+    public MinecraftAuthenticatorException(String message) {
         super(message);
     }
 
-    public MinecraftAuthenticatorException(String message, Throwable cause)
-    {
+    public MinecraftAuthenticatorException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinecraftAuthenticatorException(Throwable cause)
-    {
+    public MinecraftAuthenticatorException(Throwable cause) {
         super(cause);
     }
 
-    protected MinecraftAuthenticatorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
-    {
+    protected MinecraftAuthenticatorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

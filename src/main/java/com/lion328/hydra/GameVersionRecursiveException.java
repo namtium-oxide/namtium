@@ -5,26 +5,21 @@ package com.lion328.hydra;
 
 import java.io.IOException;
 
-public class GameVersionRecursiveException extends IOException
-{
+public class GameVersionRecursiveException extends IOException {
 
-    public GameVersionRecursiveException()
-    {
+    public GameVersionRecursiveException() {
         super();
     }
 
-    public GameVersionRecursiveException(String message)
-    {
+    public GameVersionRecursiveException(String message) {
         super(message);
     }
 
-    public GameVersionRecursiveException(String message, Throwable cause)
-    {
+    public GameVersionRecursiveException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public GameVersionRecursiveException(Throwable cause)
-    {
+    public GameVersionRecursiveException(Throwable cause) {
         super(cause);
     }
 }

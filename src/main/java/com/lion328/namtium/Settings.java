@@ -9,8 +9,7 @@ import com.lion328.xenonlauncher.util.URLUtil;
 import java.net.URL;
 import java.util.UUID;
 
-public class Settings implements HydraSettings
-{
+public class Settings implements HydraSettings {
 
     private static Settings instance;
 
@@ -21,56 +20,47 @@ public class Settings implements HydraSettings
     private static final URL compressedFilesURL = fromBase("filelist.gz");
     private static final URL filesURL = fromBase("files/");
 
-    private Settings()
-    {
+    private Settings() {
 
     }
 
     @Override
-    public URL getRegisterURL()
-    {
+    public URL getRegisterURL() {
         return registerURL;
     }
 
     @Override
-    public URL getAuthenticationURL()
-    {
+    public URL getAuthenticationURL() {
         return authURL;
     }
 
     @Override
-    public URL getWhitelistFileListURL()
-    {
+    public URL getWhitelistFileListURL() {
         return whitelistURL;
     }
 
     @Override
-    public URL getCompressedFileListURL()
-    {
+    public URL getCompressedFileListURL() {
         return compressedFilesURL;
     }
 
     @Override
-    public URL getFileBaseURL()
-    {
+    public URL getFileBaseURL() {
         return filesURL;
     }
 
     @Override
-    public UUID getApplicationUUID()
-    {
+    public UUID getApplicationUUID() {
         return UUID.fromString("769206ae-9c87-4aa7-ad47-7e939679ba37");
     }
 
     @Override
-    public String getGameVersionName()
-    {
+    public String getGameVersionName() {
         return "game";
     }
 
     @Override
-    public String[] getVMArguments()
-    {
+    public String[] getVMArguments() {
         return new String[]{
                 "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
                 "-XX:+UseConcMarkSweepGC",
@@ -80,38 +70,31 @@ public class Settings implements HydraSettings
     }
 
     @Override
-    public boolean streamGameOutput()
-    {
+    public boolean streamGameOutput() {
         return true;
     }
 
     @Override
-    public boolean passPasswordToGame()
-    {
+    public boolean passPasswordToGame() {
         return false;
     }
 
     @Override
-    public int getMinimumOfMaximumMemoryInMiB()
-    {
+    public int getMinimumOfMaximumMemoryInMiB() {
         return 512;
     }
 
     @Override
-    public int getDefaultMaximumMemoryInMiB()
-    {
+    public int getDefaultMaximumMemoryInMiB() {
         return 1024;
     }
 
-    private static URL fromBase(String s)
-    {
+    private static URL fromBase(String s) {
         return URLUtil.constantURL(launcherBaseURL.toString() + s);
     }
 
-    public static Settings getInstance()
-    {
-        if (instance == null)
-        {
+    public static Settings getInstance() {
+        if (instance == null) {
             instance = new Settings();
         }
 

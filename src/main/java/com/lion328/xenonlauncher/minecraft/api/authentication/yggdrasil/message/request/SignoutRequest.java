@@ -5,32 +5,27 @@ package com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.message
 
 import com.google.gson.annotations.SerializedName;
 
-public class SignoutRequest
-{
+public class SignoutRequest {
 
     @SerializedName("username")
     private String username;
     @SerializedName("password")
     private String password;
 
-    public SignoutRequest()
-    {
+    public SignoutRequest() {
 
     }
 
-    public SignoutRequest(String username, String password)
-    {
+    public SignoutRequest(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 }

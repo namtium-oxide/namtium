@@ -5,8 +5,7 @@ package com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.excepti
 
 import com.google.gson.annotations.SerializedName;
 
-public class YggdrasilErrorMessage
-{
+public class YggdrasilErrorMessage {
 
     @SerializedName("error")
     private String shortMessage;
@@ -15,42 +14,35 @@ public class YggdrasilErrorMessage
     @SerializedName("cause")
     private String cause;
 
-    public YggdrasilErrorMessage()
-    {
+    public YggdrasilErrorMessage() {
 
     }
 
-    public YggdrasilErrorMessage(String shortMessage, String longMessage, String cause)
-    {
+    public YggdrasilErrorMessage(String shortMessage, String longMessage, String cause) {
         this.shortMessage = shortMessage;
         this.longMessage = longMessage;
         this.cause = cause;
     }
 
-    public YggdrasilAPIException toException()
-    {
+    public YggdrasilAPIException toException() {
         String message = shortMessage + ": " + longMessage;
 
-        if (cause != null)
-        {
+        if (cause != null) {
             message += " (" + cause + ")";
         }
 
         return new YggdrasilAPIException(message);
     }
 
-    public String getShortMessage()
-    {
+    public String getShortMessage() {
         return shortMessage;
     }
 
-    public String getLongMessage()
-    {
+    public String getLongMessage() {
         return longMessage;
     }
 
-    public String getCause()
-    {
+    public String getCause() {
         return cause;
     }
 }

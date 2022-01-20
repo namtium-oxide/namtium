@@ -12,8 +12,7 @@ import com.lion328.xenonlauncher.minecraft.launcher.GameLauncher;
 
 import java.io.IOException;
 
-public class BasicLauncher implements Launcher
-{
+public class BasicLauncher implements Launcher {
 
     private final MinecraftAuthenticator mcAuth;
     private final Downloader downloader;
@@ -22,78 +21,64 @@ public class BasicLauncher implements Launcher
     private LauncherUI ui;
     private UserInformation userInfo;
 
-    public BasicLauncher(MinecraftAuthenticator mcAuth, Downloader downloader, GameLauncher mcLauncher)
-    {
+    public BasicLauncher(MinecraftAuthenticator mcAuth, Downloader downloader, GameLauncher mcLauncher) {
         this.mcAuth = mcAuth;
         this.downloader = downloader;
         this.mcLauncher = mcLauncher;
     }
 
-    public Downloader getDownloader()
-    {
+    public Downloader getDownloader() {
         return downloader;
     }
 
-    public MinecraftAuthenticator getMinecraftAuthenticator()
-    {
+    public MinecraftAuthenticator getMinecraftAuthenticator() {
         return mcAuth;
     }
 
-    public GameLauncher getMinecraftLauncher()
-    {
+    public GameLauncher getMinecraftLauncher() {
         return mcLauncher;
     }
 
     @Override
-    public void start()
-    {
+    public void start() {
         ui.setVisible(true);
         ui.start();
     }
 
     @Override
-    public UserInformation getCacheUser() throws IOException
-    {
+    public UserInformation getCacheUser() throws IOException {
         return userInfo;
     }
 
     @Override
-    public void setCacheUser(UserInformation userInfo) throws IOException
-    {
+    public void setCacheUser(UserInformation userInfo) throws IOException {
         this.userInfo = userInfo;
     }
 
     @Override
-    public void clearCacheUser() throws IOException
-    {
+    public void clearCacheUser() throws IOException {
         userInfo = null;
     }
 
     @Override
-    public LauncherUI getLauncherUI()
-    {
+    public LauncherUI getLauncherUI() {
         return ui;
     }
 
     @Override
-    public void setLauncherUI(LauncherUI ui)
-    {
+    public void setLauncherUI(LauncherUI ui) {
         this.ui = ui;
 
         ui.setLauncher(this);
     }
 
     @Override
-    public boolean loginAndLaunch(String username, char[] password)
-    {
-        try
-        {
+    public boolean loginAndLaunch(String username, char[] password) {
+        try {
             mcAuth.login(username, password);
 
             userInfo = mcAuth.getUserInformation();
-        }
-        catch (IOException | MinecraftAuthenticatorException e)
-        {
+        } catch (IOException | MinecraftAuthenticatorException e) {
             displayError(e.toString());
 
             return false;
@@ -101,13 +86,10 @@ public class BasicLauncher implements Launcher
 
         downloader.registerCallback(ui);
 
-        try
-        {
+        try {
             downloader.download();
             downloader.removeCallback(ui);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             displayError(e.toString());
 
             downloader.removeCallback(ui);
@@ -117,8 +99,7 @@ public class BasicLauncher implements Launcher
 
         mcLauncher.setUserInformation(userInfo);
 
-        try
-        {
+        try {
             final Process process = mcLauncher.launch();
 
             /*new Thread()
@@ -140,51 +121,37 @@ public class BasicLauncher implements Launcher
                 }
             }.start();*/
 
-            new Thread()
-            {
+            new Thread() {
 
                 @Override
-                public void run()
-                {
+                public void run() {
                     int b;
-                    try
-                    {
-                        while ((b = process.getErrorStream().read()) != -1)
-                        {
+                    try {
+                        while ((b = process.getErrorStream().read()) != -1) {
                             System.err.write(b);
                         }
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         displayError(e.toString());
                     }
                 }
             }.start();
 
-            Thread td = new Thread()
-            {
+            Thread td = new Thread() {
 
                 @Override
-                public void run()
-                {
+                public void run() {
                     int b;
-                    try
-                    {
-                        while ((b = process.getInputStream().read()) != -1)
-                        {
+                    try {
+                        while ((b = process.getInputStream().read()) != -1) {
                             System.out.write(b);
                         }
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         displayError(e.toString());
                     }
                 }
             };
             td.start();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             displayError(e.toString());
 
             return false;
@@ -196,15 +163,12 @@ public class BasicLauncher implements Launcher
     }
 
     @Override
-    public void exit()
-    {
+    public void exit() {
         System.exit(0);
     }
 
-    private void displayError(String message)
-    {
-        if (ui != null)
-        {
+    private void displayError(String message) {
+        if (ui != null) {
             ui.displayError(message);
         }
     }

@@ -9,8 +9,7 @@ import com.lion328.xenonlauncher.minecraft.StartupConfiguration;
 
 import java.util.List;
 
-public class GameLibrary
-{
+public class GameLibrary {
 
     @SerializedName("name")
     private DependencyName name;
@@ -23,13 +22,11 @@ public class GameLibrary
     @SerializedName("downloads")
     private LibraryDownloadInfomation downloadInfo;
 
-    public GameLibrary()
-    {
+    public GameLibrary() {
 
     }
 
-    public GameLibrary(DependencyName name, List<Rule> rules, LibraryNatives natives, ExtractConfiguration extractConfiguration, LibraryDownloadInfomation downloadInfo)
-    {
+    public GameLibrary(DependencyName name, List<Rule> rules, LibraryNatives natives, ExtractConfiguration extractConfiguration, LibraryDownloadInfomation downloadInfo) {
         this.name = name;
         this.rules = rules;
         this.natives = natives;
@@ -37,43 +34,35 @@ public class GameLibrary
         this.downloadInfo = downloadInfo;
     }
 
-    public DependencyName getDependencyName()
-    {
+    public DependencyName getDependencyName() {
         return name;
     }
 
-    public List<Rule> getRules()
-    {
+    public List<Rule> getRules() {
         return rules;
     }
 
-    public LibraryNatives getNatives()
-    {
+    public LibraryNatives getNatives() {
         return natives;
     }
 
-    public ExtractConfiguration getExtractConfiguration()
-    {
+    public ExtractConfiguration getExtractConfiguration() {
         return extractConfiguration;
     }
 
-    public LibraryDownloadInfomation getDownloadInfo()
-    {
+    public LibraryDownloadInfomation getDownloadInfo() {
         return downloadInfo;
     }
 
-    public boolean isNativesLibrary()
-    {
+    public boolean isNativesLibrary() {
         return natives != null;
     }
 
-    public boolean isJavaLibrary()
-    {
+    public boolean isJavaLibrary() {
         return !isNativesLibrary();
     }
 
-    public boolean isAllowed(StartupConfiguration config)
-    {
+    public boolean isAllowed(StartupConfiguration config) {
         return Rule.isAllowed(rules, config);
     }
 }

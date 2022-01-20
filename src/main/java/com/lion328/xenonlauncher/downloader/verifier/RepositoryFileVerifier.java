@@ -12,13 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class RepositoryFileVerifier implements FileVerifier
-{
+public class RepositoryFileVerifier implements FileVerifier {
 
     private final MessageDigestFileVerifier verifier;
 
-    public RepositoryFileVerifier(Repository repo, DependencyName name, String classifier, String algorithm) throws IOException
-    {
+    public RepositoryFileVerifier(Repository repo, DependencyName name, String classifier, String algorithm) throws IOException {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
         InputStream in = repo.getInputStream(name, classifier, algorithm.toLowerCase().replace("-", ""));
 
@@ -28,8 +26,7 @@ public class RepositoryFileVerifier implements FileVerifier
     }
 
     @Override
-    public boolean isValid(File file) throws IOException
-    {
+    public boolean isValid(File file) throws IOException {
         return verifier.isValid(file);
     }
 }

@@ -7,8 +7,7 @@ import com.lion328.xenonlauncher.launcher.ui.LauncherUI;
 
 import javax.swing.JFrame;
 
-public interface HydraLauncherUI extends LauncherUI
-{
+public interface HydraLauncherUI extends LauncherUI {
 
     JFrame getJFrame();
 }

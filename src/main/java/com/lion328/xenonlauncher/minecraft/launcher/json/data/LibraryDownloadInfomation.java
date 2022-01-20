@@ -7,32 +7,27 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Map;
 
-public class LibraryDownloadInfomation
-{
+public class LibraryDownloadInfomation {
 
     @SerializedName("artifact")
     private PathDownloadInformation artifactInfo;
     @SerializedName("classifiers")
     private Map<String, PathDownloadInformation> classfiersInfo;
 
-    public LibraryDownloadInfomation()
-    {
+    public LibraryDownloadInfomation() {
 
     }
 
-    public LibraryDownloadInfomation(PathDownloadInformation artifact, Map<String, PathDownloadInformation> classfiers)
-    {
+    public LibraryDownloadInfomation(PathDownloadInformation artifact, Map<String, PathDownloadInformation> classfiers) {
         artifactInfo = artifact;
         classfiersInfo = classfiers;
     }
 
-    public PathDownloadInformation getArtifactInfo()
-    {
+    public PathDownloadInformation getArtifactInfo() {
         return artifactInfo;
     }
 
-    public Map<String, PathDownloadInformation> getClassfiersInfo()
-    {
+    public Map<String, PathDownloadInformation> getClassfiersInfo() {
         return classfiersInfo;
     }
 }

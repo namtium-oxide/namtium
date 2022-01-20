@@ -9,8 +9,7 @@ import com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.UserProp
 
 import java.util.List;
 
-public class AuthenticateResponse
-{
+public class AuthenticateResponse {
 
     @SerializedName("accessToken")
     private String accessToken;
@@ -23,18 +22,15 @@ public class AuthenticateResponse
     @SerializedName("user")
     private UserProperties user;
 
-    public AuthenticateResponse()
-    {
+    public AuthenticateResponse() {
 
     }
 
-    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles, UserProfile profile)
-    {
+    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles, UserProfile profile) {
         this(accessToken, clientToken, availableProfiles, profile, null);
     }
 
-    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles, UserProfile profile, UserProperties user)
-    {
+    public AuthenticateResponse(String accessToken, String clientToken, List<UserProfile> availableProfiles, UserProfile profile, UserProperties user) {
         this.accessToken = accessToken;
         this.clientToken = clientToken;
         this.availableProfiles = availableProfiles;
@@ -42,28 +38,23 @@ public class AuthenticateResponse
         this.user = user;
     }
 
-    public String getAccessToken()
-    {
+    public String getAccessToken() {
         return accessToken;
     }
 
-    public String getClientToken()
-    {
+    public String getClientToken() {
         return clientToken;
     }
 
-    public List<UserProfile> getAvailableProfiles()
-    {
+    public List<UserProfile> getAvailableProfiles() {
         return availableProfiles;
     }
 
-    public UserProfile getSelectedProfile()
-    {
+    public UserProfile getSelectedProfile() {
         return profile;
     }
 
-    public UserProperties getUser()
-    {
+    public UserProperties getUser() {
         return user;
     }
 }

@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MultipleDownloader implements Downloader
-{
+public class MultipleDownloader implements Downloader {
 
     public static final int DEFAULT_RETIRES = 5;
 
@@ -27,24 +26,20 @@ public class MultipleDownloader implements Downloader
     private long size;
     private long downloaded;
 
-    public MultipleDownloader(List<Downloader> downloaders)
-    {
+    public MultipleDownloader(List<Downloader> downloaders) {
         this(downloaders, DEFAULT_RETIRES);
     }
 
-    public MultipleDownloader(List<Downloader> downloaders, int retries)
-    {
+    public MultipleDownloader(List<Downloader> downloaders, int retries) {
         this.downloaderList = Collections.unmodifiableList(downloaders);
         this.retries = retries;
 
         callbackList = new ArrayList<>();
 
-        callback = new DownloaderCallback()
-        {
+        callback = new DownloaderCallback() {
 
             @Override
-            public void onPercentageChange(File file, int overallPercentage, long fileSize, long fileDownloaded)
-            {
+            public void onPercentageChange(File file, int overallPercentage, long fileSize, long fileDownloaded) {
                 currentFile = file;
                 overall = ((idx * 100 + overallPercentage) / downloaderList.size()); // ((idx + progress / 100) / size) * 100
                 size = fileSize;
@@ -55,34 +50,27 @@ public class MultipleDownloader implements Downloader
         };
     }
 
-    public List<Downloader> getList()
-    {
+    public List<Downloader> getList() {
         return downloaderList;
     }
 
-    private void callCallbacks()
-    {
-        for (DownloaderCallback callback : callbackList)
-        {
+    private void callCallbacks() {
+        for (DownloaderCallback callback : callbackList) {
             callback.onPercentageChange(currentFile, overall, size, downloaded);
         }
     }
 
     @Override
-    public void download() throws IOException
-    {
-        if (running)
-        {
+    public void download() throws IOException {
+        if (running) {
             return;
         }
 
         running = true;
         idx = 0;
 
-        for (Downloader downloader : downloaderList)
-        {
-            if (downloader == null)
-            {
+        for (Downloader downloader : downloaderList) {
+            if (downloader == null) {
                 continue;
             }
 
@@ -100,50 +88,42 @@ public class MultipleDownloader implements Downloader
     }
 
     @Override
-    public void stop()
-    {
+    public void stop() {
         running = false;
     }
 
     @Override
-    public boolean isRunning()
-    {
+    public boolean isRunning() {
         return running;
     }
 
     @Override
-    public File getCurrentFile()
-    {
+    public File getCurrentFile() {
         return currentFile;
     }
 
     @Override
-    public int getOverallPercentage()
-    {
+    public int getOverallPercentage() {
         return overall;
     }
 
     @Override
-    public long getCurrentFileSize()
-    {
+    public long getCurrentFileSize() {
         return size;
     }
 
     @Override
-    public long getCurrentDownloadedSize()
-    {
+    public long getCurrentDownloadedSize() {
         return downloaded;
     }
 
     @Override
-    public void registerCallback(DownloaderCallback callback)
-    {
+    public void registerCallback(DownloaderCallback callback) {
         callbackList.add(callback);
     }
 
     @Override
-    public void removeCallback(DownloaderCallback callback)
-    {
+    public void removeCallback(DownloaderCallback callback) {
         callbackList.remove(callback);
     }
 }

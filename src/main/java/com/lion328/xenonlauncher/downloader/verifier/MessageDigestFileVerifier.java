@@ -14,8 +14,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-public class MessageDigestFileVerifier implements FileVerifier
-{
+public class MessageDigestFileVerifier implements FileVerifier {
 
     public static final String MD2 = "MD2";
     public static final String MD5 = "MD5";
@@ -27,32 +26,25 @@ public class MessageDigestFileVerifier implements FileVerifier
     private final String algorithm;
     private final byte[] hash;
 
-    public MessageDigestFileVerifier(String algorithm, String hash)
-    {
+    public MessageDigestFileVerifier(String algorithm, String hash) {
         this(algorithm, ByteUtil.fromHexString(hash));
     }
 
-    public MessageDigestFileVerifier(String algorithm, byte[] hash)
-    {
+    public MessageDigestFileVerifier(String algorithm, byte[] hash) {
         this.algorithm = algorithm;
         this.hash = hash.clone();
     }
 
-    public byte[] getFileHash(File file) throws IOException
-    {
-        if (!file.exists())
-        {
+    public byte[] getFileHash(File file) throws IOException {
+        if (!file.exists()) {
             return null;
         }
 
         MessageDigest md;
 
-        try
-        {
+        try {
             md = MessageDigest.getInstance(algorithm);
-        }
-        catch (NoSuchAlgorithmException e)
-        {
+        } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
 
@@ -60,10 +52,8 @@ public class MessageDigestFileVerifier implements FileVerifier
 
         byte[] buffer = new byte[8192];
 
-        while (true)
-        {
-            if (in.read(buffer) == -1)
-            {
+        while (true) {
+            if (in.read(buffer) == -1) {
                 break;
             }
         }
@@ -74,8 +64,7 @@ public class MessageDigestFileVerifier implements FileVerifier
     }
 
     @Override
-    public boolean isValid(File file) throws IOException
-    {
+    public boolean isValid(File file) throws IOException {
         return Arrays.equals(getFileHash(file), hash);
     }
 }

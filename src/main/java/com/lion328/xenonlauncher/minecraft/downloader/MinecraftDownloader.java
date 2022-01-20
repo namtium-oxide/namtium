@@ -33,8 +33,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinecraftDownloader implements Downloader
-{
+public class MinecraftDownloader implements Downloader {
 
     private final String id;
     private final File basepath;
@@ -58,18 +57,15 @@ public class MinecraftDownloader implements Downloader
     private long fileSize;
     private long fileDownloaded;
 
-    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, Repository repository, Downloader additionalDownloader)
-    {
+    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, Repository repository, Downloader additionalDownloader) {
         this(id, basepath, gameVersionList, AssetsDownloaderGenerator.DEFAULT_ASSETS_URL, AssetsDownloaderGenerator.DEFAULT_ASSETS_INDEXES_URL, repository, additionalDownloader);
     }
 
-    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, URL assetsURL, URL assetsIndexesURL, Repository repository, Downloader additionalDownloader)
-    {
+    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, URL assetsURL, URL assetsIndexesURL, Repository repository, Downloader additionalDownloader) {
         this(id, basepath, gameVersionList, assetsURL, assetsIndexesURL, repository, StartupConfiguration.getRunningConfig(), additionalDownloader);
     }
 
-    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, URL assetsURL, URL assetsIndexesURL, Repository repository, StartupConfiguration startupConfiguration, Downloader additionalDownloader)
-    {
+    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, URL assetsURL, URL assetsIndexesURL, Repository repository, StartupConfiguration startupConfiguration, Downloader additionalDownloader) {
         this.id = id;
         this.basepath = basepath;
         this.gameVersionList = gameVersionList;
@@ -83,11 +79,9 @@ public class MinecraftDownloader implements Downloader
 
         final MinecraftDownloader self = this;
 
-        unmodifiedProgressCallback = new DownloaderCallback()
-        {
+        unmodifiedProgressCallback = new DownloaderCallback() {
             @Override
-            public void onPercentageChange(File file, int overallPercentage, long fileSize, long fileDownloaded)
-            {
+            public void onPercentageChange(File file, int overallPercentage, long fileSize, long fileDownloaded) {
                 self.currentFile = file;
                 self.fileSize = fileSize;
                 self.fileDownloaded = fileDownloaded;
@@ -96,12 +90,10 @@ public class MinecraftDownloader implements Downloader
             }
         };
 
-        callback = new DownloaderCallback()
-        {
+        callback = new DownloaderCallback() {
 
             @Override
-            public void onPercentageChange(File file, int overallPercentage, long fileSize, long fileDownloaded)
-            {
+            public void onPercentageChange(File file, int overallPercentage, long fileSize, long fileDownloaded) {
                 self.overallPercentage = overallPercentage;
                 unmodifiedProgressCallback.onPercentageChange(file, overallPercentage, fileSize, fileDownloaded);
             }
@@ -112,16 +104,13 @@ public class MinecraftDownloader implements Downloader
         versionDir = new File(versionsDir, id);
     }
 
-    private void callCallbacks()
-    {
-        for (DownloaderCallback callback : callbackList)
-        {
+    private void callCallbacks() {
+        for (DownloaderCallback callback : callbackList) {
             callback.onPercentageChange(currentFile, overallPercentage, fileSize, fileDownloaded);
         }
     }
 
-    private Object downloadJson(File file, URL url, FileVerifier verifier, Class<?> clazz) throws IOException
-    {
+    private Object downloadJson(File file, URL url, FileVerifier verifier, Class<?> clazz) throws IOException {
         FileDownloader downloader = new URLFileDownloader(url, file);
         downloader = new VerifiyFileDownloader(downloader, verifier);
 
@@ -131,45 +120,36 @@ public class MinecraftDownloader implements Downloader
         return GsonFactory.create().fromJson(new InputStreamReader(new FileInputStream(file)), clazz);
     }
 
-    private GameVersion downloadGameVersion(String id) throws IOException
-    {
+    private GameVersion downloadGameVersion(String id) throws IOException {
         File versionJson = new File(versionsDir, id + "/" + id + ".json");
         URL versionJsonUrl = gameVersionList.getVersionManifestURL(id);
         FileVerifier verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5, URLUtil.getETag(versionJsonUrl).trim().replace("\"", ""));
 
         GameVersion versionInfo = (GameVersion) downloadJson(versionJson, versionJsonUrl, verifier, GameVersion.class);
 
-        if (versionInfo.getParentID() != null)
-        {
+        if (versionInfo.getParentID() != null) {
             versionInfo = new MergedGameVersion(versionInfo, downloadGameVersion(versionInfo.getParentID()));
         }
 
         return versionInfo;
     }
 
-    private Assets downloadAssetsInfomation(GameVersion version) throws IOException
-    {
+    private Assets downloadAssetsInfomation(GameVersion version) throws IOException {
         Assets info;
         File assetsFile = new File(basepath, "assets/indexes/" + version.getAssets() + ".json");
         AssetInformation assetInfo = version.getAssetInformation();
         URL url;
         FileVerifier verifier;
 
-        if (assetInfo != null)
-        {
+        if (assetInfo != null) {
             url = assetInfo.getURL();
-        }
-        else
-        {
+        } else {
             url = new URL(assetsIndexesURL, version.getAssets() + ".json");
         }
 
-        if (assetInfo != null && assetInfo.isKnownSizeAndHash())
-        {
+        if (assetInfo != null && assetInfo.isKnownSizeAndHash()) {
             verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.SHA_1, assetInfo.getSHA1Hash());
-        }
-        else
-        {
+        } else {
             verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5, URLUtil.getETag(url).replace("\"", ""));
         }
 
@@ -177,10 +157,8 @@ public class MinecraftDownloader implements Downloader
     }
 
     @Override
-    public synchronized void download() throws IOException
-    {
-        if (running)
-        {
+    public synchronized void download() throws IOException {
+        if (running) {
             return;
         }
 
@@ -198,10 +176,8 @@ public class MinecraftDownloader implements Downloader
         DownloaderGenerator generator = new VersionJarDownloaderGenerator(versionInfo, new File(versionDir, versionInfo.getJarName() + ".jar"));
         downloaders.addAll(generator.generateDownloaders());
 
-        for (GameLibrary library : versionInfo.getLibraries())
-        {
-            if (!library.isAllowed(startupConfiguration))
-            {
+        for (GameLibrary library : versionInfo.getLibraries()) {
+            if (!library.isAllowed(startupConfiguration)) {
                 continue;
             }
 
@@ -212,8 +188,7 @@ public class MinecraftDownloader implements Downloader
         generator = new AssetsDownloaderGenerator(downloadAssetsInfomation(versionInfo), assetsObjectsDir, assetsURL);
         downloaders.addAll(generator.generateDownloaders());
 
-        if (additionalDownloader != null)
-        {
+        if (additionalDownloader != null) {
             downloaders.add(additionalDownloader);
         }
 
@@ -225,50 +200,42 @@ public class MinecraftDownloader implements Downloader
     }
 
     @Override
-    public void stop()
-    {
+    public void stop() {
         running = false;
     }
 
     @Override
-    public boolean isRunning()
-    {
+    public boolean isRunning() {
         return running;
     }
 
     @Override
-    public File getCurrentFile()
-    {
+    public File getCurrentFile() {
         return currentFile;
     }
 
     @Override
-    public int getOverallPercentage()
-    {
+    public int getOverallPercentage() {
         return overallPercentage;
     }
 
     @Override
-    public long getCurrentFileSize()
-    {
+    public long getCurrentFileSize() {
         return fileSize;
     }
 
     @Override
-    public long getCurrentDownloadedSize()
-    {
+    public long getCurrentDownloadedSize() {
         return fileDownloaded;
     }
 
     @Override
-    public void registerCallback(DownloaderCallback callback)
-    {
+    public void registerCallback(DownloaderCallback callback) {
         callbackList.add(callback);
     }
 
     @Override
-    public void removeCallback(DownloaderCallback callback)
-    {
+    public void removeCallback(DownloaderCallback callback) {
         callbackList.remove(callback);
     }
 }

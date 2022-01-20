@@ -17,14 +17,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Util
-{
+public class Util {
 
     private static char[] unitTable = new char[]{'\0', 'K', 'M', 'G', 'T'};
     private static File workingJar;
 
-    public static String httpGET(URL url) throws IOException
-    {
+    public static String httpGET(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
@@ -32,50 +30,40 @@ public class Util
         ByteArrayOutputStream baos = new ByteArrayOutputStream(8192);
         byte[] buff = new byte[8192];
         int len;
-        while ((len = is.read(buff)) != -1)
-        {
+        while ((len = is.read(buff)) != -1) {
             baos.write(buff, 0, len);
         }
 
         return new String(baos.toByteArray(), StandardCharsets.UTF_8);
     }
 
-    public static List<File> listFiles(File directory, boolean withDirectory)
-    {
+    public static List<File> listFiles(File directory, boolean withDirectory) {
         List<File> fileList = new ArrayList<>();
 
-        if (!directory.exists())
-        {
+        if (!directory.exists()) {
             return null;
         }
 
         File[] files = directory.listFiles();
 
-        if (files == null)
-        {
+        if (files == null) {
             return null;
         }
 
         List<File> tmp;
 
-        for (File file : files)
-        {
-            if (file.isDirectory())
-            {
+        for (File file : files) {
+            if (file.isDirectory()) {
                 tmp = listFiles(file, withDirectory);
 
-                if (tmp != null)
-                {
+                if (tmp != null) {
                     fileList.addAll(tmp);
                 }
 
-                if (withDirectory)
-                {
+                if (withDirectory) {
                     fileList.add(file);
                 }
-            }
-            else
-            {
+            } else {
                 fileList.add(file);
             }
         }
@@ -83,35 +71,27 @@ public class Util
         return fileList;
     }
 
-    public static String convertUnit(long l)
-    {
+    public static String convertUnit(long l) {
         int unit = 0;
         float f = l;
 
-        while (f >= 1024 && (unit + 1 <= unitTable.length))
-        {
+        while (f >= 1024 && (unit + 1 <= unitTable.length)) {
             f *= 0.0009765625F; // 1 / 1024
             unit++;
         }
 
-        if (unit == 0)
-        {
+        if (unit == 0) {
             return String.valueOf(l);
         }
 
         return String.format("%.2f", f) + " " + unitTable[unit] + "i";
     }
 
-    public static File getWorkingJar()
-    {
-        if (workingJar == null)
-        {
-            try
-            {
+    public static File getWorkingJar() {
+        if (workingJar == null) {
+            try {
                 workingJar = new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-            }
-            catch (URISyntaxException e)
-            {
+            } catch (URISyntaxException e) {
                 HydraLauncher.getLogger().catching(e);
             }
         }
@@ -119,22 +99,16 @@ public class Util
         return workingJar;
     }
 
-    public static File getGameDirectory(String serverName)
-    {
+    public static File getGameDirectory(String serverName) {
         return new File(OperatingSystem.getApplicationDataDirectory(),
                 HydraLauncher.LAUNCHER_DIRECTORY_NAME + File.separator + serverName);
     }
 
-    public static void openURL(URL url)
-    {
-        if (Desktop.isDesktopSupported())
-        {
-            try
-            {
+    public static void openURL(URL url) {
+        if (Desktop.isDesktopSupported()) {
+            try {
                 Desktop.getDesktop().browse(url.toURI());
-            }
-            catch (IOException | URISyntaxException e)
-            {
+            } catch (IOException | URISyntaxException e) {
                 HydraLauncher.getLogger().catching(e);
             }
         }

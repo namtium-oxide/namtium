@@ -6,8 +6,7 @@ package com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.message
 import com.google.gson.annotations.SerializedName;
 import com.lion328.xenonlauncher.minecraft.api.authentication.yggdrasil.GameAgent;
 
-public class AuthenticateRequest
-{
+public class AuthenticateRequest {
 
     @SerializedName("agent")
     private GameAgent agent;
@@ -20,18 +19,15 @@ public class AuthenticateRequest
     @SerializedName("requestUser")
     private boolean requestUser = true;
 
-    public AuthenticateRequest()
-    {
+    public AuthenticateRequest() {
 
     }
 
-    public AuthenticateRequest(GameAgent agent, String username, String password, String clientToken)
-    {
+    public AuthenticateRequest(GameAgent agent, String username, String password, String clientToken) {
         this(agent, username, password, clientToken, true);
     }
 
-    public AuthenticateRequest(GameAgent agent, String username, String password, String clientToken, boolean requestUser)
-    {
+    public AuthenticateRequest(GameAgent agent, String username, String password, String clientToken, boolean requestUser) {
         this.agent = agent;
         this.username = username;
         this.password = password;
@@ -39,23 +35,19 @@ public class AuthenticateRequest
         this.requestUser = requestUser;
     }
 
-    public GameAgent getAgent()
-    {
+    public GameAgent getAgent() {
         return agent;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public String getClientToken()
-    {
+    public String getClientToken() {
         return clientToken;
     }
 }

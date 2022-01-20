@@ -8,25 +8,20 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
-public class ImagePanel extends JPanel
-{
+public class ImagePanel extends JPanel {
 
     private Image img;
 
-    public ImagePanel()
-    {
+    public ImagePanel() {
         this(null);
     }
 
-    public ImagePanel(Image img)
-    {
+    public ImagePanel(Image img) {
         setImage(img);
     }
 
-    public void setImage(Image img)
-    {
-        if (img == null)
-        {
+    public void setImage(Image img) {
+        if (img == null) {
             return;
         }
 
@@ -39,10 +34,8 @@ public class ImagePanel extends JPanel
         setLayout(null);
     }
 
-    public void paintComponent(Graphics g)
-    {
-        if (img != null)
-        {
+    public void paintComponent(Graphics g) {
+        if (img != null) {
             g.drawImage(img, 0, 0, null);
         }
     }

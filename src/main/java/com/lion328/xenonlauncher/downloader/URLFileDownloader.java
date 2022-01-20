@@ -13,8 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class URLFileDownloader implements FileDownloader
-{
+public class URLFileDownloader implements FileDownloader {
 
     public static final int BUFFER_SIZE = 8192;
 
@@ -28,13 +27,11 @@ public class URLFileDownloader implements FileDownloader
     private long size;
     private long downloaded;
 
-    public URLFileDownloader(URL url, File file)
-    {
+    public URLFileDownloader(URL url, File file) {
         this(url, file, BUFFER_SIZE);
     }
 
-    public URLFileDownloader(URL url, File file, int bufferSize)
-    {
+    public URLFileDownloader(URL url, File file, int bufferSize) {
         inputUrl = url;
         targetFile = file;
         this.bufferSize = bufferSize;
@@ -43,10 +40,8 @@ public class URLFileDownloader implements FileDownloader
     }
 
     @Override
-    public synchronized void download() throws IOException
-    {
-        if (running)
-        {
+    public synchronized void download() throws IOException {
+        if (running) {
             return;
         }
 
@@ -59,8 +54,7 @@ public class URLFileDownloader implements FileDownloader
         downloaded = 0;
         percentage = 0;
 
-        if (!targetFile.getParentFile().exists() && !targetFile.getParentFile().mkdirs())
-        {
+        if (!targetFile.getParentFile().exists() && !targetFile.getParentFile().mkdirs()) {
             throw new IOException("Can't create directory (" + targetFile.getParentFile() + ")");
         }
 
@@ -70,19 +64,16 @@ public class URLFileDownloader implements FileDownloader
         byte[] buffer = new byte[bufferSize];
         int length;
 
-        while (running && ((length = in.read(buffer)) != -1))
-        {
+        while (running && ((length = in.read(buffer)) != -1)) {
             fileOut.write(buffer, 0, length);
             downloaded += length;
 
-            if ((size != -1) && (percentage < (percentage = (int) (downloaded * 100 / size))))
-            {
+            if ((size != -1) && (percentage < (percentage = (int) (downloaded * 100 / size)))) {
                 onPercentageChange(targetFile, percentage, size, downloaded);
             }
         }
 
-        if (size == -1)
-        {
+        if (size == -1) {
             percentage = 100;
             downloaded = size;
             onPercentageChange(targetFile, percentage, size, size);
@@ -93,75 +84,62 @@ public class URLFileDownloader implements FileDownloader
         running = false;
     }
 
-    public URL getInputUrl()
-    {
+    public URL getInputUrl() {
         return inputUrl;
     }
 
-    protected InputStream buildInputStream(InputStream parent) throws IOException
-    {
+    protected InputStream buildInputStream(InputStream parent) throws IOException {
         return parent;
     }
 
     @Override
-    public void stop()
-    {
+    public void stop() {
         running = false;
     }
 
     @Override
-    public boolean isRunning()
-    {
+    public boolean isRunning() {
         return running;
     }
 
     @Override
-    public File getCurrentFile()
-    {
+    public File getCurrentFile() {
         return targetFile;
     }
 
     @Override
-    public int getOverallPercentage()
-    {
+    public int getOverallPercentage() {
         return percentage;
     }
 
     @Override
-    public long getCurrentFileSize()
-    {
+    public long getCurrentFileSize() {
         return size;
     }
 
     @Override
-    public long getCurrentDownloadedSize()
-    {
+    public long getCurrentDownloadedSize() {
         return downloaded;
     }
 
     @Override
-    public void registerCallback(DownloaderCallback callback)
-    {
+    public void registerCallback(DownloaderCallback callback) {
         callbackList.add(callback);
     }
 
     @Override
-    public void removeCallback(DownloaderCallback callback)
-    {
+    public void removeCallback(DownloaderCallback callback) {
         callbackList.remove(callback);
     }
 
-    private void onPercentageChange(File file, int percentage, long size, long downloaded)
-    {
-        for (DownloaderCallback callback : callbackList)
-        {
+    private void onPercentageChange(File file, int percentage, long size, long downloaded) {
+        for (DownloaderCallback callback : callbackList) {
             callback.onPercentageChange(file, percentage, size, downloaded);
         }
     }
 
     @Override
-    public File getFile()
-    {
+    public File getFile() {
         return targetFile;
     }
 }

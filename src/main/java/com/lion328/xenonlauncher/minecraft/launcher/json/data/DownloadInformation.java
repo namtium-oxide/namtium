@@ -8,8 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DownloadInformation
-{
+public class DownloadInformation {
 
     @SerializedName("url")
     private String url;
@@ -18,13 +17,11 @@ public class DownloadInformation
     @SerializedName("size")
     private int sizeInBytes;
 
-    public DownloadInformation()
-    {
+    public DownloadInformation() {
 
     }
 
-    public DownloadInformation(URL url, String sha1Hash, int sizeInBytes)
-    {
+    public DownloadInformation(URL url, String sha1Hash, int sizeInBytes) {
         this.url = url.toString(); // TODO: restruct the code to store URL (or URI?)
         this.sha1Hash = sha1Hash;
         this.sizeInBytes = sizeInBytes;
@@ -37,13 +34,11 @@ public class DownloadInformation
         return new URL(url);
     }
 
-    public String getSHA1Hash()
-    {
+    public String getSHA1Hash() {
         return sha1Hash;
     }
 
-    public int getSizeInBytes()
-    {
+    public int getSizeInBytes() {
         return sizeInBytes;
     }
 }

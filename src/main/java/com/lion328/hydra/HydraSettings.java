@@ -6,8 +6,7 @@ package com.lion328.hydra;
 import java.net.URL;
 import java.util.UUID;
 
-public interface HydraSettings
-{
+public interface HydraSettings {
 
     URL getRegisterURL();
 

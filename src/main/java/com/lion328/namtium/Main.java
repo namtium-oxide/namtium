@@ -26,8 +26,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main
-{
+public class Main {
 
     public static final String VERSION;
     public static final String LANGUAGE_NAMESPACE = "namtium";
@@ -37,10 +36,8 @@ public class Main
     private static String[] fontsName;
     private static Font[] fonts;
 
-    public static void main(String[] args)
-    {
-        if (args.length >= 1 && args[0].equals("--version"))
-        {
+    public static void main(String[] args) {
+        if (args.length >= 1 && args[0].equals("--version")) {
             System.out.println(VERSION);
 
             return;
@@ -54,22 +51,17 @@ public class Main
         System.setProperty("swing.aatext", "true");
         System.setProperty("awt.useSystemAAFontSettings", "on");
 
-        try
-        {
+        try {
             registerFonts();
 
-            if (!setLookAndFeel("Metal"))
-            {
+            if (!setLookAndFeel("Metal")) {
                 getLogger().info("Failed to set Metal as swing look and feel");
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             getLogger().catching(e);
         }
 
-        if (fonts.length != 0)
-        {
+        if (fonts.length != 0) {
             setGlobalSwingFont(new FontUIResource(fonts[0].deriveFont(Font.PLAIN, 14)));
         }
 
@@ -88,29 +80,24 @@ public class Main
         launcher.start();
     }
 
-    public static Logger getLogger()
-    {
-        if (logger == null)
-        {
+    public static Logger getLogger() {
+        if (logger == null) {
             logger = LogManager.getLogger("Namtium-Launcher");
         }
 
         return logger;
     }
 
-    public static String lang(String key)
-    {
+    public static String lang(String key) {
         return Language.get(LANGUAGE_PREFIX + key);
     }
 
-    private static void registerFonts() throws IOException, FontFormatException
-    {
+    private static void registerFonts() throws IOException, FontFormatException {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String fontName;
         Font font;
 
-        for (int i = 0; i < fontsName.length; i++)
-        {
+        for (int i = 0; i < fontsName.length; i++) {
             fontName = fontsName[i];
 
             getLogger().info("Registering font " + fontName);
@@ -123,33 +110,27 @@ public class Main
         }
     }
 
-    private static void setGlobalSwingFont(FontUIResource font)
-    {
+    private static void setGlobalSwingFont(FontUIResource font) {
         getLogger().info("Setting " + font.getName() + " as default font for swing");
 
         Enumeration<Object> keys = UIManager.getDefaults().keys();
 
-        while (keys.hasMoreElements())
-        {
+        while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
 
-            if (value instanceof javax.swing.plaf.FontUIResource)
-            {
+            if (value instanceof javax.swing.plaf.FontUIResource) {
                 UIManager.put(key, font);
             }
         }
     }
 
     private static boolean setLookAndFeel(String nameSnippet) throws ClassNotFoundException,
-            UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException
-    {
+            UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
 
-        for (UIManager.LookAndFeelInfo info : plafs)
-        {
-            if (info.getName().contains(nameSnippet))
-            {
+        for (UIManager.LookAndFeelInfo info : plafs) {
+            if (info.getName().contains(nameSnippet)) {
                 getLogger().info("Set swing look and feel to " + info.getClassName());
 
                 UIManager.setLookAndFeel(info.getClassName());
@@ -161,8 +142,7 @@ public class Main
         return false;
     }
 
-    private static void registerLanguage()
-    {
+    private static void registerLanguage() {
         Map table = new Gson()
                 .fromJson(
                         new InputStreamReader(
@@ -172,12 +152,10 @@ public class Main
                         Map.class
                 );
 
-        if (table != null)
-        {
+        if (table != null) {
             Map ret = new HashMap();
 
-            for (Object key : table.keySet())
-            {
+            for (Object key : table.keySet()) {
                 ret.put(LANGUAGE_PREFIX + key, table.get(key));
             }
 
@@ -185,20 +163,16 @@ public class Main
         }
     }
 
-    static
-    {
+    static {
         String version = "UNKNOWN";
 
-        try
-        {
+        try {
             version = new BufferedReader(
                     new InputStreamReader(
                             Main.class.getResourceAsStream("/com/lion328/namtium/resources/version")
                     )
             ).readLine().trim();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             getLogger().catching(e);
         }
 

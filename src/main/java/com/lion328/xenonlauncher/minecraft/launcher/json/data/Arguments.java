@@ -10,16 +10,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Arguments
-{
+public class Arguments {
 
     @SerializedName("game")
     private List<ArgumentUnit> game;
     @SerializedName("jvm")
     private List<ArgumentUnit> jvm;
 
-    public List<ArgumentUnit> getGameArguments()
-    {
+    public List<ArgumentUnit> getGameArguments() {
         return game == null ? null : Collections.unmodifiableList(game);
     }
 
@@ -27,31 +25,25 @@ public class Arguments
         return jvm == null ? null : Collections.unmodifiableList(jvm);
     }
 
-    public List<String> getGameArgumentsOnConfig(StartupConfiguration config)
-    {
-        if (game == null)
-        {
+    public List<String> getGameArgumentsOnConfig(StartupConfiguration config) {
+        if (game == null) {
             return null;
         }
 
         List<String> args = new ArrayList<>();
-        for (ArgumentUnit unit : game)
-        {
+        for (ArgumentUnit unit : game) {
             args.addAll(unit.getValueOnConfig(config));
         }
         return args;
     }
 
-    public List<String> getJVMArgumentsOnConfig(StartupConfiguration config)
-    {
-        if (jvm == null)
-        {
+    public List<String> getJVMArgumentsOnConfig(StartupConfiguration config) {
+        if (jvm == null) {
             return null;
         }
 
         List<String> args = new ArrayList<>();
-        for (ArgumentUnit unit : jvm)
-        {
+        for (ArgumentUnit unit : jvm) {
             args.addAll(unit.getValueOnConfig(config));
         }
         return args;

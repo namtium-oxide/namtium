@@ -12,8 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class GameVersion
-{
+public class GameVersion {
 
     public static final int MINIMUM_LAUNCHER_VERSION_SUPPORTED = 21;
     public static final String DOWNLOAD_CLIENT = "client";
@@ -49,13 +48,11 @@ public class GameVersion
     @SerializedName("arguments")
     private Arguments arguments;
 
-    public GameVersion()
-    {
+    public GameVersion() {
 
     }
 
-    public GameVersion(String id, Date time, Date releaseTime, ReleaseType releaseType, String minecraftArguments, List<GameLibrary> libraries, String mainClass, int version, String assets, Map<String, DownloadInformation> downloads, AssetInformation assetInformation, String parentId, String jar)
-    {
+    public GameVersion(String id, Date time, Date releaseTime, ReleaseType releaseType, String minecraftArguments, List<GameLibrary> libraries, String mainClass, int version, String assets, Map<String, DownloadInformation> downloads, AssetInformation assetInformation, String parentId, String jar) {
         this.id = id;
         this.time = time;
         this.releaseTime = releaseTime;
@@ -71,32 +68,25 @@ public class GameVersion
         this.jar = jar;
     }
 
-    public String getID()
-    {
+    public String getID() {
         return id;
     }
 
-    public Date getTime()
-    {
+    public Date getTime() {
         return time;
     }
 
-    public Date getReleaseTime()
-    {
+    public Date getReleaseTime() {
         return releaseTime;
     }
 
-    public ReleaseType getReleaseType()
-    {
+    public ReleaseType getReleaseType() {
         return releaseType;
     }
 
-    public List<String> getGameArgumentsOnConfig(StartupConfiguration config)
-    {
-        if (arguments == null || arguments.getJVMArguments() == null)
-        {
-            if (minecraftArguments == null)
-            {
+    public List<String> getGameArgumentsOnConfig(StartupConfiguration config) {
+        if (arguments == null || arguments.getJVMArguments() == null) {
+            if (minecraftArguments == null) {
                 return null;
             }
 
@@ -106,63 +96,51 @@ public class GameVersion
         return arguments.getGameArgumentsOnConfig(config);
     }
 
-    public List<String> getJVMArgumentsOnConfig(StartupConfiguration config)
-    {
+    public List<String> getJVMArgumentsOnConfig(StartupConfiguration config) {
         return arguments == null ? null : arguments.getJVMArgumentsOnConfig(config);
     }
 
-    public List<GameLibrary> getLibraries()
-    {
+    public List<GameLibrary> getLibraries() {
         return libraries;
     }
 
-    public String getMainClass()
-    {
+    public String getMainClass() {
         return mainClass;
     }
 
-    public int getMinimumLauncherVersion()
-    {
+    public int getMinimumLauncherVersion() {
         return version;
     }
 
-    public String getAssets()
-    {
+    public String getAssets() {
         return assets;
     }
 
-    public Map<String, DownloadInformation> getDownloadsInformation()
-    {
+    public Map<String, DownloadInformation> getDownloadsInformation() {
         return downloads;
     }
 
-    public AssetInformation getAssetInformation()
-    {
+    public AssetInformation getAssetInformation() {
         return assetInformation;
     }
 
-    public String getParentID()
-    {
+    public String getParentID() {
         return parentId;
     }
 
-    public String getJarName()
-    {
-        if (jar == null)
-        {
+    public String getJarName() {
+        if (jar == null) {
             return id;
         }
 
         return jar;
     }
 
-    public String getJarPath()
-    {
+    public String getJarPath() {
         return "versions/" + getJarName() + "/" + getJarName() + ".jar";
     }
 
-    public File getJarFile(File basepath)
-    {
+    public File getJarFile(File basepath) {
         return new File(basepath, getJarPath());
     }
 }
