@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+set -x
+
+rm -rf tmp
+mkdir -p tmp
+cp -rva original_files tmp/files
+java -jar libs/gzipr.jar --verbose --delete --extension gz tmp/files
+java -cp libs Filelist original_files > tmp/filelist
+java -jar libs/gzipr.jar --verbose --delete --extension gz tmp/filelist
+rm -rf ../files
+cp -rva tmp/* ..
+rm -rf tmp
+
+echo Success!
