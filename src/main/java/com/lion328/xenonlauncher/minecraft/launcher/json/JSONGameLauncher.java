@@ -134,7 +134,6 @@ public class JSONGameLauncher extends BasicGameLauncher
 
     private void extractNatives(File nativesDir, StartupConfiguration config) throws IOException
     {
-        File nativesFile, parentFile;
         ZipInputStream zip;
         OutputStream out;
         ZipEntry entry;
@@ -145,7 +144,7 @@ public class JSONGameLauncher extends BasicGameLauncher
         {
             if (library.isNativesLibrary() && library.isAllowed(config))
             {
-                nativesFile = getDependencyFile(library.getDependencyName(),
+                File nativesFile = getDependencyFile(library.getDependencyName(),
                         library.getNatives().getNative());
 
                 if (allowNativesArchFallback && !nativesFile.isFile() && config.getArchitecture() != OperatingSystem.Architecture.ARCH_32)
@@ -173,16 +172,25 @@ public class JSONGameLauncher extends BasicGameLauncher
                         }
                     }
 
-                    if (!entry.isDirectory())
+                    File file = new File(nativesDir, entry.getName());
+
+                    if (entry.isDirectory())
                     {
-                        parentFile = new File(nativesDir, entry.getName()).getParentFile();
-                        if (!parentFile.exists() && !parentFile.mkdirs())
+                        if (!file.isDirectory() && !file.mkdirs())
                         {
-                            throw new IOException("Can't create directory");
+                            throw new IOException("Can't create directory: " + file.getAbsolutePath());
                         }
+
+                        continue;
                     }
 
-                    out = new FileOutputStream(new File(nativesDir, entry.getName()));
+                    File parentFile = file.getParentFile();
+                    if (!parentFile.exists() && !parentFile.mkdirs())
+                    {
+                        throw new IOException("Can't create directory: " + parentFile.getAbsolutePath());
+                    }
+
+                    out = new FileOutputStream(file);
 
                     while ((read = zip.read(buffer)) != -1)
                     {
