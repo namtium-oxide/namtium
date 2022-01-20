@@ -57,7 +57,7 @@ public class MinecraftDownloader implements Downloader
 
     private final String id;
     private final File basepath;
-    private final URL gameURL;
+    private final GameVersionList gameVersionList;
     private final URL assetsURL;
     private final URL assetsIndexesURL;
     private final Repository repository;
@@ -77,21 +77,21 @@ public class MinecraftDownloader implements Downloader
     private long fileSize;
     private long fileDownloaded;
 
-    public MinecraftDownloader(String id, File basepath, Repository repository, Downloader additionalDownloader)
+    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, Repository repository, Downloader additionalDownloader)
     {
-        this(id, basepath, VersionJarDownloaderGenerator.DEFAULT_MINECRAFT_VERSIONS, AssetsDownloaderGenerator.DEFAULT_ASSETS_URL, AssetsDownloaderGenerator.DEFAULT_ASSETS_INDEXES_URL, repository, additionalDownloader);
+        this(id, basepath, gameVersionList, AssetsDownloaderGenerator.DEFAULT_ASSETS_URL, AssetsDownloaderGenerator.DEFAULT_ASSETS_INDEXES_URL, repository, additionalDownloader);
     }
 
-    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL, Repository repository, Downloader additionalDownloader)
+    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, URL assetsURL, URL assetsIndexesURL, Repository repository, Downloader additionalDownloader)
     {
-        this(id, basepath, gameURL, assetsURL, assetsIndexesURL, repository, StartupConfiguration.getRunningConfig(), additionalDownloader);
+        this(id, basepath, gameVersionList, assetsURL, assetsIndexesURL, repository, StartupConfiguration.getRunningConfig(), additionalDownloader);
     }
 
-    public MinecraftDownloader(String id, File basepath, URL gameURL, URL assetsURL, URL assetsIndexesURL, Repository repository, StartupConfiguration startupConfiguration, Downloader additionalDownloader)
+    public MinecraftDownloader(String id, File basepath, GameVersionList gameVersionList, URL assetsURL, URL assetsIndexesURL, Repository repository, StartupConfiguration startupConfiguration, Downloader additionalDownloader)
     {
         this.id = id;
         this.basepath = basepath;
-        this.gameURL = gameURL;
+        this.gameVersionList = gameVersionList;
         this.assetsURL = assetsURL;
         this.assetsIndexesURL = assetsIndexesURL;
         this.repository = repository;
@@ -152,9 +152,8 @@ public class MinecraftDownloader implements Downloader
 
     private GameVersion downloadGameVersion(String id) throws IOException
     {
-        String path = id + "/" + id + ".json";
-        File versionJson = new File(versionsDir, path);
-        URL versionJsonUrl = new URL(gameURL, path);
+        File versionJson = new File(versionsDir, id + "/" + id + ".json");
+        URL versionJsonUrl = gameVersionList.getVersionManifestURL(id);
         FileVerifier verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.MD5, URLUtil.getETag(versionJsonUrl).trim().replace("\"", ""));
 
         GameVersion versionInfo = (GameVersion) downloadJson(versionJson, versionJsonUrl, verifier, GameVersion.class);
