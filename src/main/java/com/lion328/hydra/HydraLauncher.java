@@ -66,7 +66,7 @@ public class HydraLauncher implements Launcher {
     private Thread waitingGameExitThread;
 
     public HydraLauncher(HydraSettings settings) {
-        this.settings = settings;
+        this.settings = DebugHydraSettings.convert(settings);
 
         gameDirectory = Util.getGameDirectory(settings.getApplicationUUID().toString());
         playerSettingsFile = new File(gameDirectory, PLAYER_SETTINGS_FILENAME);
