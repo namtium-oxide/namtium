@@ -4,6 +4,7 @@
 package com.lion328.namtium.minecraft.launcher;
 
 import com.google.gson.Gson;
+import com.lion328.namtium.Namtium;
 import com.lion328.namtium.downloader.repository.DependencyName;
 import com.lion328.namtium.minecraft.StartupConfiguration;
 import com.lion328.namtium.minecraft.assets.Assets;
@@ -14,7 +15,6 @@ import com.lion328.namtium.minecraft.launcher.exception.LauncherVersionException
 import com.lion328.namtium.minecraft.manifest.ExtractConfiguration;
 import com.lion328.namtium.minecraft.manifest.GameLibrary;
 import com.lion328.namtium.minecraft.manifest.GameVersion;
-import com.lion328.namtium.Namtium;
 import com.lion328.namtium.util.OperatingSystem;
 import com.lion328.namtium.util.io.FileUtil;
 

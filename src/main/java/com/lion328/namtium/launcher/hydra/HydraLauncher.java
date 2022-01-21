@@ -29,7 +29,6 @@ import com.lion328.namtium.minecraft.manifest.GameVersion;
 import com.lion328.namtium.minecraft.manifest.MergedGameVersion;
 import com.lion328.namtium.minecraft.manifest.gson.GsonFactory;
 import com.lion328.namtium.util.io.FileUtil;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;

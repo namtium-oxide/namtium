@@ -4,7 +4,6 @@
 package com.lion328.namtium.example;
 
 import com.lion328.namtium.launcher.hydra.CrashReportUI;
-import com.lion328.namtium.launcher.hydra.HydraLauncher;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;

@@ -3,7 +3,6 @@
 
 package com.lion328.namtium.util;
 
-import com.lion328.namtium.launcher.hydra.HydraLauncher;
 import com.lion328.namtium.Namtium;
 
 import java.awt.Desktop;
