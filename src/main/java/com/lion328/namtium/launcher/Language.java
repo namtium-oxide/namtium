@@ -36,7 +36,7 @@ public class Language {
     public static void initializeTable() {
         if (table == null) {
             Reader reader = new InputStreamReader(
-                    Language.class.getResourceAsStream("/com/lion328/hydra/resources/lang.json"),
+                    Language.class.getResourceAsStream("/com/lion328/namtium/launcher/hydra/lang.json"),
                     StandardCharsets.UTF_8
             );
             table = new Gson().fromJson(reader, new TypeToken<Map<String, String>>() {}.getType());
