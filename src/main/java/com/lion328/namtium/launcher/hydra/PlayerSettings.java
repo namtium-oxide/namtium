@@ -4,7 +4,7 @@
 package com.lion328.namtium.launcher.hydra;
 
 import com.google.gson.annotations.SerializedName;
-import com.lion328.namtium.launcher.exception.TooLowMaximumMemoryException;
+import com.lion328.namtium.launcher.hydra.exception.TooLowMaximumMemoryException;
 
 public class PlayerSettings {
 
