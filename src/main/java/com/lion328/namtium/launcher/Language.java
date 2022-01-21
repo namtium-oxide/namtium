@@ -4,19 +4,21 @@
 package com.lion328.namtium.launcher;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class Language {
 
-    private static Map table;
+    private static Map<String, String> table;
 
     public static String get(String key) {
         initializeTable();
 
-        String ret = (String) table.get(key);
+        String ret = table.get(key);
 
         if (ret != null) {
             return ret;
@@ -33,9 +35,11 @@ public class Language {
 
     public static void initializeTable() {
         if (table == null) {
-            table = new Gson().fromJson(
-                    new InputStreamReader(Language.class.getResourceAsStream("/com/lion328/hydra/resources/lang.json"),
-                            StandardCharsets.UTF_8), Map.class);
+            Reader reader = new InputStreamReader(
+                    Language.class.getResourceAsStream("/com/lion328/hydra/resources/lang.json"),
+                    StandardCharsets.UTF_8
+            );
+            table = new Gson().fromJson(reader, new TypeToken<Map<String, String>>() {}.getType());
         }
     }
 }

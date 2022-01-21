@@ -1,13 +1,13 @@
 {
-  "accept": "ตกลง",
-  "cancel": "ยกเลิก",
-  "errorMessageTitle": "เกิดข้อผิดพลาด",
-  "memoryAllocAmountMiB": "หน่วยความจำที่ใช้ (MiB)",
-  "settingsTitle": "การตั้งค่า",
-  "authNetworkError": "ไม่สามารถเข้าสู่ระบบได้ (เครือข่าย)",
-  "authFailed": "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่",
-  "gameDownloadError": "ไม่สามารถดาวน์โหลดเกมได้",
-  "gameLaunchInfoNotFound": "ไม่มีข้อมูลการเปิดเกม กรุณาติดต่อผู้ดูแลระบบ",
-  "gameLaunchInfoReadingError": "ไม่สามารถอ่านข้อมูลในการเปิดเกมได้ กรุณาติดต่อผู้ดูแลระบบ",
-  "gameLaunchError": "ไม่สามารถเปิดเกมได้"
+  "accept": "Accept",
+  "cancel": "Cancel",
+  "errorMessageTitle": "Error",
+  "memoryAllocAmountMiB": "Allocated memory (MiB)",
+  "settingsTitle": "Settings",
+  "authNetworkError": "Network error is occurred during login.",
+  "authFailed": "Username or password is incorrect. Please try again.",
+  "gameDownloadError": "Error occurred during game files retrieval process.",
+  "gameLaunchInfoNotFound": "The launcher can not find game version manifest. Please contact service administrator.",
+  "gameLaunchInfoReadingError": "The launcher can not read the game version manifest. Please contact service administrator.",
+  "gameLaunchError": "Error occurred during the launching of the game."
 }

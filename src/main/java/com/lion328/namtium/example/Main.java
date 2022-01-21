@@ -4,6 +4,7 @@
 package com.lion328.namtium.example;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lion328.namtium.launcher.hydra.CrashReportUI;
 import com.lion328.namtium.launcher.hydra.HydraLauncher;
 import com.lion328.namtium.launcher.Language;
@@ -21,6 +22,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -147,23 +149,14 @@ public class Main {
     }
 
     private static void registerLanguage() {
-        Map table = new Gson()
-                .fromJson(
-                        new InputStreamReader(
-                                Language.class.getResourceAsStream("/com/lion328/namtium/example/lang.json"),
-                                StandardCharsets.UTF_8
-                        ),
-                        Map.class
-                );
+        Reader reader = new InputStreamReader(
+                Language.class.getResourceAsStream("/com/lion328/namtium/example/lang.json"),
+                StandardCharsets.UTF_8
+        );
+        Map<String, String> table = new Gson().fromJson(reader, new TypeToken<Map<String, String>>() {}.getType());
 
         if (table != null) {
-            Map ret = new HashMap();
-
-            for (Object key : table.keySet()) {
-                ret.put(LANGUAGE_PREFIX + key, table.get(key));
-            }
-
-            Language.extend(ret);
+            Language.extend(table);
         }
     }
 
