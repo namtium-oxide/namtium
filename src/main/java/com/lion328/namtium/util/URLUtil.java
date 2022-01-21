@@ -53,13 +53,14 @@ public class URLUtil {
         return new String(baos.toByteArray(), StandardCharsets.UTF_8);
     }
 
-    public static void openURL(URL url) {
+    public static boolean openURL(URL url) {
         if (Desktop.isDesktopSupported()) {
             try {
                 Desktop.getDesktop().browse(url.toURI());
-            } catch (IOException | URISyntaxException e) {
-                HydraLauncher.getLogger().catching(e);
+            } catch (IOException | URISyntaxException ignored) {
+                return false;
             }
         }
+        return true;
     }
 }
