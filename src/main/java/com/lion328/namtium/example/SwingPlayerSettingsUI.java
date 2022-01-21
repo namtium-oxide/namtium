@@ -3,10 +3,10 @@
 
 package com.lion328.namtium.example;
 
-import com.lion328.namtium.launcher.HydraLauncher;
+import com.lion328.namtium.launcher.hydra.HydraLauncher;
 import com.lion328.namtium.util.ImagePanel;
 import com.lion328.namtium.launcher.Language;
-import com.lion328.namtium.launcher.PlayerSettingsUI;
+import com.lion328.namtium.launcher.hydra.PlayerSettingsUI;
 import com.lion328.namtium.launcher.exception.TooLowMaximumMemoryException;
 
 import javax.imageio.ImageIO;
@@ -56,7 +56,7 @@ public class SwingPlayerSettingsUI implements PlayerSettingsUI {
 
         try {
             panel.setImage(
-                    ImageIO.read(getClass().getResourceAsStream("/com/lion328/namtium/resources/settings_bg.png")));
+                    ImageIO.read(getClass().getResourceAsStream("/com/lion328/namtium/example/settings_bg.png")));
         } catch (IOException e) {
             Main.getLogger().catching(e);
         }

@@ -4,10 +4,10 @@
 package com.lion328.namtium.example;
 
 import com.google.gson.Gson;
-import com.lion328.namtium.launcher.HydraLauncher;
-import com.lion328.namtium.launcher.HydraLauncherUI;
+import com.lion328.namtium.launcher.hydra.CrashReportUI;
+import com.lion328.namtium.launcher.hydra.HydraLauncher;
 import com.lion328.namtium.launcher.Language;
-import com.lion328.namtium.launcher.PlayerSettingsUI;
+import com.lion328.namtium.launcher.hydra.PlayerSettingsUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,12 +73,14 @@ public class Main {
 
         getLogger().info("Opening launcher...");
 
-        HydraLauncherUI launcherUI = new SwingLauncherUI();
+        SwingLauncherUI launcherUI = new SwingLauncherUI();
         PlayerSettingsUI playerSettingsUI = new SwingPlayerSettingsUI(launcherUI.getJFrame());
+        CrashReportUI crashReportUI = new SwingCrashReportUI();
 
-        HydraLauncher launcher = new HydraLauncher(Settings.getInstance());
+        HydraLauncher launcher = new HydraLauncher(Configuration.getInstance());
         launcher.setLauncherUI(launcherUI);
         launcher.setSettingsUI(playerSettingsUI);
+        launcher.setCrashReportUI(crashReportUI);
         launcher.start();
     }
 
@@ -148,7 +150,7 @@ public class Main {
         Map table = new Gson()
                 .fromJson(
                         new InputStreamReader(
-                                Language.class.getResourceAsStream("/com/lion328/namtium/resources/lang.json"),
+                                Language.class.getResourceAsStream("/com/lion328/namtium/example/lang.json"),
                                 StandardCharsets.UTF_8
                         ),
                         Map.class
@@ -171,7 +173,7 @@ public class Main {
         try {
             version = new BufferedReader(
                     new InputStreamReader(
-                            Main.class.getResourceAsStream("/com/lion328/namtium/resources/version")
+                            Main.class.getResourceAsStream("/com/lion328/namtium/example/version")
                     )
             ).readLine().trim();
         } catch (IOException e) {

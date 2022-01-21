@@ -1,7 +1,7 @@
 // Copyright (C) 2016-2022 Waritnan Sookbuntherng
 // SPDX-License-Identifier: Apache-2.0
 
-package com.lion328.namtium.launcher;
+package com.lion328.namtium.launcher.hydra;
 
 import com.google.gson.annotations.SerializedName;
 import com.lion328.namtium.launcher.exception.TooLowMaximumMemoryException;

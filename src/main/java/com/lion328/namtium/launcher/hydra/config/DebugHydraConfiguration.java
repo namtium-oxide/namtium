@@ -1,24 +1,24 @@
 // Copyright (C) 2022 Waritnan Sookbuntherng
 // SPDX-License-Identifier: Apache-2.0
 
-package com.lion328.namtium.launcher;
+package com.lion328.namtium.launcher.hydra.config;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
 
-public class DebugHydraSettings implements HydraSettings {
-    private final HydraSettings inner;
+public class DebugHydraConfiguration implements HydraConfiguration {
+    private final HydraConfiguration inner;
 
-    private DebugHydraSettings(HydraSettings inner) {
+    private DebugHydraConfiguration(HydraConfiguration inner) {
         this.inner = inner;
     }
 
-    public static HydraSettings convert(HydraSettings inner) {
-        if (!isDebugEnabled() || inner instanceof DebugHydraSettings) {
+    public static HydraConfiguration convert(HydraConfiguration inner) {
+        if (!isDebugEnabled() || inner instanceof DebugHydraConfiguration) {
             return inner;
         }
-        return new DebugHydraSettings(inner);
+        return new DebugHydraConfiguration(inner);
     }
 
     private static boolean isDebugEnabled() {

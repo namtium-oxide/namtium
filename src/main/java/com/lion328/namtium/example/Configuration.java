@@ -3,15 +3,15 @@
 
 package com.lion328.namtium.example;
 
-import com.lion328.namtium.launcher.HydraSettings;
+import com.lion328.namtium.launcher.hydra.config.HydraConfiguration;
 import com.lion328.namtium.util.URLUtil;
 
 import java.net.URL;
 import java.util.UUID;
 
-public class Settings implements HydraSettings {
+public class Configuration implements HydraConfiguration {
 
-    private static Settings instance;
+    private static Configuration instance;
 
     private static final URL launcherBaseURL = URLUtil.constantURL("http://example.com/launcher/");
     private static final URL registerURL = URLUtil.constantURL("http://example.com/register");
@@ -20,7 +20,7 @@ public class Settings implements HydraSettings {
     private static final URL compressedFilesURL = fromBase("filelist.gz");
     private static final URL filesURL = fromBase("files/");
 
-    private Settings() {
+    private Configuration() {
 
     }
 
@@ -88,9 +88,9 @@ public class Settings implements HydraSettings {
         return URLUtil.constantURL(launcherBaseURL.toString() + s);
     }
 
-    public static Settings getInstance() {
+    public static Configuration getInstance() {
         if (instance == null) {
-            instance = new Settings();
+            instance = new Configuration();
         }
 
         return instance;

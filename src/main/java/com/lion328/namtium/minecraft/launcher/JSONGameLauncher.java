@@ -1,7 +1,7 @@
 // Copyright (C) 2016-2022 Waritnan Sookbuntherng
 // SPDX-License-Identifier: Apache-2.0
 
-package com.lion328.namtium.minecraft.launcher.json;
+package com.lion328.namtium.minecraft.launcher;
 
 import com.google.gson.Gson;
 import com.lion328.namtium.downloader.repository.DependencyName;
@@ -14,7 +14,7 @@ import com.lion328.namtium.minecraft.launcher.BasicGameLauncher;
 import com.lion328.namtium.minecraft.manifest.ExtractConfiguration;
 import com.lion328.namtium.minecraft.manifest.GameLibrary;
 import com.lion328.namtium.minecraft.manifest.GameVersion;
-import com.lion328.namtium.minecraft.launcher.json.exception.LauncherVersionException;
+import com.lion328.namtium.minecraft.launcher.exception.LauncherVersionException;
 import com.lion328.namtium.settings.LauncherConstant;
 import com.lion328.namtium.util.OperatingSystem;
 import com.lion328.namtium.util.io.FileUtil;

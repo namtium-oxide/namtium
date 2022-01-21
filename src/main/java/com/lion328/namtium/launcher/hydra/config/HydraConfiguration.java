@@ -1,12 +1,12 @@
 // Copyright (C) 2016-2022 Waritnan Sookbuntherng
 // SPDX-License-Identifier: Apache-2.0
 
-package com.lion328.namtium.launcher;
+package com.lion328.namtium.launcher.hydra.config;
 
 import java.net.URL;
 import java.util.UUID;
 
-public interface HydraSettings {
+public interface HydraConfiguration {
 
     URL getRegisterURL();
 

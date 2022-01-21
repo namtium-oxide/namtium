@@ -3,11 +3,11 @@
 
 package com.lion328.namtium.example;
 
-import com.lion328.namtium.launcher.HydraLauncher;
-import com.lion328.namtium.launcher.HydraLauncherUI;
+import com.lion328.namtium.launcher.hydra.HydraLauncher;
+import com.lion328.namtium.launcher.ui.LauncherUI;
 import com.lion328.namtium.util.ImagePanel;
 import com.lion328.namtium.launcher.Language;
-import com.lion328.namtium.launcher.Util;
+import com.lion328.namtium.util.UnitUtil;
 import com.lion328.namtium.launcher.Launcher;
 import com.lion328.namtium.util.URLUtil;
 
@@ -39,7 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-public class SwingLauncherUI implements HydraLauncherUI {
+public class SwingLauncherUI implements LauncherUI {
 
     public static final URL NEWS_IMAGE_URL;
     public static final URL REGISTER_URL;
@@ -75,7 +75,7 @@ public class SwingLauncherUI implements HydraLauncherUI {
         final ImagePanel panel = new ImagePanel();
 
         try {
-            panel.setImage(ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/resources/bg.png")));
+            panel.setImage(ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/example/bg.png")));
         } catch (IOException e) {
             Main.getLogger().catching(e);
         }
@@ -90,7 +90,7 @@ public class SwingLauncherUI implements HydraLauncherUI {
 
         try {
             frame.setIconImage(
-                    ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/resources/favicon.png")));
+                    ImageIO.read(this.getClass().getResourceAsStream("/com/lion328/namtium/example/favicon.png")));
         } catch (IOException e) {
             Main.getLogger().catching(e);
         }
@@ -166,7 +166,7 @@ public class SwingLauncherUI implements HydraLauncherUI {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
                     if (!launching && Desktop.isDesktopSupported()) {
-                        Util.openURL(REGISTER_URL);
+                        URLUtil.openURL(REGISTER_URL);
                     }
                 }
             });
@@ -249,7 +249,6 @@ public class SwingLauncherUI implements HydraLauncherUI {
         launching = false;
     }
 
-    @Override
     public JFrame getJFrame() {
         return frame;
     }
@@ -306,9 +305,9 @@ public class SwingLauncherUI implements HydraLauncherUI {
 
                 if (fileDownloaded > 0 && fileSize > 0) {
                     sb.append(", ");
-                    sb.append(Util.convertUnit(fileDownloaded));
+                    sb.append(UnitUtil.convertUnit(fileDownloaded));
                     sb.append("B/");
-                    sb.append(Util.convertUnit(fileSize));
+                    sb.append(UnitUtil.convertUnit(fileSize));
                     sb.append("B");
                 }
 
@@ -323,6 +322,6 @@ public class SwingLauncherUI implements HydraLauncherUI {
 
     static {
         NEWS_IMAGE_URL = URLUtil.constantURL("http://example.com/news.png");
-        REGISTER_URL = Settings.getInstance().getRegisterURL(); // legacy
+        REGISTER_URL = Configuration.getInstance().getRegisterURL(); // legacy
     }
 }

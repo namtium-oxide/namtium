@@ -3,13 +3,16 @@
 
 package com.lion328.namtium.util;
 
+import com.lion328.namtium.launcher.hydra.HydraLauncher;
 import com.lion328.namtium.settings.LauncherConstant;
 
+import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
@@ -48,5 +51,15 @@ public class URLUtil {
         }
 
         return new String(baos.toByteArray(), StandardCharsets.UTF_8);
+    }
+
+    public static void openURL(URL url) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(url.toURI());
+            } catch (IOException | URISyntaxException e) {
+                HydraLauncher.getLogger().catching(e);
+            }
+        }
     }
 }

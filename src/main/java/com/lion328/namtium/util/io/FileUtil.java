@@ -3,6 +3,9 @@
 
 package com.lion328.namtium.util.io;
 
+import com.lion328.namtium.launcher.hydra.HydraLauncher;
+import com.lion328.namtium.util.OperatingSystem;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -74,5 +77,10 @@ public class FileUtil {
         }
 
         return fileList;
+    }
+
+    public static File getGameDirectory(String serverName) {
+        return new File(OperatingSystem.getApplicationDataDirectory(),
+                HydraLauncher.LAUNCHER_DIRECTORY_NAME + File.separator + serverName);
     }
 }

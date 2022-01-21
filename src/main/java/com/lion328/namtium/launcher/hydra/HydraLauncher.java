@@ -1,10 +1,9 @@
 // Copyright (C) 2016-2022 Waritnan Sookbuntherng
 // SPDX-License-Identifier: Apache-2.0
 
-package com.lion328.namtium.launcher;
+package com.lion328.namtium.launcher.hydra;
 
 import com.google.gson.Gson;
-import com.lion328.namtium.CrashReportUI;
 import com.lion328.namtium.downloader.DeleteFileDownloader;
 import com.lion328.namtium.downloader.Downloader;
 import com.lion328.namtium.downloader.FileDownloader;
@@ -15,16 +14,19 @@ import com.lion328.namtium.downloader.verifier.FileVerifier;
 import com.lion328.namtium.downloader.verifier.MessageDigestFileVerifier;
 import com.lion328.namtium.downloader.verifier.MultipleFileVerifier;
 import com.lion328.namtium.downloader.verifier.WhitelistFileVerifier;
+import com.lion328.namtium.launcher.Language;
+import com.lion328.namtium.launcher.Launcher;
 import com.lion328.namtium.launcher.exception.GameVersionRecursiveException;
+import com.lion328.namtium.launcher.hydra.config.DebugHydraConfiguration;
+import com.lion328.namtium.launcher.hydra.config.HydraConfiguration;
 import com.lion328.namtium.launcher.ui.LauncherUI;
 import com.lion328.namtium.minecraft.authentication.UserInformation;
 import com.lion328.namtium.minecraft.launcher.GameLauncher;
-import com.lion328.namtium.minecraft.launcher.json.JSONGameLauncher;
+import com.lion328.namtium.minecraft.launcher.JSONGameLauncher;
 import com.lion328.namtium.minecraft.manifest.GameVersion;
 import com.lion328.namtium.minecraft.manifest.MergedGameVersion;
 import com.lion328.namtium.minecraft.manifest.gson.GsonFactory;
-import com.lion328.namtium.minecraft.launcher.json.exception.LauncherVersionException;
-import com.lion328.namtium.minecraft.logging.CrashReportUtil;
+import com.lion328.namtium.minecraft.launcher.exception.LauncherVersionException;
 import com.lion328.namtium.util.io.FileUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,16 +66,17 @@ public class HydraLauncher implements Launcher {
     private final File gameDirectory;
     private final File playerSettingsFile;
     private LauncherUI ui;
-    private HydraSettings settings;
+    private HydraConfiguration settings;
     private PlayerSettings playerSettings;
     private PlayerSettingsUI playerSettingsUI;
+    private CrashReportUI crashReportUI;
 
     private Thread waitingGameExitThread;
 
-    public HydraLauncher(HydraSettings settings) {
-        this.settings = DebugHydraSettings.convert(settings);
+    public HydraLauncher(HydraConfiguration settings) {
+        this.settings = DebugHydraConfiguration.convert(settings);
 
-        gameDirectory = Util.getGameDirectory(settings.getApplicationUUID().toString());
+        gameDirectory = FileUtil.getGameDirectory(settings.getApplicationUUID().toString());
         playerSettingsFile = new File(gameDirectory, PLAYER_SETTINGS_FILENAME);
 
         gameDirectory.mkdirs();
@@ -97,6 +100,10 @@ public class HydraLauncher implements Launcher {
         playerSettingsUI = ui;
 
         ui.setLauncher(this);
+    }
+
+    public void setCrashReportUI(CrashReportUI crashReportUI) {
+        this.crashReportUI = crashReportUI;
     }
 
     public void exit(int status) {
@@ -387,8 +394,6 @@ public class HydraLauncher implements Launcher {
             return;
         }
 
-        final CrashReportUI ui = new CrashReportUI();
-
         final Thread outputThread = new Thread("Game Output Monitor") {
 
             @Override
@@ -397,29 +402,14 @@ public class HydraLauncher implements Launcher {
                 String s;
 
                 try {
-                    while (true) {
-                        try {
-                            process.exitValue();
-                            break;
-                        } catch (IllegalThreadStateException e) {
-                            if ((s = reader.readLine()) == null) {
-                                break;
-                            }
+                    while ((s = reader.readLine()) != null) {
+                        System.out.println("stdout: " + s);
 
-                            System.out.println(s);
+                        if (crashReportUI != null) {
+                            Matcher matcher = CrashReportUI.CRASH_REPORT_REGEX.matcher(s);
 
-                            Matcher matcher = CrashReportUtil.CRASH_REPORT_REGEX.matcher(s);
-
-                            if (!matcher.matches()) {
-                                continue;
-                            }
-
-                            ui.onGameCrash(new File(matcher.group(1)));
-
-                            while (true) {
-                                if (!ui.isRunning()) {
-                                    break;
-                                }
+                            if (matcher.matches()) {
+                                crashReportUI.onGameCrash(new File(matcher.group(1)));
                             }
                         }
                     }
@@ -439,17 +429,8 @@ public class HydraLauncher implements Launcher {
                 String s;
 
                 try {
-                    while (true) {
-                        try {
-                            process.exitValue();
-                            break;
-                        } catch (IllegalThreadStateException e) {
-                            if ((s = reader.readLine()) == null) {
-                                break;
-                            }
-
-                            System.err.println(s);
-                        }
+                    while ((s = reader.readLine()) != null) {
+                        System.err.println("stderr: " + s);
                     }
                 } catch (IOException e) {
                     getLogger().catching(e);
