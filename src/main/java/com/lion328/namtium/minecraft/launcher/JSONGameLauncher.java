@@ -14,7 +14,7 @@ import com.lion328.namtium.minecraft.launcher.exception.LauncherVersionException
 import com.lion328.namtium.minecraft.manifest.ExtractConfiguration;
 import com.lion328.namtium.minecraft.manifest.GameLibrary;
 import com.lion328.namtium.minecraft.manifest.GameVersion;
-import com.lion328.namtium.settings.LauncherConstant;
+import com.lion328.namtium.Namtium;
 import com.lion328.namtium.util.OperatingSystem;
 import com.lion328.namtium.util.io.FileUtil;
 
@@ -92,8 +92,8 @@ public class JSONGameLauncher extends BasicGameLauncher {
         variables.put("assets_index_name", versionInfo.getAssets());
         variables.put("assets_root", assetsDir.getAbsolutePath());
         variables.put("game_assets", gameVirtualAssetsDir.getAbsolutePath());
-        variables.put("launcher_name", LauncherConstant.NAME);
-        variables.put("launcher_version", LauncherConstant.VERSION);
+        variables.put("launcher_name", Namtium.NAME);
+        variables.put("launcher_version", Namtium.VERSION);
     }
 
     private File getDependencyFile(DependencyName name) {
@@ -342,7 +342,7 @@ public class JSONGameLauncher extends BasicGameLauncher {
                 try {
                     process.waitFor();
                 } catch (InterruptedException e) {
-                    LauncherConstant.LOGGER.catching(e);
+                    Namtium.LOGGER.catching(e);
                 }
 
                 FileUtil.deleteFileRescursive(nativesDir);
@@ -358,7 +358,7 @@ public class JSONGameLauncher extends BasicGameLauncher {
                 try {
                     removeFilesThread.join(15000);
                 } catch (InterruptedException e) {
-                    LauncherConstant.LOGGER.catching(e);
+                    Namtium.LOGGER.catching(e);
                 }
             }
         });

@@ -4,7 +4,7 @@
 package com.lion328.namtium.util;
 
 import com.lion328.namtium.launcher.hydra.HydraLauncher;
-import com.lion328.namtium.settings.LauncherConstant;
+import com.lion328.namtium.Namtium;
 
 import java.awt.Desktop;
 import java.io.ByteArrayOutputStream;
@@ -22,7 +22,7 @@ public class URLUtil {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
-            LauncherConstant.LOGGER.catching(e);
+            Namtium.LOGGER.catching(e);
         }
         return null;
     }
