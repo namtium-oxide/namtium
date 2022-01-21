@@ -3,13 +3,13 @@
 
 package com.lion328.namtium.example;
 
+import com.lion328.namtium.launcher.Language;
+import com.lion328.namtium.launcher.Launcher;
 import com.lion328.namtium.launcher.hydra.HydraLauncher;
 import com.lion328.namtium.launcher.ui.LauncherUI;
 import com.lion328.namtium.util.ImagePanel;
-import com.lion328.namtium.launcher.Language;
-import com.lion328.namtium.util.UnitUtil;
-import com.lion328.namtium.launcher.Launcher;
 import com.lion328.namtium.util.URLUtil;
+import com.lion328.namtium.util.UnitUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;

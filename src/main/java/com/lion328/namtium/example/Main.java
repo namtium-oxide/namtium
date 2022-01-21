@@ -5,9 +5,9 @@ package com.lion328.namtium.example;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lion328.namtium.launcher.Language;
 import com.lion328.namtium.launcher.hydra.CrashReportUI;
 import com.lion328.namtium.launcher.hydra.HydraLauncher;
-import com.lion328.namtium.launcher.Language;
 import com.lion328.namtium.launcher.hydra.PlayerSettingsUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +25,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Main {

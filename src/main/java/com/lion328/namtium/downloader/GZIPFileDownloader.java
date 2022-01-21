@@ -3,8 +3,6 @@
 
 package com.lion328.namtium.downloader;
 
-import com.lion328.namtium.downloader.URLFileDownloader;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

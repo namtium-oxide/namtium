@@ -3,11 +3,6 @@
 
 package com.lion328.namtium.util;
 
-import com.lion328.namtium.launcher.hydra.HydraLauncher;
-
-import java.io.File;
-import java.net.URISyntaxException;
-
 public class UnitUtil {
 
     private static char[] unitTable = new char[]{'\0', 'K', 'M', 'G', 'T'};

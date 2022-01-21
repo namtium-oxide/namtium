@@ -3,11 +3,11 @@
 
 package com.lion328.namtium.example;
 
-import com.lion328.namtium.launcher.hydra.HydraLauncher;
-import com.lion328.namtium.util.ImagePanel;
 import com.lion328.namtium.launcher.Language;
+import com.lion328.namtium.launcher.hydra.HydraLauncher;
 import com.lion328.namtium.launcher.hydra.PlayerSettingsUI;
 import com.lion328.namtium.launcher.hydra.exception.TooLowMaximumMemoryException;
+import com.lion328.namtium.util.ImagePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;

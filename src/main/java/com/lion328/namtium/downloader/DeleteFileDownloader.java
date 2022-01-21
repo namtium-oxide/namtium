@@ -3,8 +3,6 @@
 
 package com.lion328.namtium.downloader;
 
-import com.lion328.namtium.downloader.DownloaderCallback;
-import com.lion328.namtium.downloader.FileDownloader;
 import com.lion328.namtium.util.io.FileUtil;
 
 import java.io.File;

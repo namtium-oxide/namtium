@@ -3,8 +3,6 @@
 
 package com.lion328.namtium.launcher.hydra;
 
-import com.lion328.namtium.launcher.hydra.HydraLauncher;
-
 public interface PlayerSettingsUI {
 
     void setVisible(boolean visible);
