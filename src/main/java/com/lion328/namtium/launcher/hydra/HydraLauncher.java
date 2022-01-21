@@ -4,6 +4,7 @@
 package com.lion328.namtium.launcher.hydra;
 
 import com.google.gson.Gson;
+import com.lion328.namtium.Namtium;
 import com.lion328.namtium.downloader.DeleteFileDownloader;
 import com.lion328.namtium.downloader.Downloader;
 import com.lion328.namtium.downloader.FileDownloader;
@@ -60,8 +61,6 @@ public class HydraLauncher implements Launcher {
 
     public static final String LAUNCHER_DIRECTORY_NAME = "HydraLauncherMC";
     public static final String PLAYER_SETTINGS_FILENAME = "clientsettings.json";
-
-    private static Logger logger = LogManager.getLogger("hydralauncher");
 
     private final File gameDirectory;
     private final File playerSettingsFile;
@@ -562,7 +561,7 @@ public class HydraLauncher implements Launcher {
         exit(0);
     }
 
-    public static Logger getLogger() {
-        return logger;
+    private static Logger getLogger() {
+        return Namtium.LOGGER;
     }
 }

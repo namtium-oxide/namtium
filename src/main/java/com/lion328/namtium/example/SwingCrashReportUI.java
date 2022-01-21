@@ -49,7 +49,7 @@ public class SwingCrashReportUI implements CrashReportUI {
         try {
             report = new String(Files.readAllBytes(crashReportFile.toPath()), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            HydraLauncher.getLogger().catching(e);
+            Main.getLogger().catching(e);
             report = "Can't read crash report file: " + crashReportFile.getAbsolutePath() + "\n" + e.getMessage();
         }
 
