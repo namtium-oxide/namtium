@@ -32,6 +32,11 @@ sourceSets {
             srcDirs = ['src/main/resources']
         }
     }
+    template {
+        java {
+            srcDirs = ['src/template/java']
+        }
+    }
 }
 
 task generateSources(type: Copy) {
