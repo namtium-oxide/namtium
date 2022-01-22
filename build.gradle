@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
 }
 
 version = '2.0-SNAPSHOT'
@@ -42,3 +43,14 @@ task generateSources(type: Copy) {
 }
 
 compileJava.dependsOn generateSources
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.lion328.namtium'
+            artifactId = 'namtium'
+
+            from components.java
+        }
+    }
+}
