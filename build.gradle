@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     api 'com.google.code.gson:gson:2.8.9'
-    implementation 'org.apache.logging.log4j:log4j-core:2.12.4'
+    implementation 'org.slf4j:slf4j-api:1.7.33'
     implementation 'org.apache.httpcomponents:httpcore:4.4.15'
 }
 

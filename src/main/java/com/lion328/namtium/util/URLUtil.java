@@ -21,7 +21,7 @@ public class URLUtil {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
-            Namtium.LOGGER.catching(e);
+            Namtium.LOGGER.error("Failed to create URL", e);
         }
         return null;
     }

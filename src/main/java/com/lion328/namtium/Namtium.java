@@ -4,8 +4,8 @@
 package com.lion328.namtium;
 
 import com.lion328.namtium.generated.LauncherVersion;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Namtium {
 
@@ -14,6 +14,6 @@ public class Namtium {
     public static final String VERSION = LauncherVersion.VERSION;
 
     static {
-        LOGGER = LogManager.getLogger(NAME);
+        LOGGER = LoggerFactory.getLogger(NAME);
     }
 }

@@ -342,7 +342,7 @@ public class JSONGameLauncher extends BasicGameLauncher {
                 try {
                     process.waitFor();
                 } catch (InterruptedException e) {
-                    Namtium.LOGGER.catching(e);
+                    Namtium.LOGGER.error("Failed to clean up natives", e);
                 }
 
                 FileUtil.deleteFileRescursive(nativesDir);
@@ -358,7 +358,7 @@ public class JSONGameLauncher extends BasicGameLauncher {
                 try {
                     removeFilesThread.join(15000);
                 } catch (InterruptedException e) {
-                    Namtium.LOGGER.catching(e);
+                    Namtium.LOGGER.error("Failed to join with clean up thread", e);
                 }
             }
         });

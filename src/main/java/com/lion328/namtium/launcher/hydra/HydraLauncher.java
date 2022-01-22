@@ -29,7 +29,7 @@ import com.lion328.namtium.minecraft.manifest.GameVersion;
 import com.lion328.namtium.minecraft.manifest.MergedGameVersion;
 import com.lion328.namtium.minecraft.manifest.gson.GsonFactory;
 import com.lion328.namtium.util.io.FileUtil;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -109,7 +109,7 @@ public class HydraLauncher implements Launcher {
             try {
                 waitingGameExitThread.join();
             } catch (InterruptedException e) {
-                getLogger().catching(e);
+                getLogger().error("Failed to wait game exit monitor thread", e);
             }
         }
 
@@ -145,7 +145,7 @@ public class HydraLauncher implements Launcher {
             new Gson().toJson(playerSettings, writer);
             writer.close();
         } catch (IOException e) {
-            getLogger().catching(e);
+            getLogger().error("Cannot save player settings" + e);
         }
     }
 
@@ -293,7 +293,7 @@ public class HydraLauncher implements Launcher {
                         url.getQuery(), url.getRef());
                 url = new URL(uri.toURL().toString().replace("#", "%23"));
             } catch (URISyntaxException e) {
-                getLogger().catching(e);
+                getLogger().error("Failed to reconstruct URL with escaped hash character", e);
             }
 
             verifier = new MessageDigestFileVerifier(MessageDigestFileVerifier.SHA_1, entry.getValue());
@@ -412,7 +412,7 @@ public class HydraLauncher implements Launcher {
                         }
                     }
                 } catch (IOException e) {
-                    getLogger().catching(e);
+                    getLogger().error("Failed to monitor game's stdout", e);
                 }
             }
         };
@@ -431,7 +431,7 @@ public class HydraLauncher implements Launcher {
                         System.err.println(s);
                     }
                 } catch (IOException e) {
-                    getLogger().catching(e);
+                    getLogger().error("Failed to monitor game's stderr", e);
                 }
             }
         }.start();
@@ -481,7 +481,7 @@ public class HydraLauncher implements Launcher {
                 return false;
             }
         } catch (IOException e) {
-            getLogger().catching(e);
+            getLogger().error("Failed to authenticate the user", e);
             displayErrorLang("authNetworkError", e.getMessage());
 
             return false;
@@ -498,7 +498,7 @@ public class HydraLauncher implements Launcher {
         try {
             downloader = getDownloader();
         } catch (IOException e) {
-            getLogger().catching(e);
+            getLogger().error("Failed to create game Downloader", e);
             displayErrorLang("gameDownloadError", e.getMessage());
 
             return false;
@@ -509,7 +509,7 @@ public class HydraLauncher implements Launcher {
         try {
             downloader.download();
         } catch (IOException e) {
-            getLogger().catching(e);
+            getLogger().error("Failed to download the game", e);
             displayErrorLang("gameDownloadError", e.getMessage());
 
             return false;
@@ -522,7 +522,7 @@ public class HydraLauncher implements Launcher {
         try {
             gameVersion = getGameVersion();
         } catch (IOException e) {
-            getLogger().catching(e);
+            getLogger().error("Failed to read version manifest", e);
             displayErrorLang("gameLaunchInfoNotFound", e.getMessage());
 
             return false;
@@ -537,7 +537,7 @@ public class HydraLauncher implements Launcher {
                 launcher.addJVMArgument("-Dcom.lion328.autochatlogin.password=" + new String(password));
             }
         } catch (LauncherVersionException e) {
-            getLogger().catching(e);
+            getLogger().error("Unsupported launcher version", e);
             displayErrorLang("gameLaunchInfoReadingError", e.getMessage());
 
             return false;
@@ -546,7 +546,7 @@ public class HydraLauncher implements Launcher {
         try {
             streamGameOutput(launcher.launch());
         } catch (Exception e) {
-            getLogger().catching(e);
+            getLogger().error("Failed to launch the game", e);
             displayErrorLang("gameLaunchError", e.getMessage());
 
             return false;
