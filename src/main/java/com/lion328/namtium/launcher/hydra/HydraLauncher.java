@@ -401,7 +401,7 @@ public class HydraLauncher implements Launcher {
 
                 try {
                     while ((s = reader.readLine()) != null) {
-                        System.out.println("stdout: " + s);
+                        System.out.println(s);
 
                         if (crashReportUI != null) {
                             Matcher matcher = CrashReportUI.CRASH_REPORT_REGEX.matcher(s);
@@ -428,7 +428,7 @@ public class HydraLauncher implements Launcher {
 
                 try {
                     while ((s = reader.readLine()) != null) {
-                        System.err.println("stderr: " + s);
+                        System.err.println(s);
                     }
                 } catch (IOException e) {
                     getLogger().catching(e);
